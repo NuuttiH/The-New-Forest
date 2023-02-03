@@ -1,0 +1,57 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class EscapeMenu : MonoBehaviour
+{
+    [SerializeField] private Button _saveGameButton;
+    [SerializeField] private GameObject _saveGameMenu;
+
+    [SerializeField] private Button _loadGameButton;
+    [SerializeField] private GameObject _loadGameMenu;
+
+    [SerializeField] private Button _optionsButton;
+    [SerializeField] private GameObject _optionsMenu;
+
+    [SerializeField] private Button _returnToMenuButton;
+    [SerializeField] private Button _exitGameButton;
+
+
+    void Start()
+    {
+        _saveGameButton.onClick.AddListener( delegate{ OpenSaveMenu(); } );
+        _loadGameButton.onClick.AddListener( delegate{ OpenLoadMenu(); } );
+        _optionsButton.onClick.AddListener( delegate{ OpenOptionsMenu(); } );
+        
+        _returnToMenuButton.onClick.AddListener( delegate{ ReturnToMenu(); } );
+        _exitGameButton.onClick.AddListener( delegate{ ExitGame(); } );
+
+        GameManager.SetGameSpeed(0f);
+    }
+    void OnDestroy()
+    {
+        GameManager.SetGameSpeedToPrevious();
+    }
+
+    public void OpenSaveMenu()
+    {
+        Instantiate(_saveGameMenu);
+    }
+    public void OpenLoadMenu()
+    {
+        Instantiate(_loadGameMenu);
+    }
+    public void OpenOptionsMenu()
+    {
+        Instantiate(_optionsMenu);
+    }
+    public void ReturnToMenu()
+    {
+        SceneLoadingManager.LoadLevel("MainMenu");
+    }
+    public void ExitGame()
+    {
+        SceneLoadingManager.TryToExit();
+    }
+}

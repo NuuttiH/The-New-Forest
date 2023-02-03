@@ -1,0 +1,189 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4073709790487102498
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.5190363
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.8956422
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -35.61158
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8380157826906577798, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -6733177361254619370, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -5568371526223589888, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_Name
+      value: Spruce
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2800250516343163423, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8513859187771203891, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 8700725330082129686, guid: 581cbb493920dec4487fab84d5a204ca,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 581cbb493920dec4487fab84d5a204ca, type: 3}
+--- !u!1 &3767771989420210547 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 581cbb493920dec4487fab84d5a204ca,
+    type: 3}
+  m_PrefabInstance: {fileID: 4073709790487102498}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &8601393095282385720
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3767771989420210547}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 7.65, y: 12, z: 7.65}
+  m_Center: {x: 0, y: 6, z: 0}
+--- !u!208 &7258488965370707568
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3767771989420210547}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.5, y: 6, z: 2.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 6, z: 0}
+  m_TimeToStationary: 0.5
+--- !u!114 &532744950171011367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3767771989420210547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 394f1cf6e93939841b01f2a7a8090bc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UIPrefab: {fileID: 668391146983977416, guid: 73d37ae9ac269f6429cf62c807a8d81c,
+    type: 3}
+--- !u!114 &4103022052370877291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3767771989420210547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461a20f40298ea043b4da1fada4532f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildingId: 0
+  objectInfo: {fileID: 11400000, guid: 8f41e7eb4001d8f4f8122fbf14b95e25, type: 2}
+  BuildingCost:
+  - amount: 1
+    type: 3
+  _requireGrowth: 1
+  _growTime: 7
+  _growthTics: 3
+  _growthProgress: 0
+  _requireConstruction: 0
+  _constructionObject: {fileID: 0}
+  _constructionTime: 1
+  _constructionDistance: 6.3
+  _cuttable: 1
+  _cutDownResourceType: 2
+  _lumberValue: 3
+  _woodCuttingTime: 5
+  _woodCuttingDistance: 6.3
+  _deconstructType: 1
+  _growthSpeedIncreasePercent: 1
+  _spawnGrass: 0
+  _requireGrass: 1
