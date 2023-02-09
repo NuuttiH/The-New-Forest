@@ -33,11 +33,11 @@ public class Villager : MonoBehaviour
     {
         StartCoroutine(Initialize(null, 0.5f));
     }
-    public void Init(CharacterSaveData data = null)
+    public void Init(CharacterSaveData data = null, float wait = 0.3f)
     {
-        StartCoroutine(Initialize(data));
+        StartCoroutine(Initialize(data, wait));
     }
-    IEnumerator Initialize(CharacterSaveData data = null, float wait = 0.3f)
+    IEnumerator Initialize(CharacterSaveData data, float wait)
     {
         yield return new WaitForSeconds(wait);
         if(!_initialized)
@@ -200,6 +200,7 @@ public class Villager : MonoBehaviour
             {
                 Debug.Log("Job finished: " + _job.jobType);
                 GameObject targetObject = GameManager.GetObjectById(IdType.Building, _job.targetObjectId);
+                Debug.Log($"Villager ({this.gameObject.name}), finished job (target:{targetObject.name})");
                 switch(_job.jobType)
                 {
                     case JobType.Cut:
@@ -207,7 +208,7 @@ public class Villager : MonoBehaviour
                         _animator.ResetTrigger("IsAttacking");
                         break;
                     case JobType.Food:
-                        targetObject.GetComponent<FruitProduction>().Unregister(_job.otherIndex);
+                        targetObject.GetComponent<FruitProduction>().Unregister(_job.index, _job.otherIndex);
                         _animator.ResetTrigger("IsCasting");
                         break;
                     case JobType.Build:

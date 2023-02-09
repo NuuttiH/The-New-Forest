@@ -54,7 +54,7 @@ public class SaveManager : MonoBehaviour
                     data.rotation,
                     GameManager.Characters.transform) 
                     as GameObject;
-            character.GetComponent<Villager>().Init(data);
+            character.GetComponent<Villager>().Init(data, 0.1f);
         }
 
         foreach(BuildingSaveData data in _instance._saveData.buildingSaveData)
@@ -66,7 +66,7 @@ public class SaveManager : MonoBehaviour
                     data.rotation,
                     GameManager.Buildings.transform) 
                     as GameObject;
-            building.GetComponent<PlaceableObject>().Init(data);
+            building.GetComponent<PlaceableObject>().Init(data, 0.1f);
         }
 
         foreach(Job job in _instance._saveData.jobSaveData)

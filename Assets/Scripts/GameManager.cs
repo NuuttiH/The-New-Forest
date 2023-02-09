@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
 			Destroy(this);
 			return;
         }
+        FinishedStartup = false;
     }
 
     void Start()
@@ -84,14 +85,15 @@ public class GameManager : MonoBehaviour
         _jobId = game.jobId;
 
         FinishedLoading = true;
-        Events.onSaveLoaded();
         yield return new WaitForSeconds(0.4f);
         FinishedStartup = true;
+        Events.onSaveLoaded();
 
         LogDictionaries();
     }
     public static void LogDictionaries()
     {
+        Debug.Log("GameManager.LogDictionaries()");
         foreach (int id in _instance._objectIds)
         {
             Debug.Log("Object id: " + id + ", val: " + _instance._objectIdDictionary[id]);
@@ -199,10 +201,17 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+        if(obj != null) Debug.Log($"GameManager.GenerateId({idType}) new id({newId}) for {obj.name}");
+        else if(job != null) Debug.Log($"GameManager.GenerateId({idType}) new id({newId}) for {job.jobType}");
+        else Debug.Log($"GameManager.GenerateId({idType}) new id({newId}) for NULL");
         return newId;
     }
     public static void AddId(IdType idType, int id, GameObject obj = null, Job job = null)
     {
+        if(obj != null) Debug.Log($"GameManager.AddId({idType}) new id({id}) for {obj.name}");
+        else if(job != null) Debug.Log($"GameManager.AddId({idType}) new id({id}) for {job.jobType}");
+        else Debug.Log($"GameManager.AddId({idType}) new id({id}) for NULL");
+
         switch(idType)
         {
             case IdType.Building:
@@ -257,15 +266,18 @@ public class GameManager : MonoBehaviour
     }
     public static GameObject GetObjectById(IdType idType, int id)
     {
+        GameObject obj = null;
         switch(idType)
         {
             case IdType.Building:
-                return _instance._objectIdDictionary[id];
+                obj = _instance._objectIdDictionary[id];
+                break;
             case IdType.Character:
-                return _instance._characterIdDictionary[id];
-            default:
-                return null;
+                obj = _instance._characterIdDictionary[id];
+                break;
         }
+        if(obj == null) Debug.Log("GameManager.GetObjectById returning null");
+        return obj;
     }
     public static Job GetJobById(int id)
     {

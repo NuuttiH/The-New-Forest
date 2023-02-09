@@ -20,7 +20,8 @@ public class Cost
 // Handle building placement and form the basis of specialized building scripts
 public class PlaceableObject : MonoBehaviour
 {
-    [HideInInspector] public int buildingId = -1;
+    //[HideInInspector] 
+    public int buildingId = -1;
     protected bool _initialized = false;
     public string Name 
     { 
@@ -86,12 +87,14 @@ public class PlaceableObject : MonoBehaviour
             StartCoroutine(Initialize(null, 0.01f));
         }
     }
-    public void Init(BuildingSaveData data = null)
+    public void Init(BuildingSaveData data = null, float wait = 0.3f)
     {
-        StartCoroutine(Initialize(data));
+        StartCoroutine(Initialize(data, wait));
     }
-    IEnumerator Initialize(BuildingSaveData data = null, float wait = 0.3f)
+    IEnumerator Initialize(BuildingSaveData data, float wait)
     {
+        if(data == null) Debug.Log($"PlaceableObject.Initialize(null, {wait})");
+        else Debug.Log($"PlaceableObject.Initialize(data, {wait})");
         yield return new WaitForSeconds(wait);
         if(!_initialized)
         {

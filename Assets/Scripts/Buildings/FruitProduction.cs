@@ -35,7 +35,7 @@ public class FruitProduction : PlaceableObject
     {
         for(int i=0; i<_fruits.Length; i++)
         {
-            Unregister(i, false);
+            Unregister(_fruitJobIndex[i], i, false);
         }
     }
 
@@ -69,10 +69,11 @@ public class FruitProduction : PlaceableObject
         _fruitJobIndex[i] = jobIndex;
     }
 
-    public void Unregister(int index, bool rewardFood = true)
+    public void Unregister(int index, int otherIndex, bool rewardFood = true)
     {
         if(rewardFood) GameManager.AddResource(Resource.Food, _fruitFoodValue);
-        JobManager.RemoveJob(_fruitJobIndex[index]);
-        StartCoroutine(ManageFruitGrowth(index));
+        //int index = _fruitJobIndex[otherIndex];
+        JobManager.RemoveJob(index);
+        StartCoroutine(ManageFruitGrowth(otherIndex));
     }
 }

@@ -16,6 +16,14 @@ public class ResourcePanel : MonoBehaviour
 
     void Start()
     {
+        StartCoroutine(Init());
+    }
+
+    IEnumerator Init()
+    {
+        yield return new WaitForSeconds(0.5f);
+        StartCoroutine(UpdateEstimate());
+        RefreshResource();
         switch(_resourceType)
         {
             case Resource.Food:
@@ -28,20 +36,6 @@ public class ResourcePanel : MonoBehaviour
                 Events.onMagicChange += RefreshResource;
                 break;
         }
-        if(GameManager.FinishedLoading)
-        {
-            Init();
-        }
-        else
-        {
-            Events.onSaveLoaded += Init; // Reset delegates?
-        }
-    }
-
-    void Init()
-    {
-        StartCoroutine(UpdateEstimate());
-        RefreshResource();
     }
 
     void OnDestroy()
