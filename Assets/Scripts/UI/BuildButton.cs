@@ -13,7 +13,7 @@ public class BuildButton : MonoBehaviour
     {
         _buildingScript = building.GetComponent<PlaceableObject>();
         _button = this.gameObject.GetComponent<Button>();
-        GetComponent<Button>().onClick.AddListener( delegate{ BuildingSystem.InitializedWithObject(building); } ); 
+        GetComponent<Button>().onClick.AddListener( delegate{ TryBuild(); } ); 
         CheckCost();
         Events.onResourceChange += CheckCost;
     }
@@ -34,5 +34,11 @@ public class BuildButton : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public void TryBuild()
+    {
+        BuildingSystem.BlockPlacement();
+        BuildingSystem.InitializedWithObject(building);
     }
 }

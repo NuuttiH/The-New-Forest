@@ -168,7 +168,7 @@ public class GameManager : MonoBehaviour
         }
         if(val) foreach(Cost cost in costs)
         {
-            GameManager.AddResource(cost.type, cost.amount);
+            GameManager.AddResource(cost.type, -cost.amount);
         }
         else
         {

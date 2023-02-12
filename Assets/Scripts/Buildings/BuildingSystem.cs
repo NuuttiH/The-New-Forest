@@ -18,6 +18,7 @@ public class BuildingSystem : MonoBehaviour
     public LayerMask groundLayer;
 
     private PlaceableObject _objectToPlace;
+    private bool _placementBlock = false;
     
     private void Awake()
     {
@@ -37,7 +38,7 @@ public class BuildingSystem : MonoBehaviour
             InitializedWithObject(testPrefab);
         }
 
-        if(!_objectToPlace) return;
+        if(!_objectToPlace || _placementBlock) return;
 
         if(_objectToPlace.Placeable && Input.GetMouseButtonUp(0))
         {
@@ -84,7 +85,10 @@ public class BuildingSystem : MonoBehaviour
 
     public static void InitializedWithObject(GameObject prefab)
     {
-        if(_instance._objectToPlace != null) return;
+        if(_instance._objectToPlace != null)
+        {
+            Destroy(_instance._objectToPlace.gameObject);
+        }
 
         Vector3 position = SnapCoordinateToGrid(Vector3.zero);
         GameObject obj = Instantiate(prefab, position, Quaternion.identity);
@@ -149,5 +153,16 @@ public class BuildingSystem : MonoBehaviour
     public static void ShowGrid(bool visible)
     {
         _instance._tileMapRenderer.enabled = visible;
+    }
+
+    public static void BlockPlacement(float releaseTime = 0.01f)
+    {
+        _instance._placementBlock = true;
+        _instance.StartCoroutine(_instance.UnblockPlacement(releaseTime));
+    }
+    IEnumerator UnblockPlacement(float releaseTime)
+    {
+        yield return new WaitForSeconds(releaseTime);
+        _instance._placementBlock = false;
     }
 }
