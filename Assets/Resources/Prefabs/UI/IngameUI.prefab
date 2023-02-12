@@ -883,7 +883,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0.5
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -1687,7 +1687,7 @@ PrefabInstance:
     - target: {fileID: 3456372126301302515, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
       propertyPath: m_Name
-      value: MagicPanel (2)
+      value: MagicPanel
       objectReference: {fileID: 0}
     - target: {fileID: 4862207554118957527, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
@@ -1805,6 +1805,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 9e630ff07f4ad2041b121628f2c342fa,
         type: 3}
+    - target: {fileID: 7300767153327648016, guid: d2dbecf604d2c1849889b21973ab7f10,
+        type: 3}
+      propertyPath: _panelType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7300767153327648016, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
       propertyPath: _resourceType
@@ -2087,6 +2092,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c7a06737242893c44b937fe69efe4945,
         type: 3}
+    - target: {fileID: 7300767153327648016, guid: d2dbecf604d2c1849889b21973ab7f10,
+        type: 3}
+      propertyPath: _panelType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7300767153327648016, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
       propertyPath: _resourceType
@@ -2530,7 +2540,7 @@ PrefabInstance:
     - target: {fileID: 3456372126301302515, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
       propertyPath: m_Name
-      value: LumberPanel (1)
+      value: LumberPanel
       objectReference: {fileID: 0}
     - target: {fileID: 4862207554118957527, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
@@ -2650,6 +2660,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7300767153327648016, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
+      propertyPath: _panelType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7300767153327648016, guid: d2dbecf604d2c1849889b21973ab7f10,
+        type: 3}
       propertyPath: _resourceType
       value: 2
       objectReference: {fileID: 0}
@@ -2671,7 +2686,7 @@ PrefabInstance:
     - target: {fileID: 3456372126301302515, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
       propertyPath: m_Name
-      value: MagicPanel (3)
+      value: GrowthModPanel
       objectReference: {fileID: 0}
     - target: {fileID: 3456372126301302515, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
@@ -2680,8 +2695,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4862207554118957527, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
+      propertyPath: m_text
+      value: XXX.X
+      objectReference: {fileID: 0}
+    - target: {fileID: 4862207554118957527, guid: d2dbecf604d2c1849889b21973ab7f10,
+        type: 3}
       propertyPath: m_fontSize
-      value: 33.05
+      value: 53.75
       objectReference: {fileID: 0}
     - target: {fileID: 5208346157979724222, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
@@ -2792,8 +2812,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9e630ff07f4ad2041b121628f2c342fa,
+      objectReference: {fileID: 21300000, guid: bccd9ab219c243b4f94462492fefd8b1,
         type: 3}
+    - target: {fileID: 7300767153327648016, guid: d2dbecf604d2c1849889b21973ab7f10,
+        type: 3}
+      propertyPath: _panelType
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 7300767153327648016, guid: d2dbecf604d2c1849889b21973ab7f10,
         type: 3}
       propertyPath: _resourceType

@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d6db39b5fa131a4ea2282e457b19400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _resourceType: 0
+  _panelType: 0
   _textField: {fileID: 4862207554118957527}
   _valueChangeTextPrefab: {fileID: 144963460399779546, guid: e045cc95b10e1254baa89abcc30b8966,
     type: 3}
@@ -131,7 +131,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 40, y: 0}
-  m_SizeDelta: {x: -90, y: 75}
+  m_SizeDelta: {x: -100, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7652079196447212437
 CanvasRenderer:
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1

@@ -20,7 +20,22 @@ public class ValuePopUp : MonoBehaviour
         else
         {
             _tmp.color = new Color32(255, 15, 15, 255);
-            _tmp.text = $"-{value}";
+            _tmp.text = $"{value}";
+        }
+        StartCoroutine(End());
+    }
+    public void Init(float value)
+    {
+        gameObject.transform.position += _initialPositionAdjustment;
+        if(value >= 0f)
+        {
+            _tmp.color = new Color32(15, 255, 15, 255);
+            _tmp.text = $"+{value}%";
+        }
+        else
+        {
+            _tmp.color = new Color32(255, 15, 15, 255);
+            _tmp.text = $"{value}%";
         }
         StartCoroutine(End());
     }

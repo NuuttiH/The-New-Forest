@@ -322,7 +322,14 @@ public class GameManager : MonoBehaviour
 
     public static void AdjustGrowthMultiplier(float val)
     {
-        _instance._growthSpeedPercent += val;;
+        Debug.Log($"GameManager.AdjustGrowthMultiplier({val})");
+        float newValue = _instance._growthSpeedPercent + val;
+        Events.onGrowthModChange(_instance._growthSpeedPercent, newValue);
+        _instance._growthSpeedPercent = newValue;
+    }
+    public static float GetGrowthValue()
+    {
+        return _instance._growthSpeedPercent;
     }
     public static float GetGrowthMultiplier()
     {

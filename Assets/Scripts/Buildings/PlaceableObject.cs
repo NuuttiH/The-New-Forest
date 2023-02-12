@@ -206,7 +206,6 @@ public class PlaceableObject : MonoBehaviour
         Placed = true;
         _startTile = start;
         BuildingSystem.TakeArea(start, Size);
-        if(_spawnGrass) GrassSystem.AddGrassSpawnLocationArea(start, Size);
 
         _originalScale = transform.localScale;
         _ticSize = 1f / _growthTics;
@@ -281,12 +280,15 @@ public class PlaceableObject : MonoBehaviour
         // Default behaviour for finishing growth
         if(_requireConstruction)
         {
-            GameManager.AdjustGrowthMultiplier(0.5f * _growthSpeedIncreasePercent);
+            if(_growthSpeedIncreasePercent != 0f)
+                GameManager.AdjustGrowthMultiplier(0.5f * _growthSpeedIncreasePercent);
             StartConstruction();
         }
         else
         {
-            GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
+            if(_spawnGrass) GrassSystem.AddGrassSpawnLocationArea(_startTile, Size);
+            if(_growthSpeedIncreasePercent != 0f)
+                GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
         }
         MessageLog.NewMessage(new MessageData($"{objectInfo.name} has finished growing.", 
                                                 MessageType.Unimportant));
@@ -308,9 +310,13 @@ public class PlaceableObject : MonoBehaviour
     {
         this._constructionObject.SetActive(true);
         this._finishedConstruction = true;
-        if(_requireGrowth) 
-            GameManager.AdjustGrowthMultiplier(0.5f * _growthSpeedIncreasePercent);
-        else GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
+        if(_spawnGrass) GrassSystem.AddGrassSpawnLocationArea(_startTile, Size);
+        if(_growthSpeedIncreasePercent != 0f)
+        {
+            if(_requireGrowth) 
+                GameManager.AdjustGrowthMultiplier(0.5f * _growthSpeedIncreasePercent);
+            else GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
+        }
 
         MessageLog.NewMessage(new MessageData($"{objectInfo.name} has finished construction.", 
                                                 MessageType.Unimportant));
@@ -342,7 +348,9 @@ public class PlaceableObject : MonoBehaviour
         {
             appliedGrowthMultiplier = -1f;
         }
-        GameManager.AdjustGrowthMultiplier(appliedGrowthMultiplier * _growthSpeedIncreasePercent);
+        if(_growthSpeedIncreasePercent != 0f)
+            GameManager.AdjustGrowthMultiplier(appliedGrowthMultiplier * _growthSpeedIncreasePercent);
+        if(_spawnGrass) Debug.LogError("TODO remove spawn grass area");
 
         PrepUnplace();
         BuildingSystem.ReleaseArea(_startTile, Size);

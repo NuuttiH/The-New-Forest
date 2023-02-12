@@ -15,6 +15,7 @@ public class Events : MonoBehaviour
     public static Action<int, int> onFoodChange = delegate {};
     public static Action<int, int> onLumberChange = delegate {};
     public static Action<int, int> onMagicChange = delegate {};
+    public static Action<float, float> onGrowthModChange = delegate {};
     public static Action onJobChange = delegate {};
 
     public static void ResetEventDelegates()
