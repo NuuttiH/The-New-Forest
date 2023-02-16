@@ -16,7 +16,11 @@ public class Events : MonoBehaviour
     public static Action<int, int> onLumberChange = delegate {};
     public static Action<int, int> onMagicChange = delegate {};
     public static Action<float, float> onGrowthModChange = delegate {};
+    public static Action<int, int> onPopLimitChange = delegate {};
+
     public static Action onJobChange = delegate {};
+    public static Action onVillagerCountChange = delegate {};
+
 
     public static void ResetEventDelegates()
     {
@@ -29,6 +33,8 @@ public class Events : MonoBehaviour
         onFoodChange = delegate {};
         onLumberChange = delegate {};
         onMagicChange = delegate {};
+        onGrowthModChange = delegate {};
+        onPopLimitChange = delegate {};
         onJobChange = delegate {};
 
         onFoodChange += Events.onResourceChange;

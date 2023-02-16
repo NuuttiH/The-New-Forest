@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public enum PanelType { None, Food, Lumber, Magic, GrowthModifier}
+public enum PanelType { None, Food, Lumber, Magic, GrowthModifier, PopulationLimit }
 
 public class ResourcePanel : MonoBehaviour
 {
@@ -41,6 +41,10 @@ public class ResourcePanel : MonoBehaviour
             case PanelType.GrowthModifier:
                 Events.onGrowthModChange += RefreshResource;
                 break; 
+            case PanelType.PopulationLimit:
+                Events.onPopLimitChange += RefreshResource;
+                Events.onVillagerCountChange += RefreshResource;
+                break; 
         }
     }
 
@@ -60,6 +64,10 @@ public class ResourcePanel : MonoBehaviour
             case PanelType.GrowthModifier:
                 Events.onGrowthModChange -= RefreshResource;
                 break; 
+            case PanelType.PopulationLimit:
+                Events.onPopLimitChange -= RefreshResource;
+                Events.onVillagerCountChange -= RefreshResource;
+                break; 
         }
     }
 
@@ -72,52 +80,61 @@ public class ResourcePanel : MonoBehaviour
         {
             case PanelType.Food:
                 value = GameManager.GetResource(Resource.Food);
+                if(_oldResourceGain == -100) 
+                    _textField.text = $"{value}";
+                else _textField.text = $"{value} ({_oldResourceGain}/min)";
                 break;
             case PanelType.Lumber:
                 value = GameManager.GetResource(Resource.Lumber);
+                if(_oldResourceGain == -100) 
+                    _textField.text = $"{value}";
+                else _textField.text = $"{value} ({_oldResourceGain}/min)";
                 break;
             case PanelType.Magic:
                 value = GameManager.GetResource(Resource.Magic);
+                if(_oldResourceGain == -100) 
+                    _textField.text = $"{value}";
+                else _textField.text = $"{value} ({_oldResourceGain}/min)";
                 break;
             case PanelType.GrowthModifier:
                 fvalue = GameManager.GetGrowthValue();
+                _textField.text = fvalue.ToString("000.0") + "%";
                 break; 
-        }
-
-        // Only show resource gain per minute for resources after the first minute 
-        if(_panelType > PanelType.Magic)   
-        {
-            _textField.text = fvalue.ToString("000.0") + "%";
-        }
-        else if(_oldResourceGain == -100)   
-        {
-            _textField.text = $"{value}";
-        }
-        else
-        {
-            _textField.text = $"{value} ({_oldResourceGain}/min)";
+            case PanelType.PopulationLimit:
+                value = GameManager.GetPopulationLimit();
+                int usedHousing = GameManager.GetVillagerCount();
+                _textField.text = $"{usedHousing}/{value}";
+                break; 
         }
     }
     private void RefreshResource(int oldValue, int newValue)
     {
         int change = newValue - oldValue;
-
-        // Only show resource gain per minute after the first minute 
-        if(_oldResourceGain == -100) 
+        switch(_panelType)
         {
-            _textField.text = $"{newValue}";
+            case PanelType.Food:
+            case PanelType.Lumber:
+            case PanelType.Magic:
+                // Only show resource gain per minute after the first minute 
+                if(_oldResourceGain == -100) 
+                    _textField.text = $"{newValue}";
+                else _textField.text = $"{newValue} ({_oldResourceGain}/min)";
+                if(change > 0) _resourceGain += change;
+                break;
+            case PanelType.PopulationLimit:
+                int usedHousing = GameManager.GetVillagerCount();
+                _textField.text = $"{usedHousing}/{newValue}";
+                break; 
+            default: 
+                break;
         }
-        else
+        if(change != 0)
         {
-            _textField.text = $"{newValue} ({_oldResourceGain}/min)";
+            GameObject valueChangeText = Instantiate(
+                _valueChangeTextPrefab, this.transform.position, 
+                Quaternion.identity, this.transform);
+            valueChangeText.GetComponent<ValuePopUp>().Init(change);
         }
-
-        if(change > 0) _resourceGain += change;
-
-        GameObject valueChangeText = Instantiate(
-            _valueChangeTextPrefab, this.transform.position, 
-            Quaternion.identity, this.transform);
-        valueChangeText.GetComponent<ValuePopUp>().Init(change);
     }
     private void RefreshResource(float oldValue, float newValue)
     {

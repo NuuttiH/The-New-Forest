@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     private int _lumber;
     private int _magic;
     private float _growthSpeedPercent = 100f;
+    private int _populationLimit;
 
     private int _objectId;
     private HashSet<int> _objectIds;
@@ -314,12 +315,17 @@ public class GameManager : MonoBehaviour
     public static void AdjustVillagerCount(VillagerType type, int amount)
     {
         _instance._villagerCounts[type] += amount;
+        Events.onVillagerCountChange();
     }
-    public static int GetVillagerCount(VillagerType type)
+    public static int GetVillagerCount(VillagerType type = VillagerType.None)
     {
-        return _instance._villagerCounts[type];
+        if(type == VillagerType.None)
+        {
+            // Count all
+            return _instance._characterIdDictionary.Count;
+        }
+        else return _instance._villagerCounts[type];
     }
-
     public static void AdjustGrowthMultiplier(float val)
     {
         Debug.Log($"GameManager.AdjustGrowthMultiplier({val})");
@@ -335,6 +341,17 @@ public class GameManager : MonoBehaviour
     {
         // Turn percent increase into a simple multiplier
         return (100f / _instance._growthSpeedPercent);
+    }
+    public static void AdjustPopulationLimit(int val)
+    {
+        Debug.Log($"GameManager.AdjustPopulationLimit({val})");
+        int newValue = _instance._populationLimit + val;
+        Events.onPopLimitChange(_instance._populationLimit, newValue);
+        _instance._populationLimit = newValue;
+    }
+    public static int GetPopulationLimit()
+    {
+        return _instance._populationLimit;
     }
 
     public static void SetGameSpeed(float newSpeed)
