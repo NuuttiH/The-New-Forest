@@ -95,7 +95,7 @@ public class PlaceableObject : MonoBehaviour
     {
         if(data == null) Debug.Log($"PlaceableObject.Initialize(null, {wait})");
         else Debug.Log($"PlaceableObject.Initialize(data, {wait})");
-        yield return new WaitForSeconds(wait);
+        yield return new WaitForSecondsRealtime(wait);
         if(!_initialized)
         {
             _initialized = true;
@@ -137,7 +137,7 @@ public class PlaceableObject : MonoBehaviour
     IEnumerator EnablePlacement()
     {
         // Prevent instant placement
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSecondsRealtime(0.2f);
         Placeable = true;
     }
     public BuildingSaveData FormSaveData()
@@ -380,21 +380,4 @@ public class PlaceableObject : MonoBehaviour
         }
         _cuttable = val;
     }
-    /*
-    public bool PayCost()
-    {
-        foreach(Cost cost in BuildingCost)
-        {
-            if(GameManager.GetResource(cost.type) < cost.amount);
-            {
-                Debug.Log($"Not enought {cost.type}, {GameManager.GetResource(cost.type)}<{cost.amount}");
-                return false;
-            }
-        }
-        foreach(Cost cost in BuildingCost)
-        {
-            GameManager.AddResource(cost.type, -1 * cost.amount);
-        }
-        return true;
-    }*/
 }

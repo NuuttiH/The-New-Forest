@@ -162,7 +162,7 @@ public class BuildingSystem : MonoBehaviour
     }
     IEnumerator UnblockPlacement(float releaseTime)
     {
-        yield return new WaitForSeconds(releaseTime);
+        yield return new WaitForSecondsRealtime(releaseTime);
         _instance._placementBlock = false;
     }
 }
