@@ -1,7 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+
+[Serializable]
+public class JobEfficiency {
+    public JobType jobType;
+    public float val;
+
+    public JobEfficiency(JobType jobType, float val)
+    {
+        this.jobType = jobType;
+        this.val = val;
+    }
+}
 
 public class Villager : MonoBehaviour
 {
@@ -25,12 +38,33 @@ public class Villager : MonoBehaviour
     private bool _isFed = true;
     private float _baseSpeed;
     
-    //[SerializeField] 
-    public JobType[] forbiddenJobs;
+    [SerializeField] private JobEfficiency[] _jobEffiency 
+        = new JobEfficiency[] {
+        new JobEfficiency(JobType.Idle, 1f),
+        new JobEfficiency(JobType.Food, 1f),
+        new JobEfficiency(JobType.Cut, 1f),
+        new JobEfficiency(JobType.Build, 1f),
+        new JobEfficiency(JobType.Magic, 1f),
+    };
+    
+    public Dictionary<JobType, float> jobEfficiency;
+    /*[SerializeField] public Dictionary<JobType, float> jobEfficiency 
+        = new Dictionary<JobType, float> {
+        { JobType.Idle, 1f },
+        { JobType.Food, 1f },
+        { JobType.Cut, 1f },
+        { JobType.Build, 1f },
+        { JobType.Magic, 1f }
+    };*/
 
 
     void Start()
     {
+        jobEfficiency = new Dictionary<JobType, float>();
+        foreach(JobEfficiency je in _jobEffiency)
+        {
+            jobEfficiency.Add(je.jobType, je.val);
+        }
         StartCoroutine(Initialize(null, 0.5f));
     }
     public void Init(CharacterSaveData data = null, float wait = 0.3f)
@@ -160,7 +194,7 @@ public class Villager : MonoBehaviour
                 {
                     _animator.ResetTrigger("IsRunning");
                     _moving = false;
-                    _waitTime = _job.length;
+                    _waitTime = _job.length * (1f / jobEfficiency[_job.jobType]);
 
                     switch(_job.jobType)
                     {

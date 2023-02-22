@@ -162,8 +162,11 @@ public class JobManager : MonoBehaviour
         for(int i=1; i<System.Enum.GetValues(typeof(JobType)).Length; i++)
         {
             int newJobWeight = _instance._jobWeights[(JobType)i] + Random.Range(0, 5);
-            if(System.Array.Exists(villager.forbiddenJobs, element => element == (JobType)i)) 
+
+            if(villager.jobEfficiency[(JobType)i] <= 0f)
                 newJobWeight -= 100;
+            else newJobWeight = (int)((float)newJobWeight * villager.jobEfficiency[(JobType)i]);
+
             if(newJobWeight > jobWeight)
             {
                 jobWeight = newJobWeight;

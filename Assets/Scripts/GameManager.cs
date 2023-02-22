@@ -69,13 +69,13 @@ public class GameManager : MonoBehaviour
         _jobIds = new HashSet<int>();
         _jobIdDictionary = new Dictionary<int, Job>();
 
-        // Load game scene?
-
         StartCoroutine(Startup());  
     }
     IEnumerator Startup()
     {
         yield return null;
+
+        Time.timeScale = 1f;
 
         GameState game = SaveManager.GetData();
         _food = game.food;

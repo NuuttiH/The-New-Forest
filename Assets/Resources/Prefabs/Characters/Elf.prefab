@@ -337,7 +337,17 @@ MonoBehaviour:
   _upkeep:
   - amount: 1
     type: 1
-  forbiddenJobs: 
+  _jobEffiency:
+  - jobType: 0
+    val: 0.8
+  - jobType: 1
+    val: 1
+  - jobType: 2
+    val: 1
+  - jobType: 3
+    val: 1
+  - jobType: 4
+    val: 1
 --- !u!114 &4913263049136771114
 MonoBehaviour:
   m_ObjectHideFlags: 0

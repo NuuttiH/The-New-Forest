@@ -1708,7 +1708,7 @@ MonoBehaviour:
   _woodCuttingTime: 5
   _woodCuttingDistance: 6.3
   _deconstructType: 1
-  _growthSpeedIncreasePercent: 0
+  _growthSpeedIncreasePercent: 5
   _spawnGrass: 0
   _requireGrass: 1
   _jobTime: 20

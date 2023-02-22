@@ -856,7 +856,7 @@ MonoBehaviour:
   _woodCuttingTime: 7
   _woodCuttingDistance: 6.2
   _deconstructType: 1
-  _growthSpeedIncreasePercent: 2
+  _growthSpeedIncreasePercent: 0
   _spawnGrass: 0
   _requireGrass: 1
   _fruitPrefab: {fileID: 0}
