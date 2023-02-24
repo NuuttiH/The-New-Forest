@@ -27,14 +27,15 @@ public class PlaceableObject : MonoBehaviour
     { 
         get 
         { 
-            if(objectInfo != null)
+            if(_objectInfo != null)
             {
-                return objectInfo.name;
+                return _objectInfo.name;
             }
             else return gameObject.name; 
         } 
     }
-    [SerializeField] protected ObjectInfo objectInfo;
+    [SerializeField] protected ObjectInfo _objectInfo;
+    [SerializeField] protected MissionGoal _buildingTrigger = MissionGoal.None;
     public Cost[] BuildingCost;
     public bool Placeable { get; protected set; }
     public bool Placed { get; protected set; }
@@ -144,7 +145,7 @@ public class PlaceableObject : MonoBehaviour
     {
         return new BuildingSaveData(   
                         gameObject.transform.position, gameObject.transform.rotation, 
-                        objectInfo.name, buildingId,
+                        _objectInfo.name, buildingId,
                         Size, _startTile, 
                         _growthProgress, _cutDownjobIndex, 
                         _jobIndex);
@@ -286,12 +287,14 @@ public class PlaceableObject : MonoBehaviour
         }
         else
         {
+            TryTrigger();
             if(_spawnGrass) GrassSystem.AddGrassSpawnLocationArea(_startTile, Size);
             if(_growthSpeedIncreasePercent != 0f)
                 GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
         }
-        MessageLog.NewMessage(new MessageData($"{objectInfo.name} has finished growing.", 
+        MessageLog.NewMessage(new MessageData($"{_objectInfo.name} has finished growing.", 
                                                 MessageType.Unimportant));
+        Events.onIncrementMission(MissionGoal.TreeCount, 1);
         FinishGrowth();
     }
     public virtual void FinishGrowth()
@@ -317,8 +320,9 @@ public class PlaceableObject : MonoBehaviour
                 GameManager.AdjustGrowthMultiplier(0.5f * _growthSpeedIncreasePercent);
             else GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
         }
+        if(!_requireGrowth) TryTrigger();
 
-        MessageLog.NewMessage(new MessageData($"{objectInfo.name} has finished construction.", 
+        MessageLog.NewMessage(new MessageData($"{_objectInfo.name} has finished construction.", 
                                                 MessageType.Unimportant));
         FinishConstruction();
     }
@@ -342,6 +346,8 @@ public class PlaceableObject : MonoBehaviour
             {
                 if(!_requireConstruction || _finishedConstruction) appliedGrowthMultiplier = -1f;
                 else appliedGrowthMultiplier = -0.5f;
+                
+                Events.onIncrementMission(MissionGoal.TreeCount, -1);
             }
         }
         else if(_requireConstruction && _finishedConstruction)
@@ -379,5 +385,14 @@ public class PlaceableObject : MonoBehaviour
             JobManager.RemoveJob(_cutDownjobIndex);
         }
         _cuttable = val;
+    }
+
+    public void TryTrigger()
+    {
+        Debug.Log("TRYTRIGGER1 Increment");
+        if(_buildingTrigger != MissionGoal.None)
+            Debug.Log("TRYTRIGGER2 Increment");
+            Events.onIncrementMission(_buildingTrigger, 1);
+            Debug.Log("TRYTRIGGER3 Increment");
     }
 }

@@ -19,6 +19,7 @@ public class GameState
     public HashSet<Vector2Int> fullGrassTiles;
     public List<Vector2Int> extraGrassSpawnLocations;
     public bool isSave;
+    public ScenarioInfo scenarioInfo;
 
     public GameState(   int food, int lumber, int magic, 
                         int objectId, int characterId, int jobId,
@@ -37,6 +38,7 @@ public class GameState
         this.fullGrassTiles = new HashSet<Vector2Int>();
         this.extraGrassSpawnLocations = new List<Vector2Int>();
         this.isSave = isSave;
+        this.scenarioInfo = null;
     }
 
     public GameState()
@@ -54,5 +56,6 @@ public class GameState
         this.fullGrassTiles = new HashSet<Vector2Int>();
         this.extraGrassSpawnLocations = new List<Vector2Int>();
         this.isSave = false;
+        this.scenarioInfo = null;
     }
 }

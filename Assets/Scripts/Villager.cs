@@ -188,7 +188,7 @@ public class Villager : MonoBehaviour
             if(_moving) // Move towards job, do it if close enough
             {
                 float distance = Vector3.Distance(transform.position, _targetLocation);
-                Debug.Log("Job Distance: " + distance);
+                //Debug.Log("Job Distance: " + distance);
 
                 if(distance < _job.workDistance) // Close enough, start job
                 {

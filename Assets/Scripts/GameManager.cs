@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager _instance;
 
-
+    [SerializeField] private ScenarioInfo _scenarioInfo;
     [SerializeField] private int _mapSize = 128;
     public static int MapSize { get { return _instance._mapSize; } }
 
@@ -84,6 +84,11 @@ public class GameManager : MonoBehaviour
         _objectId = game.objectId;
         _characterId = game.characterId;
         _jobId = game.jobId;
+        if(game.scenarioInfo == null)
+        {
+            MissionManager.Init(Instantiate(_scenarioInfo));
+        }
+        else MissionManager.Init(Instantiate(game.scenarioInfo));
 
         FinishedLoading = true;
         yield return new WaitForSeconds(0.4f);
@@ -146,16 +151,19 @@ public class GameManager : MonoBehaviour
             case Resource.Food:
                 newValue = _instance._food + amount;
                 Events.onFoodChange(_instance._food, newValue);
+                if(newValue > 0) Events.onIncrementMission(MissionGoal.Food, newValue);
                 _instance._food = newValue;
                 break;
             case Resource.Lumber:
                 newValue = _instance._lumber + amount;
                 Events.onLumberChange(_instance._lumber, newValue);
+                if(newValue > 0) Events.onIncrementMission(MissionGoal.Lumber, newValue);
                 _instance._lumber = newValue;
                 break;
             case Resource.Magic:
                 newValue = _instance._magic + amount;
                 Events.onMagicChange(_instance._magic, newValue);
+                if(newValue > 0) Events.onIncrementMission(MissionGoal.Magic, newValue);
                 _instance._magic = newValue;
                 break;
         }
@@ -316,6 +324,7 @@ public class GameManager : MonoBehaviour
     {
         _instance._villagerCounts[type] += amount;
         Events.onVillagerCountChange();
+        if(amount > 0) Events.onIncrementMission(MissionGoal.NewWorker, amount);
     }
     public static int GetVillagerCount(VillagerType type = VillagerType.None)
     {

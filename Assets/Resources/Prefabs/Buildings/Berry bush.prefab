@@ -778,7 +778,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingId: -1
-  objectInfo: {fileID: 11400000, guid: 9e427421436d8ff4dbaba25d2e1ffcc4, type: 2}
+  _objectInfo: {fileID: 11400000, guid: 9e427421436d8ff4dbaba25d2e1ffcc4, type: 2}
+  _buildingTrigger: 5
   BuildingCost:
   - amount: 1
     type: 3

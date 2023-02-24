@@ -10,8 +10,8 @@ public class Events : MonoBehaviour
     public static Action onSaveLoaded = delegate { };
     public static Action onGameSpeedChange = delegate { };
     
-    public static Action<int, int> onResourceChange = delegate {};
     // Action<oldValue, newValue>
+    public static Action<int, int> onResourceChange = delegate {};
     public static Action<int, int> onFoodChange = delegate {};
     public static Action<int, int> onLumberChange = delegate {};
     public static Action<int, int> onMagicChange = delegate {};
@@ -20,6 +20,8 @@ public class Events : MonoBehaviour
 
     public static Action onJobChange = delegate {};
     public static Action onVillagerCountChange = delegate {};
+
+    public static Action<MissionGoal, int> onIncrementMission = delegate { };
 
 
     public static void ResetEventDelegates()
@@ -40,6 +42,8 @@ public class Events : MonoBehaviour
         onFoodChange += Events.onResourceChange;
         onLumberChange += Events.onResourceChange;
         onMagicChange += Events.onResourceChange;
+
+        onIncrementMission = delegate {};
 
         #if UNITY_EDITOR
                 Debug.Log("Events.cs: event delegates reset.");
