@@ -294,7 +294,7 @@ public class PlaceableObject : MonoBehaviour
         }
         MessageLog.NewMessage(new MessageData($"{_objectInfo.name} has finished growing.", 
                                                 MessageType.Unimportant));
-        Events.onIncrementMission(MissionGoal.TreeCount, 1);
+        MissionManager.onIncrementMission(MissionGoal.TreeCount, 1);
         FinishGrowth();
     }
     public virtual void FinishGrowth()
@@ -347,7 +347,7 @@ public class PlaceableObject : MonoBehaviour
                 if(!_requireConstruction || _finishedConstruction) appliedGrowthMultiplier = -1f;
                 else appliedGrowthMultiplier = -0.5f;
                 
-                Events.onIncrementMission(MissionGoal.TreeCount, -1);
+                MissionManager.onIncrementMission(MissionGoal.TreeCount, -1);
             }
         }
         else if(_requireConstruction && _finishedConstruction)
@@ -392,7 +392,7 @@ public class PlaceableObject : MonoBehaviour
         Debug.Log("TRYTRIGGER1 Increment");
         if(_buildingTrigger != MissionGoal.None)
             Debug.Log("TRYTRIGGER2 Increment");
-            Events.onIncrementMission(_buildingTrigger, 1);
+            MissionManager.onIncrementMission(_buildingTrigger, 1);
             Debug.Log("TRYTRIGGER3 Increment");
     }
 }

@@ -41,7 +41,7 @@ public class MessageLog : MonoBehaviour
         }
         _logPanel = gameObject.GetComponent<RectTransform>();
         _logOriginalPosition = _logPanel.position;
-        Events.onIncrementMission += IncrementMission;
+        MissionManager.onIncrementMission += IncrementMission;
     }
 
     public static void IncrementMission(MissionGoal goal, int count)

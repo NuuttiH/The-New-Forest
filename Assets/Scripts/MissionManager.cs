@@ -24,6 +24,8 @@ public class MissionManager : MonoBehaviour
     private int _mainMissionIndex = -1;
     private List<LinkedMissionData>[] _missionLinks;
     private List<MissionDataGroup> _activeMissionGroups;
+
+    public static System.Action<MissionGoal, int> onIncrementMission = delegate { };
     
     void Awake()
     {
@@ -37,8 +39,8 @@ public class MissionManager : MonoBehaviour
         for(int i=0; i<System.Enum.GetValues(typeof(MissionGoal)).Length; i++)
             _missionLinks[i] = new List<LinkedMissionData>();
         _activeMissionGroups = new List<MissionDataGroup>();
-        //Events.onIncrementMission = (goal, count) => IncrementMission(goal, count);
-        Events.onIncrementMission += IncrementMission;
+        onIncrementMission = (goal, count) => IncrementMission(goal, count);
+        //Events.onIncrementMission += IncrementMission;
     }
 
     public static void Init(ScenarioInfo scenarioInfo)
@@ -104,7 +106,7 @@ public class MissionManager : MonoBehaviour
                 if(mission.currentVal >= mission.goalVal)
                 {
                     // Mission gets completed
-                    CheckMissionGroupCompletion();
+                    _instance.StartCoroutine(_instance.CheckMissionGroupCompletion());
                 }
                 else
                 {
@@ -126,14 +128,14 @@ public class MissionManager : MonoBehaviour
             }
         }
     }
-    private static void CheckMissionGroupCompletion()
+    IEnumerator CheckMissionGroupCompletion()
     {
-        // Check all mission groups
-        int index = 0;
+        yield return new WaitForSeconds(0.1f);
+        // Check all active mission groups
         foreach(MissionDataGroup group in _instance._activeMissionGroups)
         {
             bool completed = true;
-            foreach(MissionData mission in group.missions)
+            if(completed) foreach(MissionData mission in group.missions)
             {
                 if(mission.currentVal < mission.goalVal)
                 {
@@ -141,36 +143,26 @@ public class MissionManager : MonoBehaviour
                     break;
                 }
             }
-            if(completed)
+            if(completed)   // Handle completion of a mission group
             {
-                // Handle completion of a mission group
-                _instance._activeMissionGroups.Remove(group);
-                foreach(MissionData mission in group.missions)
-                {
-                    // Unregister missions
-                    for(int i=0; i<_instance._missionLinks[(int)mission.missionGoal].Count; i++)
-                    {
-                        LinkedMissionData linkedMission = _instance._missionLinks[(int)mission.missionGoal][i];
-                        if(linkedMission.missionData == mission)
-                        {
-                            _instance._missionLinks[(int)mission.missionGoal].Remove(linkedMission);
-                        }
-                    }
-                }
+                // Unregister current missions and mission group
+                UnregisterMissionGroup(System.Array.IndexOf(_instance._scenarioInfo.missionsData, group));
+                
+                // Handle completion of main mission group
                 if(_instance._scenarioInfo.mainMission == group)
                 {
                     CompleteMainMission();
                     break;
                 }
+                // Pick up the next mission group
                 MissionDataGroup nextGroup = _instance._scenarioInfo.missionsData[group.nextMissionId];
                 nextGroup.currentVal++;
                 if(nextGroup.currentVal >= nextGroup.previousLinkCount)
                 {
-                    RegisterMissionGroup(index);
+                    RegisterMissionGroup(group.nextMissionId);
                 }
                 break;
             }
-            index++;
         }
     }
     private static void RegisterMissionGroup(int groupIndex)
@@ -180,6 +172,7 @@ public class MissionManager : MonoBehaviour
         string text = $" {group.title} {group.description}";
         _instance._display.AddMissionGroup(groupIndex, text);
         
+        // Register missions
         for(int i=0; i<group.missions.Length; i++)
         {
             MissionData mission = group.missions[i];
@@ -188,6 +181,25 @@ public class MissionManager : MonoBehaviour
             _instance._missionLinks[(int)mission.missionGoal].Add(linkedMission);
             text = $" -{mission.title} {mission.description} ({mission.currentVal}/{mission.goalVal})";
             _instance._display.AddOrEditMission(groupIndex, i, text);
+        }
+    }
+    private static void UnregisterMissionGroup(int groupIndex)
+    {
+        MissionDataGroup group = _instance._scenarioInfo.missionsData[groupIndex];
+        _instance._activeMissionGroups.Remove(group);
+        _instance._display.RemoveMissionGroup(groupIndex);
+
+        // Unregister missions
+        foreach(MissionData mission in group.missions)
+        {
+            for(int i=0; i<_instance._missionLinks[(int)mission.missionGoal].Count; i++)
+            {
+                LinkedMissionData linkedMission = _instance._missionLinks[(int)mission.missionGoal][i];
+                if(linkedMission.missionData == mission)
+                {
+                    _instance._missionLinks[(int)mission.missionGoal].Remove(linkedMission);
+                }
+            }
         }
     }
     private static void CompleteMainMission()

@@ -151,19 +151,19 @@ public class GameManager : MonoBehaviour
             case Resource.Food:
                 newValue = _instance._food + amount;
                 Events.onFoodChange(_instance._food, newValue);
-                if(newValue > 0) Events.onIncrementMission(MissionGoal.Food, newValue);
+                if(newValue > 0) MissionManager.onIncrementMission(MissionGoal.Food, newValue);
                 _instance._food = newValue;
                 break;
             case Resource.Lumber:
                 newValue = _instance._lumber + amount;
                 Events.onLumberChange(_instance._lumber, newValue);
-                if(newValue > 0) Events.onIncrementMission(MissionGoal.Lumber, newValue);
+                if(newValue > 0) MissionManager.onIncrementMission(MissionGoal.Lumber, newValue);
                 _instance._lumber = newValue;
                 break;
             case Resource.Magic:
                 newValue = _instance._magic + amount;
                 Events.onMagicChange(_instance._magic, newValue);
-                if(newValue > 0) Events.onIncrementMission(MissionGoal.Magic, newValue);
+                if(newValue > 0) MissionManager.onIncrementMission(MissionGoal.Magic, newValue);
                 _instance._magic = newValue;
                 break;
         }
@@ -324,7 +324,7 @@ public class GameManager : MonoBehaviour
     {
         _instance._villagerCounts[type] += amount;
         Events.onVillagerCountChange();
-        if(amount > 0) Events.onIncrementMission(MissionGoal.NewWorker, amount);
+        if(amount > 0) MissionManager.onIncrementMission(MissionGoal.NewWorker, amount);
     }
     public static int GetVillagerCount(VillagerType type = VillagerType.None)
     {

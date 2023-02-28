@@ -54,7 +54,7 @@ public class MissionDisplay : MonoBehaviour
         groupIndexToActualIndex.Add(index, _missionGroup.Count);
         _missionGroup.Add(newGroup);
     }
-    public void RemoveMissionGroup(int index, string message)
+    public void RemoveMissionGroup(int index)
     {
         int adjustedIndex = groupIndexToActualIndex[index];
         groupIndexToActualIndex.Remove(index);

@@ -148,7 +148,7 @@ public class GrassSystem : MonoBehaviour
         Vector3Int grass3D = new Vector3Int(grass2D.x, grass2D.y, 0);
         _instance._mainTilemap.SetTile(grass3D, _instance._grassTile);
         _instance._extraGrassSpawnLocations.Remove(grass2D);
-        Events.onIncrementMission(MissionGoal.NewGrass, 1);
+        MissionManager.onIncrementMission(MissionGoal.NewGrass, 1);
     }
     public static void RecordGrassSpawnLocation(Vector2Int grass2D)
     {
