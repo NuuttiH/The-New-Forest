@@ -82,19 +82,19 @@ public class ResourcePanel : MonoBehaviour
                 value = GameManager.GetResource(Resource.Food);
                 if(_oldResourceGain == -100) 
                     _textField.text = $"{value}";
-                else _textField.text = $"{value} ({_oldResourceGain}/min)";
+                else _textField.text = $"{value} <size=80%>({_oldResourceGain}/min)";
                 break;
             case PanelType.Lumber:
                 value = GameManager.GetResource(Resource.Lumber);
                 if(_oldResourceGain == -100) 
                     _textField.text = $"{value}";
-                else _textField.text = $"{value} ({_oldResourceGain}/min)";
+                else _textField.text = $"{value} <size=80%>({_oldResourceGain}/min)";
                 break;
             case PanelType.Magic:
                 value = GameManager.GetResource(Resource.Magic);
                 if(_oldResourceGain == -100) 
                     _textField.text = $"{value}";
-                else _textField.text = $"{value} ({_oldResourceGain}/min)";
+                else _textField.text = $"{value} <size=80%>({_oldResourceGain}/min)";
                 break;
             case PanelType.GrowthModifier:
                 fvalue = GameManager.GetGrowthValue();

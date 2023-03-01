@@ -48,13 +48,19 @@ public class MissionManager : MonoBehaviour
         _instance._scenarioInfo = scenarioInfo;
 
         // Send text for main mission
-        List<string> text = new List<string>();
-        text.Add(_instance._scenarioInfo.mainMission.title + _instance._scenarioInfo.mainMission.description);
+        List<string> textList = new List<string>();
+        string text = _instance._scenarioInfo.mainMission.title;
+        if(_instance._scenarioInfo.mainMission.description != "")
+            text += " <size=80%><br> " + _instance._scenarioInfo.mainMission.description;
+        textList.Add(text);
         foreach(MissionData mission in _instance._scenarioInfo.mainMission.missions)
         {
-            text.Add($" -{mission.title} {mission.description} ({mission.currentVal}/{mission.goalVal})");
+            text = $" -{mission.title} ({mission.currentVal}/{mission.goalVal})";
+            if(mission.description != "")
+                text += $" <size=80%><br>   {mission.description}";
+            textList.Add(text);
         }  
-        _instance._display.Init(_instance._mainMissionIndex, text); 
+        _instance._display.Init(_instance._mainMissionIndex, textList); 
 
         // Figure out current missions
         int groupIndex = 0;
@@ -100,7 +106,9 @@ public class MissionManager : MonoBehaviour
                 mission.currentVal += count;
                 Debug.Log($"INCREMENTING: {goal}");
 
-                string text = $" -{mission.title} {mission.description} ({mission.currentVal}/{mission.goalVal})";
+                string text = $" -{mission.title} ({mission.currentVal}/{mission.goalVal})";
+                if(mission.description != "")
+                    text += $" <size=80%><br>   {mission.description}";
                 _instance._display.AddOrEditMission(linkedMission.groupIndex, linkedMission.missionIndex, text);
 
                 if(mission.currentVal >= mission.goalVal)
@@ -169,7 +177,9 @@ public class MissionManager : MonoBehaviour
     {
         MissionDataGroup group = _instance._scenarioInfo.missionsData[groupIndex];
         _instance._activeMissionGroups.Add(group);
-        string text = $" {group.title} {group.description}";
+        string text = $"{group.title}";
+        if(group.description != "")
+            text += " <size=80%><br>   " + group.description;
         _instance._display.AddMissionGroup(groupIndex, text);
         
         // Register missions
@@ -179,7 +189,9 @@ public class MissionManager : MonoBehaviour
             //Debug.Log($"TEST: _instance._missionLinks[(int)mission.missionGoal].Count: {_instance._missionLinks[(int)mission.missionGoal].Count}, (int)mission.missionGoal: {(int)mission.missionGoal}, _instance._missionLinks.Length: { _instance._missionLinks.Length}, mission: {mission!=null}");
             LinkedMissionData linkedMission = new LinkedMissionData(mission, groupIndex, i);
             _instance._missionLinks[(int)mission.missionGoal].Add(linkedMission);
-            text = $" -{mission.title} {mission.description} ({mission.currentVal}/{mission.goalVal})";
+            text = $" -{mission.title} ({mission.currentVal}/{mission.goalVal})";
+            if(mission.description != "")
+                text += " <size=80%><br>   " + mission.description;
             _instance._display.AddOrEditMission(groupIndex, i, text);
         }
     }
