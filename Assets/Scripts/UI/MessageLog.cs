@@ -25,11 +25,6 @@ public class MessageLog : MonoBehaviour
     private static MessageLog _instance;
 
     [SerializeField] private GameObject _messagePrefab;
-    private RectTransform _logPanel;
-    [SerializeField] private float _messageHeight = 40f;
-    [SerializeField] private float _maxMessages = 8;
-    private Vector2 _logOriginalPosition;
-    private int _messageCount;
 
     void Awake()
     {
@@ -39,16 +34,14 @@ public class MessageLog : MonoBehaviour
 			Destroy(this.gameObject);
 			return;
         }
-        _logPanel = gameObject.GetComponent<RectTransform>();
-        _logOriginalPosition = _logPanel.position;
-        MissionManager.onIncrementMission += IncrementMission;
-    }
 
-    public static void IncrementMission(MissionGoal goal, int count)
-    {
-        MessageData messageData = new MessageData("IncrementMission", MessageType.Error);
-        NewMessage(messageData);
-        Debug.Log("IncrementMission");
+        // Clean log
+        int childCount = 0;
+        foreach (Transform child in this.gameObject.transform) childCount++;
+        for(int i=childCount-1; i>=0; i--)
+        {
+            Destroy(this.gameObject.transform.GetChild(i).gameObject);
+        }
     }
 
     public static void NewMessage(MessageData messageData)
@@ -72,35 +65,30 @@ public class MessageLog : MonoBehaviour
                 break;
         }
 
-        _instance.StartCoroutine(_instance.DeleteMessage(messageData, newMessage));
-        _instance._messageCount++;
-        UpdateSize();
+        _instance.StartCoroutine(_instance.HandleMessage(messageData, newMessage));
     }
 
-    IEnumerator DeleteMessage(MessageData messageData, GameObject obj)
+    IEnumerator HandleMessage(MessageData messageData, GameObject obj)
     {
-        yield return new WaitForSeconds(messageData.duration);
+        float time = messageData.duration * 0.90f;
+        yield return new WaitForSeconds(time);
+        time = messageData.duration - time;
+
+        // Fade text
+        float tickCount = 25f;
+        float tick = time / tickCount;
+        TextMeshProUGUI tmPro = obj.GetComponent<TextMeshProUGUI>();
+        Color color = tmPro.color;
+        while(time > 0f)
+        {
+            color.a -= (1f / tickCount);
+            tmPro.color = color;
+            yield return new WaitForSeconds(tick);
+            time -= tick;
+        }
         if(obj != null)
         {
             Destroy(obj);
-            _instance._messageCount--;
-            UpdateSize();
         } 
-    }
-
-    public static void UpdateSize()
-    {
-        float newSize = _instance._messageHeight * (float)_instance._messageCount;
-        while(_instance._messageCount > _instance._maxMessages)
-        {
-            // Delete oldest message
-            Destroy(_instance.gameObject.transform.GetChild(0));
-            _instance._messageCount--;
-            newSize -= _instance._messageHeight;
-        }
-        _instance._logPanel.sizeDelta = new Vector2(_instance._logPanel.sizeDelta.x, newSize);
-        _instance._logPanel.position = new Vector2(    
-                                _instance._logOriginalPosition.x, 
-                                _instance._logOriginalPosition.y + (0.5f * newSize));
     }
 }
