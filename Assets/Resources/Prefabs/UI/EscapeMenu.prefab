@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9552c42fceb32c44b80eb2089b5d2c92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _toggleAudioEvent: {fileID: 11400000, guid: 278170aafe551294bb90c149fc563b7a, type: 2}
   _saveGameButton: {fileID: 6791568030227110441}
   _saveGameMenu: {fileID: 7417405106628648545, guid: c60aeb0569612dd48a99e6048574ed67,
     type: 3}
@@ -318,6 +319,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Return to menu
       objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
       propertyPath: m_Name
@@ -459,6 +465,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Options
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
       objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
@@ -602,6 +613,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Save game
       objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
       propertyPath: m_Name
@@ -744,6 +760,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Load game
       objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
       propertyPath: m_Name
@@ -885,6 +906,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Exit game
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
       objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}

@@ -117,6 +117,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Save 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
       propertyPath: m_Name
@@ -252,6 +257,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Save 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
       objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
@@ -420,6 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 140a19c4f89c41c44b3de6a407f2a96c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buttonAudioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
   _autoSaveButton: {fileID: 1105866382970734125}
   _Save1Button: {fileID: 4116447145187224689}
   _Save2Button: {fileID: 3695310926140920149}
@@ -541,6 +552,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: AutoSave
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
       objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
@@ -680,6 +696,11 @@ PrefabInstance:
 
 '
       objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
       propertyPath: m_Name
@@ -815,6 +836,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Save 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
       objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}

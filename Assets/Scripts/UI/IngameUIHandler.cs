@@ -12,6 +12,7 @@ public class IngameUIHandler : MonoBehaviour
     private static IngameUIHandler _instance;
 
     [SerializeField] private GameObject _menuButtonGroup;
+    [SerializeField] private AudioEvent _toggleAudioEvent;
     [SerializeField] private Button _buildMenuButton;
     [SerializeField] private GameObject _buildMenu;
     [SerializeField] private Button _tradeMenuButton;
@@ -55,8 +56,14 @@ public class IngameUIHandler : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if(_currentMenu == Menu.None) OpenMenu(Menu.Escape);
-            else OpenMenu(Menu.None);
+            if(_currentMenu == Menu.None)
+            {
+                OpenMenu(Menu.Escape);
+            } 
+            else
+            {
+                OpenMenu(Menu.None);
+            } 
         }
     }
 
@@ -128,6 +135,7 @@ public class IngameUIHandler : MonoBehaviour
     public static void OpenMenu(Menu menu = Menu.None)
     {
         Debug.Log("OpenMenu...");
+        Tools.PlayAudio(null, _instance._toggleAudioEvent);
         if(_instance._currentMenu == menu) OpenMenu(Menu.None);
         else
         {

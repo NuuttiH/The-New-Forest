@@ -121,8 +121,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _messagePrefab: {fileID: 666338766602070206, guid: e61d475fca5c50247b7e65e7e55bd45f,
     type: 3}
-  _messageHeight: 40
-  _maxMessages: 8
 --- !u!1 &706768671768525146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1045,6 +1043,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _menuButtonGroup: {fileID: 706768671768525146}
+  _toggleAudioEvent: {fileID: 11400000, guid: 278170aafe551294bb90c149fc563b7a, type: 2}
   _buildMenuButton: {fileID: 3053686204334064987}
   _buildMenu: {fileID: 4778686748513557729, guid: fa89608fde7d03142b391f5933fe88db,
     type: 3}
@@ -1803,6 +1802,7 @@ MonoBehaviour:
   _speedButton4: {fileID: 2547357754582499922}
   _selectedSprite: {fileID: 21300000, guid: bccd9ab219c243b4f94462492fefd8b1, type: 3}
   _defaultSprite: {fileID: 21300000, guid: 699438bf21bd91e4cb85d41059167669, type: 3}
+  _audioEvent: {fileID: 11400000, guid: e0f963934880041468ae5808a9515b85, type: 2}
 --- !u!1001 &55325305535404929
 PrefabInstance:
   m_ObjectHideFlags: 0

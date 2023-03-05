@@ -117,6 +117,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Autosave
       objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
       propertyPath: m_Name
@@ -252,6 +257,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_text
       value: Save 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
       objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
@@ -389,6 +399,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Save 3
       objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
       propertyPath: m_Name
@@ -525,6 +540,11 @@ PrefabInstance:
       propertyPath: m_text
       value: Save 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
+      objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
       propertyPath: m_Name
@@ -655,6 +675,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_text
+      value: Return
+      objectReference: {fileID: 0}
+    - target: {fileID: 5246560148740441419, guid: 105ec4e41082a144180c73747a8c1b6e,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 50.1
       objectReference: {fileID: 0}
     - target: {fileID: 9156096440418137362, guid: 105ec4e41082a144180c73747a8c1b6e,
         type: 3}
@@ -823,6 +853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7aa57cc86f16841409d6bf56b06ce762, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _buttonAudioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
   _autoSaveButton: {fileID: 4270684694342323408}
   _Save1Button: {fileID: 1765998149039194722}
   _Save2Button: {fileID: 4594254434103290623}

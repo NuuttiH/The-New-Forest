@@ -511,6 +511,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 3767771989420210547, guid: 815bd7cef24305e4e9a9e3af49e374d6,
     type: 3}
+  _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
 --- !u!1 &4684999072814435407
 GameObject:
   m_ObjectHideFlags: 0

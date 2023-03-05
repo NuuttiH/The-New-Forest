@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class EscapeMenu : MonoBehaviour
 {
+    [SerializeField] private AudioEvent _toggleAudioEvent;
+
     [SerializeField] private Button _saveGameButton;
     [SerializeField] private GameObject _saveGameMenu;
 
@@ -36,22 +38,27 @@ public class EscapeMenu : MonoBehaviour
 
     public void OpenSaveMenu()
     {
+        Tools.PlayAudio(null, _toggleAudioEvent);
         Instantiate(_saveGameMenu);
     }
     public void OpenLoadMenu()
     {
+        Tools.PlayAudio(null, _toggleAudioEvent);
         Instantiate(_loadGameMenu);
     }
     public void OpenOptionsMenu()
     {
+        Tools.PlayAudio(null, _toggleAudioEvent);
         Instantiate(_optionsMenu);
     }
     public void ReturnToMenu()
     {
+        Tools.PlayAudio(null, _toggleAudioEvent);
         SceneLoadingManager.LoadLevel("MainMenu");
     }
     public void ExitGame()
     {
+        Tools.PlayAudio(null, _toggleAudioEvent);
         SceneLoadingManager.TryToExit();
     }
 }

@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BuildButton : MonoBehaviour
 {
     public GameObject building;
+    [SerializeField] private AudioEvent _audioEvent;
     private PlaceableObject _buildingScript;
     private Button _button;
 
@@ -40,5 +41,6 @@ public class BuildButton : MonoBehaviour
     {
         BuildingSystem.BlockPlacement();
         BuildingSystem.InitializedWithObject(building);
+        Tools.PlayAudio(null, _audioEvent);
     }
 }

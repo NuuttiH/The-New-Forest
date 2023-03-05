@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class LoadMenu : MonoBehaviour
 {
+    [SerializeField] private AudioEvent _buttonAudioEvent;
     [SerializeField] private Button _autoSaveButton;
 
     [SerializeField] private Button _Save1Button;
@@ -23,9 +24,17 @@ public class LoadMenu : MonoBehaviour
         
         _returnButton.onClick.AddListener( delegate{ Return(); } );
     }
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Return();
+        }
+    }
 
     public void Load(SaveIdentifier saveIdentifier)
     {
+        Tools.PlayAudio(null, _buttonAudioEvent, true);
         SceneLoadingManager.LoadLevel("GameTest", saveIdentifier);
         // TODO Adjust button appearance and text
     }

@@ -78,3 +78,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _scenarioInfo: {fileID: 11400000, guid: b457569d9f8277e41b32d1db614e6899, type: 2}
+  _missionAudioEvent: {fileID: 11400000, guid: 055c08526fe75fb419c04314eee09590, type: 2}
+  _winAudioEvent: {fileID: 11400000, guid: 843b3db9bfef68249aaa67db1efc2a52, type: 2}

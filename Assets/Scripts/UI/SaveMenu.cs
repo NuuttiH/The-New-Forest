@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class SaveMenu : MonoBehaviour
 {
+    [SerializeField] private AudioEvent _buttonAudioEvent;
     [SerializeField] private Button _autoSaveButton;
 
     [SerializeField] private Button _Save1Button;
@@ -23,9 +24,17 @@ public class SaveMenu : MonoBehaviour
         
         _returnButton.onClick.AddListener( delegate{ Return(); } );
     }
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Return();
+        }
+    }
 
     public void Save(SaveIdentifier saveIdentifier)
     {
+        Tools.PlayAudio(null, _buttonAudioEvent);
         SaveManager.SaveData(saveIdentifier);
         // TODO Adjust button appearance and text
     }

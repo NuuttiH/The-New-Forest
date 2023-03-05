@@ -20,6 +20,8 @@ public class MissionManager : MonoBehaviour
 {
     private static MissionManager _instance;
     [SerializeField] private ScenarioInfo _scenarioInfo;
+    [SerializeField] private AudioEvent _missionAudioEvent;
+    [SerializeField] private AudioEvent _winAudioEvent;
     private MissionDisplay _display;
     private int _mainMissionIndex = -1;
     private List<LinkedMissionData>[] _missionLinks;
@@ -143,14 +145,15 @@ public class MissionManager : MonoBehaviour
         foreach(MissionDataGroup group in _instance._activeMissionGroups)
         {
             bool completed = true;
-            if(completed) foreach(MissionData mission in group.missions)
-            {
-                if(mission.currentVal < mission.goalVal)
+            if(completed) 
+                foreach(MissionData mission in group.missions)
                 {
-                    completed = false;
-                    break;
+                    if(mission.currentVal < mission.goalVal)
+                    {
+                        completed = false;
+                        break;
+                    }
                 }
-            }
             if(completed)   // Handle completion of a mission group
             {
                 // Unregister current missions and mission group
@@ -162,6 +165,11 @@ public class MissionManager : MonoBehaviour
                     CompleteMainMission();
                     break;
                 }
+                // Handle completion of regular mission group
+                Tools.PlayAudio(null, _instance._missionAudioEvent);
+                MessageLog.NewMessage(new MessageData(
+                    $"Completed mission: '{group.title}'!", MessageType.Progress));
+
                 // Pick up the next mission group
                 MissionDataGroup nextGroup = _instance._scenarioInfo.missionsData[group.nextMissionId];
                 nextGroup.currentVal++;
@@ -181,6 +189,8 @@ public class MissionManager : MonoBehaviour
         if(group.description != "")
             text += " <size=80%><br>   " + group.description;
         _instance._display.AddMissionGroup(groupIndex, text);
+        MessageLog.NewMessage(new MessageData(
+            $"New mission: '{group.title}'!", MessageType.Progress));
         
         // Register missions
         for(int i=0; i<group.missions.Length; i++)
@@ -216,6 +226,7 @@ public class MissionManager : MonoBehaviour
     }
     private static void CompleteMainMission()
     {
+        Tools.PlayAudio(null, _instance._winAudioEvent);
         Debug.Log("MissionManager.CompleteMainMission()");
     }
 }

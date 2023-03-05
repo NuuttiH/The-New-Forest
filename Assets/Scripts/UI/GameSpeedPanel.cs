@@ -13,6 +13,8 @@ public class GameSpeedPanel : MonoBehaviour
 
     [SerializeField] private Sprite _selectedSprite;
     [SerializeField] private Sprite _defaultSprite;
+    
+    [SerializeField] private AudioEvent _audioEvent;
 
     private GameObject _lastButton;
 
@@ -29,6 +31,7 @@ public class GameSpeedPanel : MonoBehaviour
     {
         _lastButton.GetComponent<Image>().sprite = _defaultSprite;
         button.GetComponent<Image>().sprite = _selectedSprite;
+        Tools.PlayAudio(null, _audioEvent);
         _lastButton = button;
         GameManager.SetGameSpeed(speed);
         MessageLog.NewMessage(new MessageData($"Game speed set to {speed}x."));
