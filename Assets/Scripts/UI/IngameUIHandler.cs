@@ -44,7 +44,7 @@ public class IngameUIHandler : MonoBehaviour
         _currentMenu = Menu.None;
 
         _screenCover.SetActive(false);
-        _screenCover.GetComponent<Button>().onClick.AddListener( delegate{ OpenMenu(Menu.None); } );
+        _screenCover.GetComponent<Button>().onClick.AddListener( delegate{ ScreenCoverClick(); } );
         _buildMenuButton.onClick.AddListener( delegate{ OpenMenu(Menu.Build); } );
         _tradeMenuButton.onClick.AddListener( delegate{ OpenMenu(Menu.Trade); } );
         _escapeButton.onClick.AddListener( delegate{ OpenMenu(Menu.Escape); } );
@@ -132,11 +132,13 @@ public class IngameUIHandler : MonoBehaviour
         }
     }
 
-    public static void OpenMenu(Menu menu = Menu.None)
+    public static void OpenMenu(Menu menu = Menu.None, bool playAudio = true)
     {
         Debug.Log("OpenMenu...");
-        Tools.PlayAudio(null, _instance._toggleAudioEvent);
-        if(_instance._currentMenu == menu) OpenMenu(Menu.None);
+        if(playAudio) Tools.PlayAudio(null, _instance._toggleAudioEvent);
+
+        if(_instance._currentMenu == menu) 
+            OpenMenu(Menu.None);
         else
         {
             GameObject prefab = null;
@@ -175,5 +177,11 @@ public class IngameUIHandler : MonoBehaviour
                 _instance._screenCover.SetActive(false);
             }
         }
+    }
+    public static void ScreenCoverClick()
+    {
+        if(BuildingSystem.IsPlacingBuilding()) return;
+
+        OpenMenu(Menu.None, false);
     }
 }

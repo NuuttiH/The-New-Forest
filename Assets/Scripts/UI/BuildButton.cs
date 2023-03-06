@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class BuildButton : MonoBehaviour
 {
     public GameObject building;
+    [SerializeField] private KeyCode _buildingHotkey;
     [SerializeField] private AudioEvent _audioEvent;
     private PlaceableObject _buildingScript;
     private Button _button;
@@ -24,6 +25,14 @@ public class BuildButton : MonoBehaviour
         Events.onResourceChange -= CheckCost;
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(_buildingHotkey))
+        {
+            TryBuild();
+        }
+    }
+
     public void CheckCost(int a = 0, int b = 0)
     {
         _button.interactable = true;
@@ -39,8 +48,15 @@ public class BuildButton : MonoBehaviour
 
     public void TryBuild()
     {
-        BuildingSystem.BlockPlacement();
-        BuildingSystem.InitializedWithObject(building);
-        Tools.PlayAudio(null, _audioEvent);
+        if(BuildingSystem.IsPlacingBuilding())
+        {
+            BuildingSystem.StopBuilding();
+        } 
+        else
+        {
+            BuildingSystem.BlockPlacement();
+            BuildingSystem.InitializedWithObject(building);
+            Tools.PlayAudio(null, _audioEvent);
+        }
     }
 }

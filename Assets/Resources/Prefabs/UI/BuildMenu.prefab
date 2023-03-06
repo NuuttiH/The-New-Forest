@@ -137,6 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 5638219581471839511, guid: b31b2632048de5a428431ab0b4d248de,
     type: 3}
+  _buildingHotkey: 97
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
 --- !u!1 &2509904010736942048
 GameObject:
@@ -275,6 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 3767771989420210547, guid: 815bd7cef24305e4e9a9e3af49e374d6,
     type: 3}
+  _buildingHotkey: 115
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
 --- !u!1 &2734608131284886764
 GameObject:
@@ -413,6 +415,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 3679878849061053391, guid: cac784ac151aebc439574427b2ffd317,
     type: 3}
+  _buildingHotkey: 116
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
 --- !u!1 &2948563222086600049
 GameObject:
@@ -480,7 +483,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Great tree
+  m_text: <color="blue">G</color="blue">reat tree
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -615,7 +618,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Shrine
+  m_text: S<color="blue">h</color="blue">rine
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -750,7 +753,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Apple tree
+  m_text: <color="blue">A</color="blue">pple tree
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -885,7 +888,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Berry bush
+  m_text: <color="blue">B</color="blue">erry bush
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1136,7 +1139,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Magic altar
+  m_text: <color="blue">M</color="blue">agic altar
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1271,7 +1274,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Spruce
+  m_text: <color="blue">S</color="blue">pruce
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1599,6 +1602,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 3609832211235570136, guid: 27594b72e35fd1b47929f34ec01919cf,
     type: 3}
+  _buildingHotkey: 103
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
 --- !u!1 &6396943537856982352
 GameObject:
@@ -1737,6 +1741,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 3419444868286070047, guid: 3510bb14c4012574fa7e0b3d214a97d0,
     type: 3}
+  _buildingHotkey: 104
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
 --- !u!1 &6419773332784173959
 GameObject:
@@ -1981,6 +1986,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 4929448012335031748, guid: 61d0058f549000341990da75f32573ce,
     type: 3}
+  _buildingHotkey: 98
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
 --- !u!1 &7904757559647402982
 GameObject:
@@ -2119,6 +2125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   building: {fileID: 3487794434585298096, guid: 45e4a534a8262404eb7a15302d2390a3,
     type: 3}
+  _buildingHotkey: 109
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
 --- !u!1 &8521940254574586855
 GameObject:
@@ -2186,7 +2193,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Tent
+  m_text: <color="blue">T</color="blue">ent
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -2859,7 +2866,12 @@ PrefabInstance:
     - target: {fileID: 2096290902064276745, guid: 968af955d453cdd448f0b01a6738dfd9,
         type: 3}
       propertyPath: m_text
-      value: Palm
+      value: <color="blue">P</color="blue">alm
+      objectReference: {fileID: 0}
+    - target: {fileID: 2096290902064276745, guid: 968af955d453cdd448f0b01a6738dfd9,
+        type: 3}
+      propertyPath: m_fontSize
+      value: 27.7
       objectReference: {fileID: 0}
     - target: {fileID: 4588071489748056450, guid: 968af955d453cdd448f0b01a6738dfd9,
         type: 3}
@@ -2897,6 +2909,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4856429299836186312, guid: f154a11873f169e438893414592d0391,
         type: 3}
+    - target: {fileID: 6724585506855102605, guid: 968af955d453cdd448f0b01a6738dfd9,
+        type: 3}
+      propertyPath: _buildingHotkey
+      value: 112
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 968af955d453cdd448f0b01a6738dfd9, type: 3}
 --- !u!224 &4570047615969803284 stripped

@@ -165,4 +165,15 @@ public class BuildingSystem : MonoBehaviour
         yield return new WaitForSecondsRealtime(releaseTime);
         _instance._placementBlock = false;
     }
+
+    public static bool IsPlacingBuilding()
+    {
+        return _instance._objectToPlace != null;
+    }
+
+    public static void StopBuilding()
+    {
+        Destroy(_instance._objectToPlace.gameObject);
+        _instance._objectToPlace = null;
+    }
 }
