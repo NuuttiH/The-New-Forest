@@ -7,10 +7,10 @@ public class SimpleAudioEvent : AudioEvent
 {
 	public AudioClip[] clips;
 
-	public RangedFloat volume = new RangedFloat(0.5f, 0.5f);
+	public RangedFloat volume = new RangedFloat(0.4f, 0.6f);
 
 	[MinMaxRange(0, 2)]
-	public RangedFloat pitch = new RangedFloat(1f, 1f);
+	public RangedFloat pitch = new RangedFloat(0.8f, 1.2f);
 
 	public override void Play(AudioSource source)
 	{

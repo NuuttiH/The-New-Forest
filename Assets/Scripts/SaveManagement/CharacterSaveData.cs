@@ -13,8 +13,7 @@ public class CharacterSaveData
     
     // Data that object needs to keep
     public int characterId;
-    public bool working;
-    public bool moving;
+    public CurrentAction currentAction;
     public Job job;
     public Vector3 targetLocation;
     public float waitTime;
@@ -23,17 +22,15 @@ public class CharacterSaveData
 
     public CharacterSaveData(   Vector3 location, Quaternion rotation, 
                                 string prefabName, int characterId,
-                                bool working, bool moving, 
-                                Job job, Vector3 targetLocation, 
-                                float waitTime, bool cancelJob,
-                                int colorChoice)
+                                CurrentAction currentAction, Job job, 
+                                Vector3 targetLocation, float waitTime, 
+                                bool cancelJob, int colorChoice)
     {
         this.location = location;
         this.rotation = rotation;
         this.prefabName = prefabName;
         this.characterId = characterId;
-        this.working = working;
-        this.moving = moving;
+        this.currentAction = currentAction;
         this.job = job;
         this.targetLocation = targetLocation;
         this.waitTime = waitTime;

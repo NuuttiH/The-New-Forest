@@ -41,7 +41,7 @@ public class MissionDataGroup {
     }*/
 }
 
-[CreateAssetMenu(fileName = "90 ScenarioInfo", menuName = "ObjectInfo/ScenarioInfo")]
+[CreateAssetMenu(fileName = "90 ScenarioInfo", menuName = "ScriptableObject/ObjectInfo/ScenarioInfo")]
 public class ScenarioInfo : ObjectInfo
 {
     public MissionDataGroup mainMission;

@@ -279,6 +279,12 @@ public class GrassSystem : MonoBehaviour
         }
         return true;
     }
+    public static bool HasGrass(Vector3 location)
+    {
+        Vector3Int gridLocation = GridLayout.WorldToCell(location);
+
+        return _instance._fullGrassTiles.Contains(new Vector2Int(gridLocation.x, gridLocation.y));
+    }
     public static TileBase[] GetTilesBlock(BoundsInt area, Tilemap tilemap)
     {
         TileBase[] array = new TileBase[area.size.x * area.size.y * area.size.z];

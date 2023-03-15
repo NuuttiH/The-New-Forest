@@ -16,6 +16,8 @@ public class JobEfficiency {
     }
 }
 
+public enum CurrentAction { WaitingForAction, Moving, Cutting, Gathering, Constructing, Casting, Idle }
+
 public class Villager : MonoBehaviour
 {
     [HideInInspector] public int characterId;
@@ -24,9 +26,9 @@ public class Villager : MonoBehaviour
     [SerializeField] private Animator _animator;
     [SerializeField] private SkinnedMeshRenderer _mesh;
     [SerializeField] private int _colorChoice = 0;
+    [SerializeField] private VillagerAudio _villagerAudio;
 
-    private bool _working;
-    private bool _moving;
+    private CurrentAction _currentAction = CurrentAction.WaitingForAction;
     private Job _job;
     private Vector3 _targetLocation;
     private float _waitTime;
@@ -86,8 +88,6 @@ public class Villager : MonoBehaviour
             if(data == null)
             {
                 characterId = GameManager.GenerateId(IdType.Character, this.gameObject);
-
-                _working = false;
                 _cancelJob = false;
                 // Get colorChoice smh
             }
@@ -96,15 +96,14 @@ public class Villager : MonoBehaviour
                 characterId = data.characterId;
                 GameManager.AddId(IdType.Character, characterId, this.gameObject);
 
-                _working = data.working;
-                _moving = data.moving;
+                _currentAction = data.currentAction;
                 _job = data.job;
                 _targetLocation = data.targetLocation;
                 _waitTime = data.waitTime;
                 _cancelJob = data.cancelJob;
                 SetColor(data.colorChoice);
 
-                if(_moving)
+                if(_currentAction == CurrentAction.Moving)
                 {
                     _agent.SetDestination(_targetLocation);
                     _animator.SetTrigger("IsRunning");
@@ -114,6 +113,7 @@ public class Villager : MonoBehaviour
             GetComponent<OpenPopUpOnClick>().Init();
             StartCoroutine(AILogic());
             StartCoroutine(Upkeep());
+            StartCoroutine(MakeNoise());
         } 
     }
     public CharacterSaveData FormSaveData()
@@ -121,10 +121,9 @@ public class Villager : MonoBehaviour
         return new CharacterSaveData(   
                         gameObject.transform.position, gameObject.transform.rotation, 
                         gameObject.name, characterId,
-                        _working, _moving, 
-                        _job, _targetLocation, 
-                        _waitTime, _cancelJob,
-                        _colorChoice);
+                        _currentAction, _job, 
+                        _targetLocation, _waitTime, 
+                        _cancelJob, _colorChoice);
     }
 
     public void CancelJob(bool val = true)
@@ -142,8 +141,7 @@ public class Villager : MonoBehaviour
         if(_cancelJob)
         {
             Debug.Log("Canceling job...");
-            _working = false;
-            _moving = false;
+            _currentAction = CurrentAction.WaitingForAction;
             _waitTime = 0f;
             _job = null;
             // Reset possible animation triggers
@@ -168,13 +166,13 @@ public class Villager : MonoBehaviour
             yield break;
         }
         
-        if(!_working)   // Try to fetch a new job if unemployed
+        // Try to fetch a new job
+        if(_currentAction == CurrentAction.WaitingForAction)   
         {
             _job = JobManager.AssignJob(this);
             if(_job != null)
             {
-                _working = true;
-                _moving = true;
+                _currentAction = CurrentAction.Moving;
                 _targetLocation = new Vector3(  x: _job.position.x,
                                                 y: transform.position.y,
                                                 z: _job.position.z );
@@ -185,7 +183,7 @@ public class Villager : MonoBehaviour
         }
         else    // On a job
         {
-            if(_moving) // Move towards job, do it if close enough
+            if(_currentAction == CurrentAction.Moving) // Move towards job, do it if close enough
             {
                 float distance = Vector3.Distance(transform.position, _targetLocation);
                 //Debug.Log("Job Distance: " + distance);
@@ -193,16 +191,17 @@ public class Villager : MonoBehaviour
                 if(distance < _job.workDistance) // Close enough, start job
                 {
                     _animator.ResetTrigger("IsRunning");
-                    _moving = false;
                     _waitTime = _job.length * (1f / jobEfficiency[_job.jobType]);
 
                     switch(_job.jobType)
                     {
                         case JobType.Cut:
                             _animator.SetTrigger("IsAttacking");
+                            _currentAction = CurrentAction.Cutting;
                             break;
                         case JobType.Food:
                             _animator.SetTrigger("IsCasting");
+                            _currentAction = CurrentAction.Gathering;
                             break;
                         case JobType.Build:
                             if(_job.resource == Resource.None)
@@ -215,13 +214,16 @@ public class Villager : MonoBehaviour
                                 // Deconstructing
                                 _animator.SetTrigger("IsAttacking");
                             }
+                            _currentAction = CurrentAction.Constructing;
                             break;
                         case JobType.Magic:
                             _animator.SetTrigger("IsCasting");
+                            _currentAction = CurrentAction.Casting;
                             break;
                         case JobType.Idle:
                         default:
                             _animator.SetTrigger("IsDoingIdleAction");
+                            _currentAction = CurrentAction.Idle;
                             break;
                     }
                     // Stop movement
@@ -270,7 +272,7 @@ public class Villager : MonoBehaviour
                         break;
                 }
                 //if(!_job.repeatable) GameManager.RemoveId(IdType.Job, _job.index);
-                _working = false;
+                _currentAction = CurrentAction.WaitingForAction;
                 _waitTime = 0.5f; 
                 _job = null;
                 Events.onJobChange();
@@ -289,6 +291,45 @@ public class Villager : MonoBehaviour
 
             if(_isFed) _agent.speed = _baseSpeed;
             else _agent.speed = 0.6f * _baseSpeed;
+        }
+    }
+
+    IEnumerator MakeNoise()
+    {
+        // Run upkeep once per minute
+        float wait = 0.4f;
+        while(true)
+        {
+            yield return new WaitForSeconds(wait);
+
+            switch(_currentAction)
+            {
+                case CurrentAction.Moving:
+                    if(GrassSystem.HasGrass(this.gameObject.transform.position)) // Check for grass
+                        wait = Tools.PlayAudio(this.gameObject, _villagerAudio.walkingOnGrass);
+                    else
+                        wait = Tools.PlayAudio(this.gameObject, _villagerAudio.walkingOnSand);
+                    break;
+                case CurrentAction.Cutting:
+                    wait = Tools.PlayAudio(this.gameObject, _villagerAudio.cutTrees);
+                    break;
+                case CurrentAction.Gathering:
+                    wait = Tools.PlayAudio(this.gameObject, _villagerAudio.gatheringFood);
+                    break;
+                case CurrentAction.Constructing:
+                    wait = Tools.PlayAudio(this.gameObject, _villagerAudio.construction);
+                    break;
+                case CurrentAction.Casting:
+                    wait = Tools.PlayAudio(this.gameObject, _villagerAudio.magic);
+                    break;
+                case CurrentAction.Idle:
+                    wait = Tools.PlayAudio(this.gameObject, _villagerAudio.idle);
+                    break;
+                case CurrentAction.WaitingForAction:
+                default:
+                    wait = 1.5f;
+                    break;
+            }
         }
     }
 

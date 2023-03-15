@@ -88,6 +88,7 @@ MonoBehaviour:
   _animator: {fileID: 2951248046101126307}
   _mesh: {fileID: 1091487649130957363}
   _colorChoice: 0
+  _villagerAudio: {fileID: 11400000, guid: ecc09893ae15fa94bbb6ddd2fa4453f7, type: 2}
   logicTic: 0.6
   _upkeep:
   - amount: 1
