@@ -6,7 +6,6 @@ using TMPro;
 
 public class PopUpVillager : PopUpMenu
 {
-    [SerializeField] private TextMeshProUGUI _jobText;
     private Villager _villagerScript;
 
     public override void InitAdvanced()
@@ -73,6 +72,6 @@ public class PopUpVillager : PopUpMenu
             GameObject targetObject = GameManager.GetObjectById(IdType.Character, job.targetObjectId);
             jobDescription += targetObject.GetComponent<PlaceableObject>().Name;
         }
-        _jobText.text = jobDescription;
+        _extraText.text = jobDescription;
     }
 }

@@ -102,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _UIPrefab: {fileID: 668391146983977416, guid: 73d37ae9ac269f6429cf62c807a8d81c,
     type: 3}
+  _objectInfo: {fileID: 0}
 --- !u!1 &3710194623499004238
 GameObject:
   m_ObjectHideFlags: 0
@@ -465,6 +466,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _UIPrefab: {fileID: 668391146983977416, guid: 73d37ae9ac269f6429cf62c807a8d81c,
     type: 3}
+  _objectInfo: {fileID: 11400000, guid: 8425c8d8f12f6e64cb051b4c84863ab7, type: 2}
 --- !u!1 &7884387495143614802
 GameObject:
   m_ObjectHideFlags: 0

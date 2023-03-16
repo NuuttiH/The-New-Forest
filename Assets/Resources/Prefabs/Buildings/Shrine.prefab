@@ -116,6 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _UIPrefab: {fileID: 668391146983977416, guid: 73d37ae9ac269f6429cf62c807a8d81c,
     type: 3}
+  _objectInfo: {fileID: 11400000, guid: ee0e13e5f2869d8429fe1a2100f7c6ab, type: 2}
 --- !u!1001 &3419444868892666026
 PrefabInstance:
   m_ObjectHideFlags: 0

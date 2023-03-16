@@ -8,16 +8,24 @@ public class PopUpMenu : MonoBehaviour
 {
     protected GameObject _bossObject;
     protected OpenPopUpOnClick _bossScript;
+    protected ObjectInfo _objectInfo;
+    [SerializeField] protected Image _image;
+    [SerializeField] protected TextMeshProUGUI _textArea;
+    [SerializeField] protected TextMeshProUGUI _extraText;
     [SerializeField] protected Button _exitButton;
     
     
-    public void Init(GameObject bossObject)
+    public void Init(GameObject bossObject, ObjectInfo objectInfo)
     {
         _bossObject = bossObject;
         _bossScript = _bossObject.GetComponent<OpenPopUpOnClick>();
+        _objectInfo = objectInfo;
 
         // Move based on mouse position
 
+        _image.sprite = _objectInfo.sprite;
+        _textArea.text = $"<size=120%>{_objectInfo.name}</size><br><br>{_objectInfo.description}";
+        _extraText.text = "";
         _exitButton.onClick.AddListener( delegate{ _bossScript.CloseOldPopUp(); } );
 
         InitAdvanced(); 
