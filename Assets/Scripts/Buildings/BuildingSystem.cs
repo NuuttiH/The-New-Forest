@@ -13,6 +13,8 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private Tilemap _mainTilemap;
     [SerializeField] private TileBase _whiteTile;
     [SerializeField] private TilemapRenderer _tileMapRenderer;
+    [SerializeField] private Sprite _areaInUseSprite;
+
 
     public GameObject testPrefab;
     public LayerMask groundLayer;
@@ -175,5 +177,10 @@ public class BuildingSystem : MonoBehaviour
     {
         Destroy(_instance._objectToPlace.gameObject);
         _instance._objectToPlace = null;
+    }
+
+    public static Sprite GetAreaInUseSprite()
+    {
+        return _instance._areaInUseSprite;
     }
 }

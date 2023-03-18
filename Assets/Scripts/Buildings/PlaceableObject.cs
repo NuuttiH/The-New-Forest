@@ -42,6 +42,7 @@ public class PlaceableObject : MonoBehaviour
     public Vector3Int Size { get; protected set; }
     protected Vector3Int _startTile;
     protected Vector3[] _vertices;
+    protected GameObject _areaSprite;
 
     [SerializeField] protected bool _requireGrowth = true;
     [SerializeField] protected float _growTime = 1f;
@@ -87,6 +88,10 @@ public class PlaceableObject : MonoBehaviour
             StartCoroutine(EnablePlacement());  
             StartCoroutine(Initialize(null, 0.01f));
         }
+    }
+    void OnDestroy()
+    {
+        Destroy(_areaSprite);
     }
     public void Init(BuildingSaveData data = null, float wait = 0.3f)
     {
@@ -175,8 +180,19 @@ public class PlaceableObject : MonoBehaviour
         Size = new Vector3Int(  x:(Math.Abs((vertices[0] - vertices[1]).x)), 
                                 y:(Math.Abs((vertices[0] - vertices[3]).y)),
                                 z:1);
-        // Fix size into a square which a center cell?
-
+        
+        // Make new _areaSprite object which can be used to display object size
+        _areaSprite = new GameObject("AreaSprite", typeof(SpriteRenderer));
+        // parenting would move this around problematicly
+        _areaSprite.transform.SetParent(this.gameObject.transform, true); 
+        _areaSprite.transform.localPosition = new Vector3(1f, 0.6f, 0f);
+        _areaSprite.transform.localScale = Size;
+        _areaSprite.transform.localRotation = Quaternion.Euler(90, 0, 0);
+        SpriteRenderer sr = _areaSprite.GetComponent<SpriteRenderer>();
+        sr.sprite = BuildingSystem.GetAreaInUseSprite();
+        if(!sr.sprite) Debug.LogError("ERROR: PlacableObject failed to get AreaInUseSprite");
+        sr.color = new Color32(255, 255, 255, 50);
+        _areaSprite.SetActive(false);
     }
 
     public Vector3 GetStartPosition()
@@ -213,9 +229,20 @@ public class PlaceableObject : MonoBehaviour
         
         FinishPlacing();
         this.gameObject.GetComponent<OpenPopUpOnClick>().Init();
-        if(_requireGrowth) StartCoroutine(InitialGrowth());
-        else if(_requireConstruction) StartConstruction();
+        if(_requireGrowth)
+        {
+            _areaSprite.SetActive(true);
+            StartCoroutine(InitialGrowth());
+        }
+        else if(_requireConstruction)
+        {
+            _areaSprite.SetActive(true); 
+            StartConstruction();
+        }
         if(_requireConstruction && !_finishedConstruction) _constructionObject.SetActive(false);
+
+        // Reposition _areaSprite to final location
+        //_areaSprite.transform.localPosition = new Vector3(0f, 0.6f, -1f);
     }
     public void PlaceInStartup()
     {
@@ -247,10 +274,14 @@ public class PlaceableObject : MonoBehaviour
                     adjustedGrowth += _ticSize;
                 }
                 StartCoroutine(ManageGrowth());
+                _areaSprite.SetActive(true); 
             }
         } 
-        else if(_requireConstruction && !_finishedConstruction) StartConstruction();
-        
+        else if(_requireConstruction && !_finishedConstruction) 
+        {
+            _areaSprite.SetActive(true); 
+            StartConstruction();
+        }
         if(_requireConstruction && !_finishedConstruction) _constructionObject.SetActive(false);
     }
     public virtual void FinishPlacing()
@@ -291,6 +322,7 @@ public class PlaceableObject : MonoBehaviour
             if(_spawnGrass) GrassSystem.AddGrassSpawnLocationArea(_startTile, Size);
             if(_growthSpeedIncreasePercent != 0f)
                 GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
+            _areaSprite.SetActive(false);
         }
         MessageLog.NewMessage(new MessageData($"{_objectInfo.name} has finished growing.", 
                                                 MessageType.Unimportant));
@@ -321,6 +353,7 @@ public class PlaceableObject : MonoBehaviour
             else GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
         }
         if(!_requireGrowth) TryTrigger();
+        _areaSprite.SetActive(false);
 
         MessageLog.NewMessage(new MessageData($"{_objectInfo.name} has finished construction.", 
                                                 MessageType.Unimportant));
