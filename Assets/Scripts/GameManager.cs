@@ -145,26 +145,29 @@ public class GameManager : MonoBehaviour
     
     public static void AddResource(Resource resourceType, int amount)
     {
-        int newValue;
+        int oldValue, newValue;
         switch(resourceType)
         {
             case Resource.Food:
+                oldValue = _instance._food;
                 newValue = _instance._food + amount;
-                Events.onFoodChange(_instance._food, newValue);
                 if(newValue > 0) MissionManager.onIncrementMission(MissionGoal.Food, newValue);
                 _instance._food = newValue;
+                Events.onFoodChange(oldValue, newValue);
                 break;
             case Resource.Lumber:
+                oldValue = _instance._lumber;
                 newValue = _instance._lumber + amount;
-                Events.onLumberChange(_instance._lumber, newValue);
                 if(newValue > 0) MissionManager.onIncrementMission(MissionGoal.Lumber, newValue);
                 _instance._lumber = newValue;
+                Events.onLumberChange(oldValue, newValue);
                 break;
             case Resource.Magic:
+                oldValue = _instance._magic;
                 newValue = _instance._magic + amount;
-                Events.onMagicChange(_instance._magic, newValue);
                 if(newValue > 0) MissionManager.onIncrementMission(MissionGoal.Magic, newValue);
                 _instance._magic = newValue;
+                Events.onMagicChange(oldValue, newValue);
                 break;
         }
     }

@@ -25,6 +25,9 @@ public class MessageLog : MonoBehaviour
     private static MessageLog _instance;
 
     [SerializeField] private GameObject _messagePrefab;
+    [SerializeField] private int _messageCap = 12;
+
+    private int _messageCount = 0;
 
     void Awake()
     {
@@ -65,11 +68,17 @@ public class MessageLog : MonoBehaviour
                 break;
         }
 
+        if(_instance._messageCount > _instance._messageCap)
+        {
+            Destroy(_instance.gameObject.transform.GetChild(0).gameObject);
+        }
+
         _instance.StartCoroutine(_instance.HandleMessage(messageData, newMessage));
     }
 
     IEnumerator HandleMessage(MessageData messageData, GameObject obj)
     {
+        _instance._messageCount++;
         float time = messageData.duration * 0.90f;
         yield return new WaitForSeconds(time);
         time = messageData.duration - time;
@@ -79,7 +88,7 @@ public class MessageLog : MonoBehaviour
         float tick = time / tickCount;
         TextMeshProUGUI tmPro = obj.GetComponent<TextMeshProUGUI>();
         Color color = tmPro.color;
-        while(time > 0f)
+        while(time > 0f && obj != null)
         {
             color.a -= (1f / tickCount);
             tmPro.color = color;
@@ -89,6 +98,7 @@ public class MessageLog : MonoBehaviour
         if(obj != null)
         {
             Destroy(obj);
-        } 
+        }
+        _instance._messageCount--;
     }
 }

@@ -29,10 +29,31 @@ public class BuildButton : MonoBehaviour
     {
         if(Input.GetKeyDown(_buildingHotkey))
         {
-            TryBuild();
+            if(CheckCost())
+            {
+                TryBuild();
+            }
+            else
+            {
+                string resourceString = ", insufficient resources: ";
+                bool first = true;
+                foreach(Cost cost in _buildingScript.BuildingCost)
+                {
+                    if(GameManager.GetResource(cost.type) < cost.amount)
+                    {
+                        if(!first) resourceString += ", ";
+                        else first = false;
+
+                        resourceString += $"{cost.type} ({GameManager.GetResource(cost.type)}/{cost.amount})";
+                    }
+                }
+                MessageLog.NewMessage(new MessageData(
+                    $"Can't build '{_buildingScript.Name}'{resourceString}", MessageType.Error));
+            }
         }
     }
 
+    // Delegate version
     public void CheckCost(int a = 0, int b = 0)
     {
         _button.interactable = true;
@@ -44,6 +65,21 @@ public class BuildButton : MonoBehaviour
                 break;
             }
         }
+        Debug.Log($"BuildButton.CheckCost(onResourceChange) for {_buildingScript.Name}, can afford: {_button.interactable}");
+    }
+    public bool CheckCost()
+    {
+        _button.interactable = true;
+        foreach(Cost cost in _buildingScript.BuildingCost)
+        {
+            if(GameManager.GetResource(cost.type) < cost.amount)
+            {
+                _button.interactable = false;
+                break;
+            }
+        }
+        Debug.Log($"BuildButton.CheckCost for {_buildingScript.Name}, can afford: {_button.interactable}");
+        return _button.interactable;
     }
 
     public void TryBuild()
