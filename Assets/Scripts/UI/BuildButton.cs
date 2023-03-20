@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class BuildButton : MonoBehaviour
 {
-    public GameObject building;
+    public GameObject Building;
     [SerializeField] private KeyCode _buildingHotkey;
     [SerializeField] private AudioEvent _audioEvent;
     private PlaceableObject _buildingScript;
@@ -13,7 +13,7 @@ public class BuildButton : MonoBehaviour
 
     void Start()
     {
-        _buildingScript = building.GetComponent<PlaceableObject>();
+        _buildingScript = Building.GetComponent<PlaceableObject>();
         _button = this.gameObject.GetComponent<Button>();
         GetComponent<Button>().onClick.AddListener( delegate{ TryBuild(); } ); 
         CheckCost();
@@ -65,7 +65,7 @@ public class BuildButton : MonoBehaviour
                 break;
             }
         }
-        Debug.Log($"BuildButton.CheckCost(onResourceChange) for {_buildingScript.Name}, can afford: {_button.interactable}");
+        //Debug.Log($"BuildButton.CheckCost(onResourceChange) for {_buildingScript.Name}, can afford: {_button.interactable}");
     }
     public bool CheckCost()
     {
@@ -78,7 +78,7 @@ public class BuildButton : MonoBehaviour
                 break;
             }
         }
-        Debug.Log($"BuildButton.CheckCost for {_buildingScript.Name}, can afford: {_button.interactable}");
+        //Debug.Log($"BuildButton.CheckCost for {_buildingScript.Name}, can afford: {_button.interactable}");
         return _button.interactable;
     }
 
@@ -91,7 +91,7 @@ public class BuildButton : MonoBehaviour
         else
         {
             BuildingSystem.BlockPlacement();
-            BuildingSystem.InitializedWithObject(building);
+            BuildingSystem.InitializedWithObject(Building);
             Tools.PlayAudio(null, _audioEvent);
         }
     }

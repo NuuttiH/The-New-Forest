@@ -25,8 +25,8 @@ public class PopUpMenu : MonoBehaviour
 
         _image.sprite = _objectInfo.sprite;
         _textArea.text = $"<size=120%>{_objectInfo.name}</size><br><br>{_objectInfo.description}";
-        _extraText.text = "";
-        _exitButton.onClick.AddListener( delegate{ _bossScript.CloseOldPopUp(); } );
+        if(_extraText) _extraText.text = "";
+        if(_exitButton) _exitButton.onClick.AddListener( delegate{ _bossScript.CloseOldPopUp(); } );
 
         InitAdvanced(); 
     }

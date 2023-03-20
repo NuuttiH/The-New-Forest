@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3526267214168971455}
   - component: {fileID: 7834921454803113106}
   - component: {fileID: 147247999623262616}
+  - component: {fileID: 1711265644635218297}
   m_Layer: 5
   m_Name: BuildButton (2)
   m_TagString: Untagged
@@ -135,10 +136,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3916ff40256f1ad4f996060eda598f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 5638219581471839511, guid: b31b2632048de5a428431ab0b4d248de,
+  Building: {fileID: 5638219581471839511, guid: b31b2632048de5a428431ab0b4d248de,
     type: 3}
   _buildingHotkey: 97
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+--- !u!114 &1711265644635218297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056605820189452597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962732ca469be1b469a10aa1298f81a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
+    type: 3}
+  _objectInfo: {fileID: 11400000, guid: 716b234ec9d2ca745a19ef642376bb5a, type: 2}
+  _tooltipWaitTime: 2
 --- !u!1 &2509904010736942048
 GameObject:
   m_ObjectHideFlags: 0
@@ -152,6 +169,7 @@ GameObject:
   - component: {fileID: 3483887680910300953}
   - component: {fileID: 2592453415151812402}
   - component: {fileID: 3492327465941321755}
+  - component: {fileID: 4155313946558642096}
   m_Layer: 5
   m_Name: BuildButton (1)
   m_TagString: Untagged
@@ -274,10 +292,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3916ff40256f1ad4f996060eda598f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 3767771989420210547, guid: 815bd7cef24305e4e9a9e3af49e374d6,
+  Building: {fileID: 3767771989420210547, guid: 815bd7cef24305e4e9a9e3af49e374d6,
     type: 3}
   _buildingHotkey: 115
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+--- !u!114 &4155313946558642096
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2509904010736942048}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962732ca469be1b469a10aa1298f81a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
+    type: 3}
+  _objectInfo: {fileID: 11400000, guid: 8f41e7eb4001d8f4f8122fbf14b95e25, type: 2}
+  _tooltipWaitTime: 2
 --- !u!1 &2734608131284886764
 GameObject:
   m_ObjectHideFlags: 0
@@ -291,6 +325,7 @@ GameObject:
   - component: {fileID: 7096535230814059128}
   - component: {fileID: 6911810637096320651}
   - component: {fileID: 5695892012504713400}
+  - component: {fileID: 2437938914236642556}
   m_Layer: 5
   m_Name: BuildButton (1)
   m_TagString: Untagged
@@ -413,10 +448,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3916ff40256f1ad4f996060eda598f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 3679878849061053391, guid: cac784ac151aebc439574427b2ffd317,
+  Building: {fileID: 3679878849061053391, guid: cac784ac151aebc439574427b2ffd317,
     type: 3}
   _buildingHotkey: 116
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+--- !u!114 &2437938914236642556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2734608131284886764}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962732ca469be1b469a10aa1298f81a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
+    type: 3}
+  _objectInfo: {fileID: 11400000, guid: 7f2006b7b2a87444d947ad8100137b3e, type: 2}
+  _tooltipWaitTime: 2
 --- !u!1 &2948563222086600049
 GameObject:
   m_ObjectHideFlags: 0
@@ -1478,6 +1529,7 @@ GameObject:
   - component: {fileID: 9169159043982602144}
   - component: {fileID: 8798754838145169315}
   - component: {fileID: 6157410197552168786}
+  - component: {fileID: 674432846887725829}
   m_Layer: 5
   m_Name: BuildButton (4)
   m_TagString: Untagged
@@ -1600,10 +1652,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3916ff40256f1ad4f996060eda598f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 3609832211235570136, guid: 27594b72e35fd1b47929f34ec01919cf,
+  Building: {fileID: 3609832211235570136, guid: 27594b72e35fd1b47929f34ec01919cf,
     type: 3}
   _buildingHotkey: 103
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+--- !u!114 &674432846887725829
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6088811754387674709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962732ca469be1b469a10aa1298f81a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
+    type: 3}
+  _objectInfo: {fileID: 11400000, guid: 819e6c4a2f600b044bc06c3bb141b125, type: 2}
+  _tooltipWaitTime: 2
 --- !u!1 &6396943537856982352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1617,6 +1685,7 @@ GameObject:
   - component: {fileID: 4350943392401484539}
   - component: {fileID: 1362980068810531701}
   - component: {fileID: 327914194279724512}
+  - component: {fileID: 675915663400045234}
   m_Layer: 5
   m_Name: BuildButton (3)
   m_TagString: Untagged
@@ -1739,10 +1808,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3916ff40256f1ad4f996060eda598f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 3419444868286070047, guid: 3510bb14c4012574fa7e0b3d214a97d0,
+  Building: {fileID: 3419444868286070047, guid: 3510bb14c4012574fa7e0b3d214a97d0,
     type: 3}
   _buildingHotkey: 104
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+--- !u!114 &675915663400045234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6396943537856982352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962732ca469be1b469a10aa1298f81a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
+    type: 3}
+  _objectInfo: {fileID: 11400000, guid: ee0e13e5f2869d8429fe1a2100f7c6ab, type: 2}
+  _tooltipWaitTime: 2
 --- !u!1 &6419773332784173959
 GameObject:
   m_ObjectHideFlags: 0
@@ -1862,6 +1947,7 @@ GameObject:
   - component: {fileID: 4329034000802126759}
   - component: {fileID: 5332171297897356641}
   - component: {fileID: 9083267568701778175}
+  - component: {fileID: 7280216548736348898}
   m_Layer: 5
   m_Name: BuildButton (1)
   m_TagString: Untagged
@@ -1984,10 +2070,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3916ff40256f1ad4f996060eda598f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 4929448012335031748, guid: 61d0058f549000341990da75f32573ce,
+  Building: {fileID: 4929448012335031748, guid: 61d0058f549000341990da75f32573ce,
     type: 3}
   _buildingHotkey: 98
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+--- !u!114 &7280216548736348898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7111627582874095976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962732ca469be1b469a10aa1298f81a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
+    type: 3}
+  _objectInfo: {fileID: 11400000, guid: 9e427421436d8ff4dbaba25d2e1ffcc4, type: 2}
+  _tooltipWaitTime: 2
 --- !u!1 &7904757559647402982
 GameObject:
   m_ObjectHideFlags: 0
@@ -2001,6 +2103,7 @@ GameObject:
   - component: {fileID: 8021815433597098873}
   - component: {fileID: 9038332604859635529}
   - component: {fileID: 355091138173918389}
+  - component: {fileID: 9070367275841460247}
   m_Layer: 5
   m_Name: BuildButton (2)
   m_TagString: Untagged
@@ -2123,10 +2226,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3916ff40256f1ad4f996060eda598f09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  building: {fileID: 3487794434585298096, guid: 45e4a534a8262404eb7a15302d2390a3,
+  Building: {fileID: 3487794434585298096, guid: 45e4a534a8262404eb7a15302d2390a3,
     type: 3}
   _buildingHotkey: 109
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+--- !u!114 &9070367275841460247
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7904757559647402982}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962732ca469be1b469a10aa1298f81a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
+    type: 3}
+  _objectInfo: {fileID: 11400000, guid: 4e37631d9688d5d4b834e37356875ae1, type: 2}
+  _tooltipWaitTime: 2
 --- !u!1 &8521940254574586855
 GameObject:
   m_ObjectHideFlags: 0
@@ -2903,6 +3022,12 @@ PrefabInstance:
       propertyPath: m_text
       value: Lumber production
       objectReference: {fileID: 0}
+    - target: {fileID: 6724585506855102605, guid: 968af955d453cdd448f0b01a6738dfd9,
+        type: 3}
+      propertyPath: Building
+      value: 
+      objectReference: {fileID: 4856429299836186312, guid: f154a11873f169e438893414592d0391,
+        type: 3}
     - target: {fileID: 6724585506855102605, guid: 968af955d453cdd448f0b01a6738dfd9,
         type: 3}
       propertyPath: building

@@ -422,10 +422,10 @@ public class PlaceableObject : MonoBehaviour
 
     public void TryTrigger()
     {
-        Debug.Log("TRYTRIGGER1 Increment");
+        //Debug.Log("TRYTRIGGER1 Increment");
         if(_buildingTrigger != MissionGoal.None)
-            Debug.Log("TRYTRIGGER2 Increment");
+            //Debug.Log("TRYTRIGGER2 Increment");
             MissionManager.onIncrementMission(_buildingTrigger, 1);
-            Debug.Log("TRYTRIGGER3 Increment");
+            //Debug.Log("TRYTRIGGER3 Increment");
     }
 }

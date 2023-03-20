@@ -48,7 +48,7 @@ public class Events : MonoBehaviour
 
     public static void ResourceChangeEvent(int a, int b)
     {
-        Debug.Log("Events.onResourceChange");
+        //Debug.Log("Events.onResourceChange");
         onResourceChange(a, b);
     }
 }
