@@ -11,7 +11,7 @@ public class BuildButton : MonoBehaviour
     private PlaceableObject _buildingScript;
     private Button _button;
 
-    void Awake()
+    void Start()
     {
         _buildingScript = building.GetComponent<PlaceableObject>();
         _button = this.gameObject.GetComponent<Button>();

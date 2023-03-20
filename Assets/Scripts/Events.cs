@@ -37,12 +37,18 @@ public class Events : MonoBehaviour
         onPopLimitChange = delegate {};
         onJobChange = delegate {};
 
-        onFoodChange += Events.onResourceChange;
-        onLumberChange += Events.onResourceChange;
-        onMagicChange += Events.onResourceChange;
+        onFoodChange += ResourceChangeEvent;
+        onLumberChange += ResourceChangeEvent;
+        onMagicChange += ResourceChangeEvent;
 
         #if UNITY_EDITOR
                 Debug.Log("Events.cs: event delegates reset.");
         #endif
+    }
+
+    public static void ResourceChangeEvent(int a, int b)
+    {
+        Debug.Log("Events.onResourceChange");
+        onResourceChange(a, b);
     }
 }
