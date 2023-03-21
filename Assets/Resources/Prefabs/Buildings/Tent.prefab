@@ -93,6 +93,7 @@ MonoBehaviour:
   _constructionObject: {fileID: 4598429761978465229}
   _constructionTime: 10
   _constructionDistance: 6.3
+  _finishedConstruction: 0
   _cuttable: 1
   _cutDownResourceType: 2
   _lumberValue: 1

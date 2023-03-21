@@ -25,7 +25,6 @@ public class GrassSystem : MonoBehaviour
     
     private void Awake()
     {
-        Debug.Log($"GrassSystem: Awake");
         if(_instance == null) _instance = this;
         else
         {
@@ -61,7 +60,7 @@ public class GrassSystem : MonoBehaviour
                     Vector2Int pos2D = new Vector2Int(pos.x, pos.y);
                     _partialGrassTiles.Add(pos2D);
                     _partialGrassTilesSet.Add(pos2D);
-                    Debug.Log($"GrassSystem: Detected grass tile in position: {pos2D.x}, {pos2D.y}");
+                    //Debug.Log($"GrassSystem: Detected grass tile in position: {pos2D.x}, {pos2D.y}");
                 }
             }
 
@@ -91,7 +90,7 @@ public class GrassSystem : MonoBehaviour
 
                 // If no continue triggered, all surroundings tiles also have grass
                 _fullGrassTiles.Add(tilePosition);
-                Debug.Log($"GrassSystem: Detected fully grown position: {tilePosition.x}, {tilePosition.y}");
+                //Debug.Log($"GrassSystem: Detected fully grown position: {tilePosition.x}, {tilePosition.y}");
             }
             foreach(Vector2Int tilePosition in _fullGrassTiles)
             {

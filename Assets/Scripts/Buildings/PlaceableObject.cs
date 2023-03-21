@@ -54,7 +54,7 @@ public class PlaceableObject : MonoBehaviour
     [SerializeField] private GameObject _constructionObject;
     [SerializeField] protected float _constructionTime = 1f;
     [SerializeField] protected float _constructionDistance = 6.3f;
-    protected bool _finishedConstruction = false;
+    [SerializeField] protected bool _finishedConstruction = false;
 
     protected int _cutDownjobIndex;
     protected int _jobIndex;
@@ -99,8 +99,8 @@ public class PlaceableObject : MonoBehaviour
     }
     IEnumerator Initialize(BuildingSaveData data, float wait)
     {
-        if(data == null) Debug.Log($"PlaceableObject.Initialize(null, {wait})");
-        else Debug.Log($"PlaceableObject.Initialize(data, {wait})");
+        //if(data == null) Debug.Log($"PlaceableObject.Initialize(null, {wait})");
+        //else Debug.Log($"PlaceableObject.Initialize(data, {wait})");
         yield return new WaitForSecondsRealtime(wait);
         if(!_initialized)
         {
@@ -117,6 +117,11 @@ public class PlaceableObject : MonoBehaviour
 
                 if(Placed)
                 {
+                    // Reposition to grid to fix preset objects
+                    transform.position = BuildingSystem.SnapCoordinateToGrid(
+                        this.transform.position);
+                    GetColliderVertexPositionsLocal();
+                    CalculateSizeInCells(true);
                     // Placed during startup but no save data -> default object
                     PlaceInStartup();
                     if(_growthProgress >= 1f) FinishGrowth();
@@ -167,7 +172,7 @@ public class PlaceableObject : MonoBehaviour
         _vertices[3] = b.center + new Vector3(-b.size.x, -b.size.y, b.size.z) * 0.5f;
     }
 
-    private void CalculateSizeInCells()
+    private void CalculateSizeInCells(bool drawLaser = false)
     {
         Vector3Int[] vertices = new Vector3Int[_vertices.Length];
 
@@ -177,15 +182,26 @@ public class PlaceableObject : MonoBehaviour
             vertices[i] = BuildingSystem.GridLayout.WorldToCell(worldPos);
         }
 
-        Size = new Vector3Int(  x:(Math.Abs((vertices[0] - vertices[1]).x)), 
-                                y:(Math.Abs((vertices[0] - vertices[3]).y)),
+        Size = new Vector3Int(  x:(Math.Abs(vertices[0].x - vertices[1].x)), 
+                                y:(Math.Abs(vertices[0].y - vertices[3].y)),
                                 z:1);
+
+        if(drawLaser)
+        {
+            Debug.DrawLine(transform.TransformPoint(_vertices[0]), transform.TransformPoint(_vertices[1]), Color.black, 150f, false);
+            Debug.DrawLine(transform.TransformPoint(_vertices[1]), transform.TransformPoint(_vertices[2]), Color.black, 150f, false);
+            Debug.DrawLine(transform.TransformPoint(_vertices[2]), transform.TransformPoint(_vertices[3]), Color.black, 150f, false);
+            Debug.DrawLine(transform.TransformPoint(_vertices[3]), transform.TransformPoint(_vertices[0]), Color.black, 150f, false);
+        }
         
         // Make new _areaSprite object which can be used to display object size
         _areaSprite = new GameObject("AreaSprite", typeof(SpriteRenderer));
         // parenting would move this around problematicly
         _areaSprite.transform.SetParent(this.gameObject.transform, true); 
-        _areaSprite.transform.localPosition = new Vector3(1f, 0.6f, 0f);
+        Vector3 newPos = new Vector3(0f, 0.6f, 0f);
+        if(Size.x % 2 == 0) newPos.x = 1.25f;
+        if(Size.y % 2 == 0) newPos.z -= 1.25f;
+        _areaSprite.transform.localPosition = newPos;
         _areaSprite.transform.localScale = Size;
         _areaSprite.transform.localRotation = Quaternion.Euler(90, 0, 0);
         SpriteRenderer sr = _areaSprite.GetComponent<SpriteRenderer>();
@@ -264,6 +280,7 @@ public class PlaceableObject : MonoBehaviour
         // Adjust growth to match savedata if still growing
         if(_requireGrowth)
         {
+            _areaSprite.SetActive(true); 
             if(_growthProgress < 1f)
             {
                 transform.localScale = (_originalScale * _ticSize);
@@ -273,14 +290,17 @@ public class PlaceableObject : MonoBehaviour
                     transform.localScale += (_originalScale * _ticSize);
                     adjustedGrowth += _ticSize;
                 }
-                StartCoroutine(ManageGrowth());
-                _areaSprite.SetActive(true); 
             }
+            StartCoroutine(ManageGrowth());
         } 
-        else if(_requireConstruction && !_finishedConstruction) 
+        else if(_requireConstruction) 
         {
-            _areaSprite.SetActive(true); 
-            StartConstruction();
+            if(!_finishedConstruction)
+            {
+                _areaSprite.SetActive(true); 
+                StartConstruction();
+            }
+            else FinishConstruction();
         }
         if(_requireConstruction && !_finishedConstruction) _constructionObject.SetActive(false);
     }
@@ -307,6 +327,7 @@ public class PlaceableObject : MonoBehaviour
             yield return new WaitForSeconds(
                 1f / GameManager.GetGrowthMultiplier() * _growTime / _growthTics);
             transform.localScale += (_originalScale * _ticSize);
+            if(transform.localScale.x > _originalScale.x) transform.localScale = _originalScale;
             _growthProgress += _ticSize;
         }
         // Default behaviour for finishing growth

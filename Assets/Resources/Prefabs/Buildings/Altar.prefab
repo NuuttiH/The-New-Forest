@@ -1657,8 +1657,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 7, y: 12, z: 8}
-  m_Center: {x: 0, y: 6, z: -0.5}
+  m_Size: {x: 7.65, y: 12, z: 7.65}
+  m_Center: {x: 0, y: 6, z: 0}
 --- !u!208 &2545418304996979187
 NavMeshObstacle:
   m_ObjectHideFlags: 0
@@ -1703,6 +1703,7 @@ MonoBehaviour:
   _constructionObject: {fileID: 5855947613825071262}
   _constructionTime: 5
   _constructionDistance: 6.3
+  _finishedConstruction: 0
   _cuttable: 1
   _cutDownResourceType: 2
   _lumberValue: 1
