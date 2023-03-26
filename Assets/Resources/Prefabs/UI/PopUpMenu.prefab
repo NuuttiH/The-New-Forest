@@ -428,6 +428,9 @@ MonoBehaviour:
   _textArea: {fileID: 1377368023579501153}
   _extraText: {fileID: 3014463523554978764}
   _exitButton: {fileID: 3535977920455083141}
+  _foodInfo: {fileID: 0}
+  _lumberInfo: {fileID: 0}
+  _magicInfo: {fileID: 0}
 --- !u!1 &8616211359894825034
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,7 +859,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -14, y: -14}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &928221463862914515
 CanvasRenderer:

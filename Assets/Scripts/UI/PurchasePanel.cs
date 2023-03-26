@@ -14,7 +14,7 @@ public class PurchasePanel : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _costTMP;
 
     [SerializeField] private ObjectInfo _targetObjectInfo;
-    [SerializeField] private Cost[] _cost;
+    public Cost[] Cost;
     [SerializeField] private RewardType _rewardType;
     [SerializeField] private Resource _rewardResourceType;
     [SerializeField] private float _reward;
@@ -28,12 +28,12 @@ public class PurchasePanel : MonoBehaviour
         this.gameObject.GetComponent<Button>().onClick.AddListener( HandlePurchase );
         _targetImage.sprite = _targetObjectInfo.sprite;
         _targetTMP.text = _targetObjectInfo.name;
-        _costTMP.text = $"{_cost[0].amount}x lumber";
+        _costTMP.text = $"{Cost[0].amount}x lumber";
     }
 
     private void HandlePurchase()
     {
-        bool success = GameManager.TryPay(_cost);
+        bool success = GameManager.TryPay(Cost);
 
         if(success)
         {

@@ -4,18 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class PopUpBuildingTooltip : PopUpMenu
+public class PopUpGenericTooltip : PopUpMenu
 {
     [SerializeField] private GameObject _resourcePanel;
     private GameObject _resourceObject;
-    private PlaceableObject _placeableObject;
+    private PurchasePanel _purchasePanel;
 
     public override void InitAdvanced()
     {
-        _placeableObject = _bossObject.GetComponent<BuildButton>().Building.GetComponent<PlaceableObject>();
+        _purchasePanel = _bossObject.GetComponent<PurchasePanel>();
 
         bool first = true;
-        foreach(Cost cost in _placeableObject.BuildingCost)
+        foreach(Cost cost in _purchasePanel.Cost)
         {
             if(first)
             {

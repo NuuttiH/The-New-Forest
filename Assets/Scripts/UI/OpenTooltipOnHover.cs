@@ -7,7 +7,7 @@ public class OpenTooltipOnHover : MonoBehaviour, IPointerEnterHandler, IPointerE
 {
     [SerializeField] private GameObject _UIPrefab;
     [SerializeField] private ObjectInfo _objectInfo;
-    [SerializeField] private float _tooltipWaitTime = 2f;
+    [SerializeField] private float _tooltipWaitTime = 1.5f;
     private PopUpMenu _popUpMenu;
     private float _lastChange;
 
