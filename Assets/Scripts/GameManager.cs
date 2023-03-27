@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     private int _magic;
     private float _growthSpeedPercent = 100f;
     private int _populationLimit;
+    private float _traderSpeed;
+    private List<bool> _flags;
 
     private int _objectId;
     private HashSet<int> _objectIds;
@@ -89,6 +91,8 @@ public class GameManager : MonoBehaviour
             MissionManager.Init(Instantiate(_scenarioInfo));
         }
         else MissionManager.Init(Instantiate(game.scenarioInfo));
+        _traderSpeed = game.traderSpeed;
+        _flags = game.flags;
 
         FinishedLoading = true;
         yield return new WaitForSeconds(0.4f);
@@ -364,6 +368,17 @@ public class GameManager : MonoBehaviour
     public static int GetPopulationLimit()
     {
         return _instance._populationLimit;
+    }
+    public static void AdjustTraderSpeed(float val)
+    {
+        Debug.Log($"GameManager.AdjustTraderSpeed({val})");
+        float newValue = _instance._traderSpeed + val;
+        Events.onTraderSpeedChange(_instance._traderSpeed, newValue);
+        _instance._traderSpeed = newValue;
+    }
+    public static float GetTraderSpeed()
+    {
+        return (1f / _instance._traderSpeed);
     }
 
     public static void SetGameSpeed(float newSpeed)

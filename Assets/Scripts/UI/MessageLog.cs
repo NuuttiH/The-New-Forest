@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public enum MessageType {Default, Error, Progress, Unimportant}
+public enum MessageType {Default, Error, Progress, Unimportant, Upgrade}
 
 [System.Serializable]
 public class MessageData

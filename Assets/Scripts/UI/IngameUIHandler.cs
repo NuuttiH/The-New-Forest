@@ -49,7 +49,14 @@ public class IngameUIHandler : MonoBehaviour
         _tradeMenuButton.onClick.AddListener( delegate{ OpenMenu(Menu.Trade); } );
         _escapeButton.onClick.AddListener( delegate{ OpenMenu(Menu.Escape); } );
 
+        _tradeMenuButton.interactable = _tradersAvailable;
+
+        Events.onTraderSpeedChange += AdjustTraderTimer;
         StartCoroutine(TimeManagement());
+    }
+    void OnDestroy()
+    {
+        Events.onTraderSpeedChange -= AdjustTraderTimer;
     }
 
     void Update()
@@ -106,7 +113,7 @@ public class IngameUIHandler : MonoBehaviour
                     else // Make trade menu unavailable
                     {
                         if(_currentMenu == Menu.Trade) OpenMenu();
-                        _secondsTrade = 300;    // TODO proper data sourcing
+                        _secondsTrade = (int)(300 * GameManager.GetTraderSpeed());
                     } 
 
                     while(_secondsTrade >= 60)
@@ -183,5 +190,18 @@ public class IngameUIHandler : MonoBehaviour
         if(BuildingSystem.IsPlacingBuilding()) return;
 
         OpenMenu(Menu.None, false);
+    }
+
+    public void AdjustTraderTimer(float oldValue, float newValue)
+    {
+        Debug.Log($"IngameUIHandler.AdjustTraderTimer({oldValue}, {newValue})");
+        int secondAdjustment = (int)(300f * oldValue - 300f * newValue);
+
+        _secondsTrade -= secondAdjustment;
+        while(_secondsTrade <= 0)
+        {
+            _minutesTrade--;
+            _secondsTrade += 60;
+        }
     }
 }

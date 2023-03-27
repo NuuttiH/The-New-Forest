@@ -1085,6 +1085,28 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 48.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _reward
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _rewardType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _targetObjectInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 0760f3020aea9cf45b4fc6470571c2ce,
+        type: 2}
+    - target: {fileID: 5828412378412755832, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _objectInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 0760f3020aea9cf45b4fc6470571c2ce,
+        type: 2}
     - target: {fileID: 5906187993389634711, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: m_Name

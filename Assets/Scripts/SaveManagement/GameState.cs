@@ -20,6 +20,8 @@ public class GameState
     public List<Vector2Int> extraGrassSpawnLocations;
     public bool isSave;
     public ScenarioInfo scenarioInfo;
+    public float traderSpeed;
+    public List<bool> flags;
 
     public GameState(   int food, int lumber, int magic, 
                         int objectId, int characterId, int jobId,
@@ -39,6 +41,8 @@ public class GameState
         this.extraGrassSpawnLocations = new List<Vector2Int>();
         this.isSave = isSave;
         this.scenarioInfo = null;
+        this.traderSpeed = 1f;
+        this.flags = new List<bool>();
     }
 
     public GameState()
@@ -57,5 +61,7 @@ public class GameState
         this.extraGrassSpawnLocations = new List<Vector2Int>();
         this.isSave = false;
         this.scenarioInfo = null;
+        this.traderSpeed = 1f;
+        this.flags = new List<bool>();
     }
 }

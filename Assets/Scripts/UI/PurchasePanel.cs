@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public enum RewardType { None, Resource, Villager, Modifier }
+public enum RewardType { None, Resource, Villager, Flag, TraderSpeed}
 
 public class PurchasePanel : MonoBehaviour
 {
@@ -45,8 +45,14 @@ public class PurchasePanel : MonoBehaviour
                 case RewardType.Villager:
                     Instantiate(_rewardPrefab, GameManager.Characters.transform);
                     break;
-                case RewardType.Modifier:
+                case RewardType.Flag:
                     // TODO
+                    break;
+                case RewardType.TraderSpeed:
+                    GameManager.AdjustTraderSpeed(_reward);
+                    MessageLog.NewMessage(new MessageData(
+                        $"Traders travelling speed has been increased!", 
+                        MessageType.Upgrade));
                     break;
             }
         }
