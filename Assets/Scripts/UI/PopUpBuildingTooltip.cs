@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using TMPro;
 
-public class PopUpBuildingTooltip : PopUpMenu
+public class PopUpBuildingTooltip : PopUpMenu, IPointerEnterHandler, IPointerExitHandler
 {
     [SerializeField] private GameObject _resourcePanel;
     private GameObject _resourceObject;
     private PlaceableObject _placeableObject;
+    private OpenTooltipOnHover _hoverScript;
 
     public override void InitAdvanced()
     {
         _placeableObject = _bossObject.GetComponent<BuildButton>().Building.GetComponent<PlaceableObject>();
+        _hoverScript = _bossObject.GetComponent<OpenTooltipOnHover>();
 
         bool first = true;
         foreach(Cost cost in _placeableObject.BuildingCost)
@@ -36,5 +39,16 @@ public class PopUpBuildingTooltip : PopUpMenu
                     text = cost.amount.ToString();
             }
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Debug.Log("PopUpGenericTooltip.OnPointerEnter()");
+        _hoverScript.SetTooltipHoverState(true);
+    }
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Debug.Log("PopUpGenericTooltip.OnPointerExit()");
+        _hoverScript.SetTooltipHoverState(false);
     }
 }

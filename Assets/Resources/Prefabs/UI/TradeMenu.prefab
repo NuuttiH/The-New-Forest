@@ -62,14 +62,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bccd9ab219c243b4f94462492fefd8b1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a1013d150c59d9b44a93d3d64948fdb3, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -283,14 +283,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bccd9ab219c243b4f94462492fefd8b1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a1013d150c59d9b44a93d3d64948fdb3, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -510,7 +510,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -726,14 +726,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bccd9ab219c243b4f94462492fefd8b1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a1013d150c59d9b44a93d3d64948fdb3, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -787,6 +787,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 49b4b172a9ca7c447b57f2862bd22c34,
         type: 2}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: Cost.Array.data[0].amount
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: _cost.Array.data[0].amount
@@ -941,6 +946,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
+      propertyPath: Cost.Array.data[0].amount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
       propertyPath: _cost.Array.data[0].amount
       value: 6
       objectReference: {fileID: 0}
@@ -1080,6 +1090,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8603716850326714846}
     m_Modifications:
+    - target: {fileID: 259095682199133975, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 863346460570962607, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: m_fontSize
@@ -1101,6 +1116,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0760f3020aea9cf45b4fc6470571c2ce,
         type: 2}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: Cost.Array.data[0].amount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5828412378412755832, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: _objectInfo
@@ -1242,10 +1262,25 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 48.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: Cost.Array.data[0].type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: Cost.Array.data[0].amount
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5906187993389634711, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: m_Name
       value: PurchasePanel (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906187993389634711, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7236662606500981864, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
@@ -1372,15 +1407,35 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8603716850326714846}
     m_Modifications:
+    - target: {fileID: 259095682199133975, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 863346460570962607, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: m_fontSize
       value: 48.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: Cost.Array.data[0].type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: Cost.Array.data[0].amount
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5906187993389634711, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: m_Name
       value: PurchasePanel (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906187993389634711, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7236662606500981864, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
@@ -1512,10 +1567,25 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 48.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: Cost.Array.data[0].type
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: Cost.Array.data[0].amount
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 5906187993389634711, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: m_Name
       value: PurchasePanel (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5906187993389634711, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7236662606500981864, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
@@ -1642,6 +1712,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3745530988546224707}
     m_Modifications:
+    - target: {fileID: 259095682199133975, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 863346460570962607, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: m_fontSize
@@ -1653,6 +1728,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 02f569e810187134a8eb85398c8dbffb,
         type: 2}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: Cost.Array.data[0].amount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: _cost.Array.data[0].amount
@@ -1794,6 +1874,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3745530988546224707}
     m_Modifications:
+    - target: {fileID: 259095682199133975, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 863346460570962607, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: m_fontSize
@@ -1805,6 +1890,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 632db203640ddca47aee45faa3cb782c,
         type: 2}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: Cost.Array.data[0].amount
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: _cost.Array.data[0].amount

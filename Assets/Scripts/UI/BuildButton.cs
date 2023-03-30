@@ -15,7 +15,7 @@ public class BuildButton : MonoBehaviour
     {
         _buildingScript = Building.GetComponent<PlaceableObject>();
         _button = this.gameObject.GetComponent<Button>();
-        GetComponent<Button>().onClick.AddListener( delegate{ TryBuild(); } ); 
+        _button.onClick.AddListener( delegate{ TryBuild(); } ); 
         CheckCost();
         Events.onResourceChange += CheckCost;
     }
@@ -56,28 +56,12 @@ public class BuildButton : MonoBehaviour
     // Delegate version
     public void CheckCost(int a = 0, int b = 0)
     {
-        _button.interactable = true;
-        foreach(Cost cost in _buildingScript.BuildingCost)
-        {
-            if(GameManager.GetResource(cost.type) < cost.amount)
-            {
-                _button.interactable = false;
-                break;
-            }
-        }
+        _button.interactable = Tools.CheckCost(_buildingScript.BuildingCost);
         //Debug.Log($"BuildButton.CheckCost(onResourceChange) for {_buildingScript.Name}, can afford: {_button.interactable}");
     }
     public bool CheckCost()
     {
-        _button.interactable = true;
-        foreach(Cost cost in _buildingScript.BuildingCost)
-        {
-            if(GameManager.GetResource(cost.type) < cost.amount)
-            {
-                _button.interactable = false;
-                break;
-            }
-        }
+        _button.interactable = Tools.CheckCost(_buildingScript.BuildingCost);
         //Debug.Log($"BuildButton.CheckCost for {_buildingScript.Name}, can afford: {_button.interactable}");
         return _button.interactable;
     }

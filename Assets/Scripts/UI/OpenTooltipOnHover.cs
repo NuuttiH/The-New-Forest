@@ -10,28 +10,33 @@ public class OpenTooltipOnHover : MonoBehaviour, IPointerEnterHandler, IPointerE
     [SerializeField] private float _tooltipWaitTime = 1.5f;
     private PopUpMenu _popUpMenu;
     private float _lastChange;
+    private bool _objectHoverState;
+    private bool _tooltipHoverState;
 
 
     void Start()
     {
         _popUpMenu = null;
+        _objectHoverState = false;
+        _tooltipHoverState = false;
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         Debug.Log("OpenTooltipOnHover.OnPointerEnter()");
+        _objectHoverState = true;
         _lastChange = Time.time;
         StartCoroutine(TryOpenPopup(_lastChange));
     }
     public void OnPointerExit(PointerEventData eventData)
     {
         Debug.Log("OpenTooltipOnHover.OnPointerExit()");
+        _objectHoverState = false;
         _lastChange = Time.time;
 
-        if(_popUpMenu)
+        if(_popUpMenu && !_tooltipHoverState)
         {
-            Destroy(_popUpMenu.gameObject);
-            _popUpMenu = null;
+            StartCoroutine(CloseOldPopUpDelay());
         }
     }
 
@@ -62,6 +67,26 @@ public class OpenTooltipOnHover : MonoBehaviour, IPointerEnterHandler, IPointerE
         {
             Destroy(_popUpMenu.gameObject);
             _popUpMenu = null;
+        }
+    }
+    IEnumerator CloseOldPopUpDelay(float time = 0.1f)
+    {
+        yield return new WaitForSecondsRealtime(time);
+
+        if(_popUpMenu && !_objectHoverState && !_tooltipHoverState)
+        {
+            Destroy(_popUpMenu.gameObject);
+            _popUpMenu = null;
+        }
+    }
+
+    public void SetTooltipHoverState(bool state)
+    {
+        _tooltipHoverState = state;
+
+        if(!state && _popUpMenu && !_objectHoverState)
+        {
+            StartCoroutine(CloseOldPopUpDelay());
         }
     }
 }

@@ -20,15 +20,26 @@ public class PurchasePanel : MonoBehaviour
     [SerializeField] private float _reward;
     [SerializeField] private GameObject _rewardPrefab;
     [SerializeField] private string _rewardString;
+    private Button _button;
     
     void Start()
     {
         if(_targetObjectInfo == null) return;
 
-        this.gameObject.GetComponent<Button>().onClick.AddListener( HandlePurchase );
+        _button = this.gameObject.GetComponent<Button>();
+        _button.onClick.AddListener( HandlePurchase );
+
         _targetImage.sprite = _targetObjectInfo.sprite;
         _targetTMP.text = _targetObjectInfo.name;
         _costTMP.text = $"{Cost[0].amount}x lumber";
+        
+        Events.onResourceChange += CheckCost;
+        CheckCost();
+    }
+
+    void OnDestroy()
+    {
+        Events.onResourceChange -= CheckCost;
     }
 
     private void HandlePurchase()
@@ -60,5 +71,13 @@ public class PurchasePanel : MonoBehaviour
         {
             Debug.Log($"HandlePurchase() for {_targetObjectInfo.name} failed");
         }
+    }
+
+    
+    // Delegate version
+    public void CheckCost(int a = 0, int b = 0)
+    {
+        _button.interactable = Tools.CheckCost(Cost);
+        //Debug.Log($"PurchasePanel.CheckCost(onResourceChange) for {_targetObjectInfo.Name}, can afford: {_button.interactable}");
     }
 }

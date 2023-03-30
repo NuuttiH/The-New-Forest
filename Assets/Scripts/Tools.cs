@@ -4,6 +4,8 @@ using UnityEngine;
 
 public static class Tools
 {
+    // Game mechanic functions
+
     public static float PlayAudio(GameObject parent, AudioEvent audio, bool dontDestroyOnLoad = false)
     {
         var audioPlayer = new GameObject("AudioPlayer", typeof (AudioSource)).GetComponent<AudioSource>();
@@ -18,6 +20,22 @@ public static class Tools
         //Debug.Log($"Tools.PlayAudio({parent.name}, {audio.name}, {dontDestroyOnLoad})");
         return duration;
     }
+
+    public static bool CheckCost(Cost[] costs)
+    {
+        bool val = true;
+        foreach(Cost cost in costs)
+        {
+            if(GameManager.GetResource(cost.type) < cost.amount)
+            {
+                val = false;
+                break;
+            }
+        }
+        return val;
+    }
+
+    // UI functions
 
     // Returns coordinates of specified corner of a game object
     public static Vector2 GetCorner(GameObject gameObject, Corner corner)
@@ -48,8 +66,6 @@ public static class Tools
         }
         return cornerPosition;
     }
-
-    // UI functions
 
     // TODO Improve panel position 
     public static void AdjustPanelPlacementInCanvasToMousePos(Canvas canvas, GameObject panel)
