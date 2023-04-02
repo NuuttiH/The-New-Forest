@@ -783,6 +783,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
+      propertyPath: _rewardType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _rewardPrefab
+      value: 
+      objectReference: {fileID: 1678041131439982838, guid: 1af3283d7e6571d44920e214b3fb59e3,
+        type: 3}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
       propertyPath: _targetObjectInfo
       value: 
       objectReference: {fileID: 11400000, guid: 49b4b172a9ca7c447b57f2862bd22c34,
@@ -938,6 +949,17 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 48.5
       objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _rewardType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _rewardPrefab
+      value: 
+      objectReference: {fileID: 6767573787961398426, guid: 6ab6304a1b941994d97cafe9b339bbbd,
+        type: 3}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: _targetObjectInfo
@@ -1724,10 +1746,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
+      propertyPath: _reward
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _rewardType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
       propertyPath: _targetObjectInfo
       value: 
       objectReference: {fileID: 11400000, guid: 02f569e810187134a8eb85398c8dbffb,
         type: 2}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _rewardResourceType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: Cost.Array.data[0].amount
@@ -1886,10 +1923,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
+      propertyPath: _reward
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _rewardType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
       propertyPath: _targetObjectInfo
       value: 
       objectReference: {fileID: 11400000, guid: 632db203640ddca47aee45faa3cb782c,
         type: 2}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _rewardResourceType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: Cost.Array.data[0].amount

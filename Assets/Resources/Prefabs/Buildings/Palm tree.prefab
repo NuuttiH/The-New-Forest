@@ -438,11 +438,12 @@ MonoBehaviour:
   _requireGrowth: 1
   _growTime: 10
   _growthTics: 3
-  _growthProgress: 1
+  _growthProgress: 0
   _requireConstruction: 0
   _constructionObject: {fileID: 0}
   _constructionTime: 1
   _constructionDistance: 6.3
+  _finishedConstruction: 0
   _cuttable: 1
   _cutDownResourceType: 2
   _lumberValue: 1

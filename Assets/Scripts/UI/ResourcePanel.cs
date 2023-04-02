@@ -122,8 +122,6 @@ public class ResourcePanel : MonoBehaviour
                 if(change > 0) _resourceGain += change;
                 break;
             case PanelType.PopulationLimit:
-                int usedHousing = GameManager.GetVillagerCount();
-                _textField.text = $"{usedHousing}/{newValue}";
                 break; 
             default: 
                 break;

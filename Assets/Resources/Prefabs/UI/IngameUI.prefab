@@ -121,6 +121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _messagePrefab: {fileID: 666338766602070206, guid: e61d475fca5c50247b7e65e7e55bd45f,
     type: 3}
+  _messageCap: 12
 --- !u!1 &706768671768525146
 GameObject:
   m_ObjectHideFlags: 0
@@ -1056,6 +1057,8 @@ MonoBehaviour:
     type: 3}
   _screenCover: {fileID: 8017895712549919041}
   _timeText: {fileID: 5128512136258557091}
+  _traderArrival: {fileID: 11400000, guid: dc31ffbc6252d7446bce56c42590c7c3, type: 2}
+  _traderDeparture: {fileID: 11400000, guid: aec62c1648e037e49b21dd08a23dd219, type: 2}
 --- !u!1 &4117513078823114237
 GameObject:
   m_ObjectHideFlags: 0

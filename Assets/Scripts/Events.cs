@@ -16,7 +16,7 @@ public class Events : MonoBehaviour
     public static Action<int, int> onLumberChange = delegate {};
     public static Action<int, int> onMagicChange = delegate {};
     public static Action<float, float> onGrowthModChange = delegate {};
-    public static Action<int, int> onPopLimitChange = delegate {};
+    public static Action onPopLimitChange = delegate {};
     public static Action onJobChange = delegate {};
     public static Action onVillagerCountChange = delegate {};
     public static Action<float, float> onTraderSpeedChange = delegate {};

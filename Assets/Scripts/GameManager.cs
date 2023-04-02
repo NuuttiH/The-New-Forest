@@ -362,8 +362,8 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"GameManager.AdjustPopulationLimit({val})");
         int newValue = _instance._populationLimit + val;
-        Events.onPopLimitChange(_instance._populationLimit, newValue);
         _instance._populationLimit = newValue;
+        Events.onPopLimitChange();
     }
     public static int GetPopulationLimit()
     {

@@ -22,6 +22,8 @@ public class IngameUIHandler : MonoBehaviour
     [SerializeField] private GameObject _escapeMenu;
     [SerializeField] private GameObject _screenCover;
     [SerializeField] private TextMeshProUGUI _timeText;
+    [SerializeField] private AudioEvent _traderArrival;
+    [SerializeField] private AudioEvent _traderDeparture;
     private int _seconds = 0;
     private int _minutes = 0;
     private int _hours = 0;
@@ -108,6 +110,10 @@ public class IngameUIHandler : MonoBehaviour
                     _minutesTrade = 0;
                     _tradersAvailable = !_tradersAvailable;
                     _tradeMenuButton.interactable = _tradersAvailable;
+                    if(_tradersAvailable)
+                        Tools.PlayAudio(null, _traderArrival);
+                    else
+                        Tools.PlayAudio(null, _traderDeparture);
 
                     if(_tradersAvailable) _secondsTrade = 100;
                     else // Make trade menu unavailable
