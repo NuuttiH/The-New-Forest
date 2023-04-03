@@ -8,6 +8,7 @@ public class BuildButton : MonoBehaviour
     public GameObject Building;
     [SerializeField] private KeyCode _buildingHotkey;
     [SerializeField] private AudioEvent _audioEvent;
+    [SerializeField] private int _requiredFlag = -1;
     private PlaceableObject _buildingScript;
     private Button _button;
 
@@ -17,7 +18,11 @@ public class BuildButton : MonoBehaviour
         _button = this.gameObject.GetComponent<Button>();
         _button.onClick.AddListener( delegate{ TryBuild(); } ); 
         CheckCost();
+
         Events.onResourceChange += CheckCost;
+
+        if(_requiredFlag != -1 && !GameManager.GetFlag(_requiredFlag)) 
+            Destroy(this.gameObject);
     }
 
     void OnDestroy()
@@ -52,6 +57,7 @@ public class BuildButton : MonoBehaviour
             }
         }
     }
+
 
     // Delegate version
     public void CheckCost(int a = 0, int b = 0)

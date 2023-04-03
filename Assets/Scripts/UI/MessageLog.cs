@@ -81,6 +81,8 @@ public class MessageLog : MonoBehaviour
         _instance._messageCount++;
         float time = messageData.duration * 0.90f;
         yield return new WaitForSeconds(time);
+        if(obj == null) yield break;    // End execution of message otherwise deleted
+
         time = messageData.duration - time;
 
         // Fade text

@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     private float _growthSpeedPercent = 100f;
     private int _populationLimit;
     private float _traderSpeed;
-    private List<bool> _flags;
+    private Dictionary<int, bool> _flags;
 
     private int _objectId;
     private HashSet<int> _objectIds;
@@ -70,6 +70,8 @@ public class GameManager : MonoBehaviour
 
         _jobIds = new HashSet<int>();
         _jobIdDictionary = new Dictionary<int, Job>();
+
+        _flags = new Dictionary<int, bool>();
 
         StartCoroutine(Startup());  
     }
@@ -379,6 +381,20 @@ public class GameManager : MonoBehaviour
     public static float GetTraderSpeed()
     {
         return (1f / _instance._traderSpeed);
+    }
+    public static void SetFlag(int index)
+    {
+        Debug.Log($"GameManager.SetFlag({index})");
+        _instance._flags.TryAdd(index, true);
+    }
+    public static bool GetFlag(int index)
+    {
+        bool val;
+        if(_instance._flags.TryGetValue(index, out val))
+        {
+            return val;
+        }
+        else return false;
     }
 
     public static void SetGameSpeed(float newSpeed)

@@ -20,10 +20,12 @@ public class PurchasePanel : MonoBehaviour
     [SerializeField] private float _reward;
     [SerializeField] private GameObject _rewardPrefab;
     [SerializeField] private string _rewardString;
-    private Button _button;
+    [SerializeField] private int _requiredFlag = -1;
 
+    private Button _button;
     private bool _canPay;
     private bool _canHouse;
+    private bool _isDisabled;
     
     void Start()
     {
@@ -39,7 +41,10 @@ public class PurchasePanel : MonoBehaviour
         Events.onResourceChange += CheckCost;
         CheckCost();
         _canHouse = true;
-        switch(_rewardType)
+        _isDisabled = false;
+        if(_requiredFlag != -1 && !GameManager.GetFlag(_requiredFlag)) 
+            SetDisabled();
+        else switch(_rewardType)
         {
             case RewardType.Resource:
                 break;
@@ -49,7 +54,11 @@ public class PurchasePanel : MonoBehaviour
                 CheckHousing();
                 break;
             case RewardType.Flag:
-                // TODO
+                if(GameManager.GetFlag((int)_reward))
+                {
+                    // Hide if reward already acquired
+                    SetDisabled();
+                }
                 break;
             case RewardType.TraderSpeed:
                 break;
@@ -59,6 +68,26 @@ public class PurchasePanel : MonoBehaviour
     void OnDestroy()
     {
         Events.onResourceChange -= CheckCost;
+        switch(_rewardType)
+        {
+            case RewardType.Resource:
+                break;
+            case RewardType.Villager:
+                Events.onVillagerCountChange -= CheckHousing;
+                Events.onPopLimitChange -= CheckHousing;
+                break;
+            case RewardType.Flag:
+                //
+                break;
+            case RewardType.TraderSpeed:
+                break;
+        }
+    }
+
+    public void SetDisabled()
+    {
+        _isDisabled = true;
+        _button.interactable = false;
     }
 
     private void HandlePurchase()
@@ -76,7 +105,7 @@ public class PurchasePanel : MonoBehaviour
                     Instantiate(_rewardPrefab, GameManager.Characters.transform);
                     break;
                 case RewardType.Flag:
-                    // TODO
+                    GameManager.SetFlag((int)_reward);
                     break;
                 case RewardType.TraderSpeed:
                     GameManager.AdjustTraderSpeed(_reward);
@@ -96,12 +125,16 @@ public class PurchasePanel : MonoBehaviour
     // Delegate version
     public void CheckCost(int a = 0, int b = 0)
     {
+        if(_isDisabled) return;
+
         _canPay = Tools.CheckCost(Cost);
         _button.interactable = _canPay && _canHouse;
         //Debug.Log($"PurchasePanel.CheckCost(onResourceChange) for {_targetObjectInfo.Name}, can afford: {_button.interactable}");
     }
     public void CheckHousing()
     {
+        if(_isDisabled) return;
+        
         int villagerCount = GameManager.GetVillagerCount();
         int housingLimit = GameManager.GetPopulationLimit();
         _canHouse = housingLimit > villagerCount ? true : false;

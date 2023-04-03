@@ -140,6 +140,7 @@ MonoBehaviour:
     type: 3}
   _buildingHotkey: 97
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+  _requiredFlag: 0
 --- !u!114 &1711265644635218297
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,6 +297,7 @@ MonoBehaviour:
     type: 3}
   _buildingHotkey: 115
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+  _requiredFlag: 0
 --- !u!114 &4155313946558642096
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,6 +454,7 @@ MonoBehaviour:
     type: 3}
   _buildingHotkey: 116
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+  _requiredFlag: -1
 --- !u!114 &2437938914236642556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1656,6 +1659,7 @@ MonoBehaviour:
     type: 3}
   _buildingHotkey: 103
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+  _requiredFlag: 1
 --- !u!114 &674432846887725829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1707,7 +1711,7 @@ RectTransform:
   m_Children:
   - {fileID: 6995351957141972157}
   m_Father: {fileID: 7976061566012423490}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1812,6 +1816,7 @@ MonoBehaviour:
     type: 3}
   _buildingHotkey: 104
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+  _requiredFlag: -1
 --- !u!114 &675915663400045234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2074,6 +2079,7 @@ MonoBehaviour:
     type: 3}
   _buildingHotkey: 98
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+  _requiredFlag: -1
 --- !u!114 &7280216548736348898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2125,7 +2131,7 @@ RectTransform:
   m_Children:
   - {fileID: 4076872816929001193}
   m_Father: {fileID: 7976061566012423490}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -2230,6 +2236,7 @@ MonoBehaviour:
     type: 3}
   _buildingHotkey: 109
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+  _requiredFlag: 0
 --- !u!114 &9070367275841460247
 MonoBehaviour:
   m_ObjectHideFlags: 0
