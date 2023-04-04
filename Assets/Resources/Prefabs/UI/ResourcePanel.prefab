@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2846012002340099112}
   - component: {fileID: 5687544292999630152}
   - component: {fileID: 7300767153327648016}
+  - component: {fileID: 6917062803903636477}
   m_Layer: 5
   m_Name: ResourcePanel
   m_TagString: Untagged
@@ -95,6 +96,22 @@ MonoBehaviour:
   _textField: {fileID: 4862207554118957527}
   _valueChangeTextPrefab: {fileID: 144963460399779546, guid: e045cc95b10e1254baa89abcc30b8966,
     type: 3}
+--- !u!114 &6917062803903636477
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3456372126301302515}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962732ca469be1b469a10aa1298f81a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _UIPrefab: {fileID: 364676816467689365, guid: be0fb2fefcda04a48ba9d3b7d00e84d2,
+    type: 3}
+  _objectInfo: {fileID: 0}
+  _tooltipWaitTime: 1.5
 --- !u!1 &3607894306484504683
 GameObject:
   m_ObjectHideFlags: 0
