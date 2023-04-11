@@ -26,7 +26,8 @@ public class OpenTooltipOnHover : MonoBehaviour, IPointerEnterHandler, IPointerE
         Debug.Log("OpenTooltipOnHover.OnPointerEnter()");
         _objectHoverState = true;
         _lastChange = Time.time;
-        StartCoroutine(TryOpenPopup(_lastChange));
+        if(_popUpMenu == null)
+            StartCoroutine(TryOpenPopup(_lastChange));
     }
     public void OnPointerExit(PointerEventData eventData)
     {

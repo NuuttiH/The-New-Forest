@@ -72,6 +72,6 @@ public class PopUpVillager : PopUpMenu
             GameObject targetObject = GameManager.GetObjectById(IdType.Character, job.targetObjectId);
             jobDescription += targetObject.GetComponent<PlaceableObject>().Name;
         }
-        _extraText.text = jobDescription;
+        _titleText.text = jobDescription;
     }
 }

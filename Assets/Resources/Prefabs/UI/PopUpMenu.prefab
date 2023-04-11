@@ -109,7 +109,7 @@ RectTransform:
   m_Children:
   - {fileID: 3483596702097672361}
   m_Father: {fileID: 8345342037952964637}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -262,8 +262,8 @@ RectTransform:
   m_Children:
   - {fileID: 9016709608799227497}
   - {fileID: 7494691013141346703}
-  - {fileID: 3014990413714956169}
   - {fileID: 2012715263479426240}
+  - {fileID: 3014990413714956169}
   m_Father: {fileID: 8353376070825601011}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -426,7 +426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 7906736132802922423}
   _textArea: {fileID: 1377368023579501153}
-  _extraText: {fileID: 3014463523554978764}
+  _titleText: {fileID: 3014463523554978764}
   _exitButton: {fileID: 3535977920455083141}
   _foodInfo: {fileID: 0}
   _lumberInfo: {fileID: 0}
@@ -578,7 +578,7 @@ GameObject:
   - component: {fileID: 2406559467355953150}
   - component: {fileID: 3014463523554978764}
   m_Layer: 5
-  m_Name: ExtraText (TMP)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -597,7 +597,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8345342037952964637}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

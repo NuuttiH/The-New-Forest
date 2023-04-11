@@ -22,6 +22,11 @@ PrefabInstance:
       propertyPath: m_fontSize
       value: 22.95
       objectReference: {fileID: 0}
+    - target: {fileID: 3014990413714956169, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8353376070825601007, guid: 54687cd854ce43a468af3314330ff8d4,
         type: 3}
       propertyPath: m_Name
@@ -196,8 +201,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 8642648452542844432}
   _textArea: {fileID: 673253571657182150}
-  _extraText: {fileID: 3719695113112150635}
+  _titleText: {fileID: 3719695113112150635}
   _exitButton: {fileID: 3123480856430775586}
+  _foodInfo: {fileID: 0}
+  _lumberInfo: {fileID: 0}
+  _magicInfo: {fileID: 0}
 --- !u!114 &8642648452542844432 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7906736132802922423, guid: 54687cd854ce43a468af3314330ff8d4,

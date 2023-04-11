@@ -225,7 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 1970587043249020877}
   _textArea: {fileID: 7349826272913963547}
-  _extraText: {fileID: 6861012467056866230}
+  _titleText: {fileID: 6861012467056866230}
   _exitButton: {fileID: 0}
   _foodInfo: {fileID: 0}
   _lumberInfo: {fileID: 0}

@@ -49,22 +49,28 @@ public class MissionManager : MonoBehaviour
     {
         _instance._scenarioInfo = scenarioInfo;
 
-        // Send text for main mission
+        // Manage the main mission for the scenario
         List<string> textList = new List<string>();
         string text = _instance._scenarioInfo.mainMission.title;
         if(_instance._scenarioInfo.mainMission.description != "")
             text += " <size=80%><br> " + _instance._scenarioInfo.mainMission.description;
         textList.Add(text);
+
+        int ii = 0;
         foreach(MissionData mission in _instance._scenarioInfo.mainMission.missions)
         {
             text = $" -{mission.title} ({mission.currentVal}/{mission.goalVal})";
             if(mission.description != "")
                 text += $" <size=80%><br>   {mission.description}";
             textList.Add(text);
+
+            LinkedMissionData linkedMission = new LinkedMissionData(mission, -1, ii);
+            _instance._missionLinks[(int)mission.missionGoal].Add(linkedMission);
+            ii++;
         }  
         _instance._display.Init(_instance._mainMissionIndex, textList); 
 
-        // Figure out current missions
+        // Handle the current missions
         int groupIndex = 0;
         foreach(MissionDataGroup group in _instance._scenarioInfo.missionsData)
         {

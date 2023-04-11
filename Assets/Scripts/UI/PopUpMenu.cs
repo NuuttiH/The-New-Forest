@@ -11,7 +11,7 @@ public class PopUpMenu : MonoBehaviour
     protected ObjectInfo _objectInfo;
     [SerializeField] protected Image _image;
     [SerializeField] protected TextMeshProUGUI _textArea;
-    [SerializeField] protected TextMeshProUGUI _extraText;
+    [SerializeField] protected TextMeshProUGUI _titleText;
     [SerializeField] protected Button _exitButton;
 
     [SerializeField] private ObjectInfo _foodInfo;
@@ -28,8 +28,13 @@ public class PopUpMenu : MonoBehaviour
         // Move based on mouse position?
 
         _image.sprite = _objectInfo.sprite;
-        _textArea.text = $"<size=120%>{_objectInfo.name}</size><br><br>{_objectInfo.description}";
-        if(_extraText) _extraText.text = "";
+        if(_titleText)
+        {
+            _titleText.text = $"{_objectInfo.name}";
+            _textArea.text = $"{_objectInfo.description}";
+        }
+        else
+            _textArea.text = $"<size=120%>{_objectInfo.name}</size><br><br>{_objectInfo.description}";
         if(_exitButton) _exitButton.onClick.AddListener( delegate{ _bossScript.CloseOldPopUp(); } );
 
         InitAdvanced(); 

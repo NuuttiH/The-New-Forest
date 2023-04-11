@@ -18,7 +18,7 @@ public class PopUpSmallTooltip : PopUpMenu, IPointerEnterHandler, IPointerExitHa
         // Move based on mouse position?
 
         _image.sprite = _objectInfo.sprite;
-        _extraText.text = $"{_objectInfo.name}";
+        _titleText.text = $"{_objectInfo.name}";
         _textArea.text = $"{_objectInfo.description}";
     }
 

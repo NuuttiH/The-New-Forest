@@ -387,6 +387,11 @@ PrefabInstance:
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3014990413714956169, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8353376070825601007, guid: 54687cd854ce43a468af3314330ff8d4,
         type: 3}
       propertyPath: m_Name
@@ -525,8 +530,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 1662360343286305168}
   _textArea: {fileID: 7617515070028788806}
-  _extraText: {fileID: 6016312027414134251}
+  _titleText: {fileID: 6016312027414134251}
   _exitButton: {fileID: 5456652306041377442}
+  _foodInfo: {fileID: 0}
+  _lumberInfo: {fileID: 0}
+  _magicInfo: {fileID: 0}
   _cutDownButton: {fileID: 3321553834461919401}
 --- !u!224 &683176247838260794 stripped
 RectTransform:

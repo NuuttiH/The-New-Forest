@@ -37,8 +37,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 82.5, y: 82.5}
-  m_SizeDelta: {x: -195, y: -195}
+  m_AnchoredPosition: {x: 82.5, y: 107.5}
+  m_SizeDelta: {x: -195, y: -245}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6688293725242106991
 CanvasRenderer:
@@ -293,8 +293,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 23, y: -53}
-  m_SizeDelta: {x: 45, y: 100}
+  m_AnchoredPosition: {x: 23, y: -33.5}
+  m_SizeDelta: {x: 45, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4606244399511413388
 CanvasRenderer:
@@ -351,7 +351,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 53.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -400,6 +400,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2012715263479426240, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012715263479426240, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012715263479426240, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012715263479426240, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012715263479426240, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 305
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012715263479426240, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012715263479426240, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 74
+      objectReference: {fileID: 0}
+    - target: {fileID: 2012715263479426240, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 36
+      objectReference: {fileID: 0}
     - target: {fileID: 8345342037952964637, guid: 54687cd854ce43a468af3314330ff8d4,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -523,7 +563,7 @@ PrefabInstance:
     - target: {fileID: 8674508649265816141, guid: 54687cd854ce43a468af3314330ff8d4,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8913991573423810827, guid: 54687cd854ce43a468af3314330ff8d4,
         type: 3}
@@ -573,7 +613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 1970587043249020877}
   _textArea: {fileID: 7349826272913963547}
-  _extraText: {fileID: 0}
+  _titleText: {fileID: 6861012467056866230}
   _exitButton: {fileID: 0}
   _foodInfo: {fileID: 11400000, guid: 2d846ad33e3ea8d4bb0a1b36af8d9309, type: 2}
   _lumberInfo: {fileID: 11400000, guid: 6aad082e0f3a86b4b90707c9c5f84e5c, type: 2}
@@ -595,6 +635,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6861012467056866230 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3014463523554978764, guid: 54687cd854ce43a468af3314330ff8d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 8566603945914308730}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &7349826272913963547 stripped
