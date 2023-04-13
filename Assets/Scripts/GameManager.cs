@@ -4,7 +4,6 @@ using UnityEngine;
 
 public enum Resource { None, Food, Lumber, Magic }
 public enum IdType { None, Building, Character, Job }
-public enum VillagerType { None, Elf, Goblin }
 
 public class GameManager : MonoBehaviour
 {
@@ -41,10 +40,10 @@ public class GameManager : MonoBehaviour
     private int _characterId;
     private HashSet<int> _characterIds;
     private Dictionary<int, GameObject> _characterIdDictionary;
+    private Dictionary<VillagerType, int> _villagerCounts;
     private int _jobId;
     private HashSet<int> _jobIds;
     private Dictionary<int, Job> _jobIdDictionary;
-    private Dictionary<VillagerType, int> _villagerCounts;
 
     private float _currentGameSpeed = 1f;
     private float _previousGameSpeed = 1f;
@@ -60,6 +59,16 @@ public class GameManager : MonoBehaviour
         FinishedStartup = false;
     }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Tab))
+        {
+            AddResource(Resource.Lumber, 20);
+            AddResource(Resource.Food, 20);
+            AddResource(Resource.Magic, 20);
+        }
+    }
+
     void Start()
     {
         _objectIds = new HashSet<int>();
@@ -67,6 +76,11 @@ public class GameManager : MonoBehaviour
         
         _characterIds = new HashSet<int>();
         _characterIdDictionary = new Dictionary<int, GameObject>();
+        _villagerCounts = new Dictionary<VillagerType, int>();
+        foreach(VillagerType villagerType in VillagerType.GetValues(typeof(VillagerType)))
+        {
+            _villagerCounts.Add(villagerType, 0);
+        }
 
         _jobIds = new HashSet<int>();
         _jobIdDictionary = new Dictionary<int, Job>();
@@ -210,6 +224,7 @@ public class GameManager : MonoBehaviour
                 newId = ++_instance._characterId;
                 _instance._characterIds.Add(newId);
                 _instance._characterIdDictionary.Add(newId, obj);
+                AdjustVillagerCount(obj.GetComponent<Villager>().GetVillagerType(), 1);
                 break;
             case IdType.Job:
                 newId = ++_instance._jobId;
@@ -247,6 +262,7 @@ public class GameManager : MonoBehaviour
                 }
                 _instance._characterIds.Add(id);
                 _instance._characterIdDictionary.Add(id, obj);
+                AdjustVillagerCount(obj.GetComponent<Villager>().GetVillagerType(), 1);
                 break;
             case IdType.Job:
                 if(_instance._jobId <= id)
@@ -331,6 +347,7 @@ public class GameManager : MonoBehaviour
     }
     public static void AdjustVillagerCount(VillagerType type, int amount)
     {
+        Debug.Log($"GameManager.AdjustVillagerCount({type}, {amount})");
         _instance._villagerCounts[type] += amount;
         Events.onVillagerCountChange();
         if(amount > 0) MissionManager.onIncrementMission(MissionGoal.NewWorker, amount);
@@ -408,5 +425,16 @@ public class GameManager : MonoBehaviour
     public static void SetGameSpeedToPrevious()
     {
         SetGameSpeed(_instance._previousGameSpeed);
+    }
+    public static void CreateVillager(GameObject villagerPrefab)
+    {
+        GameObject villagerObject = Instantiate(villagerPrefab, Characters.transform);
+
+        Villager villager = villagerObject.GetComponent<Villager>();
+        VillagerType villagerType = villager.GetVillagerType();
+        int colorId = GetVillagerCount(villagerType);
+
+        villager.SetColor(colorId);
+        AdjustVillagerCount(villagerType, 1);
     }
 }

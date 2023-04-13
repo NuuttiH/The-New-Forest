@@ -102,7 +102,7 @@ public class PurchasePanel : MonoBehaviour
                     GameManager.AddResource(_rewardResourceType, (int)_reward);
                     break;
                 case RewardType.Villager:
-                    Instantiate(_rewardPrefab, GameManager.Characters.transform);
+                    GameManager.CreateVillager(_rewardPrefab);
                     break;
                 case RewardType.Flag:
                     GameManager.SetFlag((int)_reward);

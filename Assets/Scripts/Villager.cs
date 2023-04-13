@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+public enum VillagerType { None, Elf, Goblin }
+
 [Serializable]
 public class JobEfficiency {
     public JobType jobType;
@@ -21,6 +23,7 @@ public enum CurrentAction { WaitingForAction, Moving, Cutting, Gathering, Constr
 public class Villager : MonoBehaviour
 {
     [HideInInspector] public int characterId;
+    [SerializeField] private VillagerType _villagerType;
     private bool _initialized = false;
     private NavMeshAgent _agent;
     [SerializeField] private Animator _animator;
@@ -354,5 +357,9 @@ public class Villager : MonoBehaviour
     public Job GetJob()
     {
         return _job;
+    }
+    public VillagerType GetVillagerType()
+    {
+        return _villagerType;
     }
 }

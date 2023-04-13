@@ -330,6 +330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterId: 0
+  _villagerType: 1
   _animator: {fileID: -3023404667555378403}
   _mesh: {fileID: 8952870813299414227}
   _colorChoice: 0
