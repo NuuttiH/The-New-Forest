@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     private float _growthSpeedPercent = 100f;
     private int _populationLimit;
     private float _traderSpeed;
-    private Dictionary<int, bool> _flags;
+    private List<Vector2Int> _flags;
 
     private int _objectId;
     private HashSet<int> _objectIds;
@@ -56,6 +56,7 @@ public class GameManager : MonoBehaviour
 			Destroy(this);
 			return;
         }
+        FinishedLoading = false;
         FinishedStartup = false;
     }
 
@@ -85,7 +86,7 @@ public class GameManager : MonoBehaviour
         _jobIds = new HashSet<int>();
         _jobIdDictionary = new Dictionary<int, Job>();
 
-        _flags = new Dictionary<int, bool>();
+        _flags = new List<Vector2Int>();
 
         StartCoroutine(Startup());  
     }
@@ -113,6 +114,7 @@ public class GameManager : MonoBehaviour
         FinishedLoading = true;
         yield return new WaitForSeconds(0.4f);
         FinishedStartup = true;
+        Debug.Log("GameManager.Startup(): Finished startup");
         Events.onSaveLoaded();
 
         LogDictionaries();
@@ -224,7 +226,11 @@ public class GameManager : MonoBehaviour
                 newId = ++_instance._characterId;
                 _instance._characterIds.Add(newId);
                 _instance._characterIdDictionary.Add(newId, obj);
-                AdjustVillagerCount(obj.GetComponent<Villager>().GetVillagerType(), 1);
+                if(!FinishedStartup)
+                {
+                    // Adjust villager counts for villagers whose data is generated on startup (initial villagers)
+                    AdjustVillagerCount(obj.GetComponent<Villager>().GetVillagerType(), 1);
+                }
                 break;
             case IdType.Job:
                 newId = ++_instance._jobId;
@@ -347,8 +353,8 @@ public class GameManager : MonoBehaviour
     }
     public static void AdjustVillagerCount(VillagerType type, int amount)
     {
-        Debug.Log($"GameManager.AdjustVillagerCount({type}, {amount})");
         _instance._villagerCounts[type] += amount;
+        Debug.Log($"GameManager.AdjustVillagerCount({type}, {amount}): new count {_instance._villagerCounts[type]}");
         Events.onVillagerCountChange();
         if(amount > 0) MissionManager.onIncrementMission(MissionGoal.NewWorker, amount);
     }
@@ -357,7 +363,13 @@ public class GameManager : MonoBehaviour
         if(type == VillagerType.None)
         {
             // Count all
-            return _instance._characterIdDictionary.Count;
+            // _instance._characterIdDictionary.Count doesn't get updated fast enough
+            int count = 0;
+            foreach(VillagerType villagerType in VillagerType.GetValues(typeof(VillagerType)))
+            {
+                count += _instance._villagerCounts[villagerType];
+            }
+            return count;
         }
         else return _instance._villagerCounts[type];
     }
@@ -402,16 +414,27 @@ public class GameManager : MonoBehaviour
     public static void SetFlag(int index)
     {
         Debug.Log($"GameManager.SetFlag({index})");
-        _instance._flags.TryAdd(index, true);
+        foreach(Vector2Int pair in _instance._flags)
+        {
+            if(pair.x == index)
+            {
+                _instance._flags.Remove(pair);
+                _instance._flags.Add(new Vector2Int(pair.x, 1));
+                return;
+            }
+        }
     }
     public static bool GetFlag(int index)
     {
         bool val;
-        if(_instance._flags.TryGetValue(index, out val))
+        foreach(Vector2Int pair in _instance._flags)
         {
-            return val;
+            if(pair.x == index)
+            {
+                return pair.y == 1 ? true : false;
+            }
         }
-        else return false;
+        return false;
     }
 
     public static void SetGameSpeed(float newSpeed)
@@ -436,5 +459,7 @@ public class GameManager : MonoBehaviour
 
         villager.SetColor(colorId);
         AdjustVillagerCount(villagerType, 1);
+        
+        Debug.Log($"GameManager.CreateVillager(), pop: {GameManager.GetVillagerCount()}/{GameManager.GetPopulationLimit()}");
     }
 }

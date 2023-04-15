@@ -79,7 +79,7 @@ public class PlaceableObject : MonoBehaviour
         if(!GameManager.FinishedStartup) // Placement during game startup
         {
             Placed = true;
-            StartCoroutine(Initialize(null, 0.5f));
+            StartCoroutine(Initialize(null, 0.3f));
         }
         else // Placement during gameplay
         {

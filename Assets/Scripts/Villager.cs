@@ -70,7 +70,7 @@ public class Villager : MonoBehaviour
         {
             jobEfficiency.Add(je.jobType, je.val);
         }
-        StartCoroutine(Initialize(null, 0.5f));
+        StartCoroutine(Initialize(null, 0.3f));
     }
     public void Init(CharacterSaveData data = null, float wait = 0.3f)
     {

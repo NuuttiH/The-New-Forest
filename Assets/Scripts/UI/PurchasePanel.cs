@@ -92,8 +92,9 @@ public class PurchasePanel : MonoBehaviour
 
     private void HandlePurchase()
     {
-        bool success = GameManager.TryPay(Cost);
+        if(_rewardType == RewardType.Villager && !CheckHousing2()) return;
 
+        bool success = GameManager.TryPay(Cost);
         if(success)
         {
             switch(_rewardType)
@@ -138,7 +139,12 @@ public class PurchasePanel : MonoBehaviour
         int villagerCount = GameManager.GetVillagerCount();
         int housingLimit = GameManager.GetPopulationLimit();
         _canHouse = housingLimit > villagerCount ? true : false;
-        _button.interactable = _canPay && _canHouse;
-        //Debug.Log($"PurchasePanel.CheckCost(onResourceChange) for {_targetObjectInfo.Name}, can afford: {_button.interactable}");
+        _button.interactable = _canPay && CheckHousing2();
+    }
+    public bool CheckHousing2()
+    {
+        int villagerCount = GameManager.GetVillagerCount();
+        int housingLimit = GameManager.GetPopulationLimit();
+        return housingLimit > villagerCount ? true : false;
     }
 }

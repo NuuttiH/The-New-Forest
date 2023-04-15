@@ -21,7 +21,7 @@ public class GameState
     public bool isSave;
     public ScenarioInfo scenarioInfo;
     public float traderSpeed;
-    public Dictionary<int, bool> flags;
+    public List<Vector2Int> flags;
 
     public GameState(   int food, int lumber, int magic, 
                         int objectId, int characterId, int jobId,
@@ -42,7 +42,7 @@ public class GameState
         this.isSave = isSave;
         this.scenarioInfo = null;
         this.traderSpeed = 1f;
-        this.flags = new Dictionary<int, bool>();
+        this.flags = new List<Vector2Int>();
     }
 
     public GameState()
@@ -62,6 +62,6 @@ public class GameState
         this.isSave = false;
         this.scenarioInfo = null;
         this.traderSpeed = 1f;
-        this.flags = new Dictionary<int, bool>();
+        this.flags = new List<Vector2Int>();
     }
 }
