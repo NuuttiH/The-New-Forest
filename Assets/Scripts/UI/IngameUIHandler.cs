@@ -24,11 +24,7 @@ public class IngameUIHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _timeText;
     [SerializeField] private AudioEvent _traderArrival;
     [SerializeField] private AudioEvent _traderDeparture;
-    private int _seconds = 0;
-    private int _minutes = 0;
-    private int _hours = 0;
-    private int _secondsTrade = 70;
-    private int _minutesTrade = 0;
+    private int _seconds, _minutes, _hours, _secondsTrade, _minutesTrade;
     private bool _tradersAvailable = false;
 
     private Menu _currentMenu;
@@ -54,11 +50,24 @@ public class IngameUIHandler : MonoBehaviour
         _tradeMenuButton.interactable = _tradersAvailable;
 
         Events.onTraderSpeedChange += AdjustTraderTimer;
-        StartCoroutine(TimeManagement());
+        
     }
     void OnDestroy()
     {
         Events.onTraderSpeedChange -= AdjustTraderTimer;
+    }
+
+    public static void InitTime(int seconds = 0, int minutes = 0, int hours = 0, int secondsTrade = 70, int minutesTrade = 0)
+    {
+        Debug.Log($"IngameUIHandler.InitTime({seconds}, {minutes}, {hours}, {secondsTrade}, {minutesTrade},)");
+
+        _instance._seconds = seconds; 
+        _instance._minutes = minutes; 
+        _instance._hours = hours;
+        _instance._secondsTrade = secondsTrade;
+        _instance._minutesTrade = minutesTrade;
+
+        _instance.StartCoroutine(_instance.TimeManagement());
     }
 
     void Update()
@@ -209,5 +218,16 @@ public class IngameUIHandler : MonoBehaviour
             _minutesTrade--;
             _secondsTrade += 60;
         }
+    }
+
+    public static List<int> GetTime()
+    {
+        List<int> time = new List<int>();
+        time.Add(_instance._seconds);
+        time.Add(_instance._minutes);
+        time.Add(_instance._hours);
+        time.Add(_instance._secondsTrade);
+        time.Add(_instance._minutesTrade);
+        return time;
     }
 }

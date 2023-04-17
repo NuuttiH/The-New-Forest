@@ -23,6 +23,7 @@ public enum CurrentAction { WaitingForAction, Moving, Cutting, Gathering, Constr
 public class Villager : MonoBehaviour
 {
     [HideInInspector] public int characterId;
+    [SerializeField] private ObjectInfo _villagerInfo;
     [SerializeField] private VillagerType _villagerType;
     private bool _initialized = false;
     private NavMeshAgent _agent;
@@ -123,7 +124,7 @@ public class Villager : MonoBehaviour
     {
         return new CharacterSaveData(   
                         gameObject.transform.position, gameObject.transform.rotation, 
-                        gameObject.name, characterId,
+                        _villagerInfo.name, characterId,
                         _currentAction, _job, 
                         _targetLocation, _waitTime, 
                         _cancelJob, _colorChoice);

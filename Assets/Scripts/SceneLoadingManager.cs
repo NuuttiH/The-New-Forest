@@ -35,7 +35,6 @@ public class SceneLoadingManager : MonoBehaviour
 		operation.allowSceneActivation = true;
 
 		yield return null;
-		yield return null;	// Wait for two frames
 
 		//GameObject screenFadeObject = Instantiate(_instance._screenFadePrefab);
 

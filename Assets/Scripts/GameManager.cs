@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour
     }
     IEnumerator Startup()
     {
-        yield return null;
+        yield return new WaitForSecondsRealtime(0.05f);
 
         Time.timeScale = 1f;
 
@@ -103,13 +103,21 @@ public class GameManager : MonoBehaviour
         _objectId = game.objectId;
         _characterId = game.characterId;
         _jobId = game.jobId;
-        if(game.scenarioInfo == null)
+        if(game.scenarioInfoId == -1)
         {
             MissionManager.Init(Instantiate(_scenarioInfo));
         }
-        else MissionManager.Init(Instantiate(game.scenarioInfo));
+        else 
+        {
+            MissionManager.Init(Instantiate(_scenarioInfo), game.mainMission, game.missionsData);
+        }
         _traderSpeed = game.traderSpeed;
         _flags = game.flags;
+        if(game.time.Count == 0) IngameUIHandler.InitTime();
+        else
+        {
+            IngameUIHandler.InitTime(game.time[0], game.time[1], game.time[2], game.time[3], game.time[4]);
+        }
 
         FinishedLoading = true;
         yield return new WaitForSeconds(0.4f);
@@ -426,7 +434,6 @@ public class GameManager : MonoBehaviour
     }
     public static bool GetFlag(int index)
     {
-        bool val;
         foreach(Vector2Int pair in _instance._flags)
         {
             if(pair.x == index)

@@ -34,7 +34,7 @@ public class SaveManager : MonoBehaviour
     public static void LoadData(SaveIdentifier saveIdentifier)
     {
         // Load data from XML file
-        Debug.Log("SaveManager, LoadData(): loading save data");
+        Debug.Log($"SaveManager, LoadData(): loading save data '{_instance.GetSavePath(saveIdentifier)}'...");
         XmlSerializer serializer = new XmlSerializer(typeof(GameState));
         
         FileStream stream = new FileStream( _instance.GetSavePath(saveIdentifier), 
@@ -91,7 +91,7 @@ public class SaveManager : MonoBehaviour
         _instance._saveData.objectId = GameManager.GetRunningId(IdType.Building);
         _instance._saveData.characterId = GameManager.GetRunningId(IdType.Character);
         _instance._saveData.jobId = GameManager.GetRunningId(IdType.Job);
-        _instance._saveData.scenarioInfo = MissionManager.GetScenarioInfo();
+        //_instance._saveData.scenarioInfoId = MissionManager.GetScenarioInfo();
 
         _instance._saveData.characterSaveData = new List<CharacterSaveData>();
         foreach (int id in GameManager.GetIds(IdType.Character)){
@@ -118,15 +118,23 @@ public class SaveManager : MonoBehaviour
             Job job = GameManager.GetJobById(id);
             _instance._saveData.jobSaveData.Add(job);
         }
+
         
         _instance._saveData.partialGrassTiles = GrassSystem.GetPartialGrassTiles();
         _instance._saveData.fullGrassTiles = GrassSystem.GetFullGrassTiles();
         _instance._saveData.extraGrassSpawnLocations = GrassSystem.GetExtraGrassSpawns();
+
+        ScenarioInfo scenarioInfo = MissionManager.GetScenarioInfo();
+        _instance._saveData.scenarioInfoId = scenarioInfo.id;
+        _instance._saveData.mainMission = scenarioInfo.mainMission;
+        _instance._saveData.missionsData = scenarioInfo.missionsData;
+
+        _instance._saveData.time = IngameUIHandler.GetTime();
         
         _instance._saveData.isSave = true;
 
         // Write save data to XML file
-        Debug.Log("SaveManager, SaveData(): Writing save...");
+        Debug.Log($"SaveManager, SaveData(): Writing save '{_instance.GetSavePath(saveIdentifier)}'...");
         XmlSerializer serializer = new XmlSerializer(typeof(GameState));
         
         FileStream stream = new FileStream( _instance.GetSavePath(saveIdentifier), 

@@ -45,8 +45,14 @@ public class MissionManager : MonoBehaviour
         //Events.onIncrementMission += IncrementMission;
     }
 
-    public static void Init(ScenarioInfo scenarioInfo)
+    public static void Init(ScenarioInfo scenarioInfo, 
+                            MissionDataGroup mainMission = null, MissionDataGroup[] missionsData = null)
     {
+        if(mainMission != null && missionsData != null)
+        {
+            scenarioInfo.mainMission = mainMission;
+            scenarioInfo.missionsData = missionsData;
+        }
         _instance._scenarioInfo = scenarioInfo;
 
         // Manage the main mission for the scenario

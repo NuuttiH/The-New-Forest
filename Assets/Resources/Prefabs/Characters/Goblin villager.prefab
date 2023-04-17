@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2001905989510103543}
   - component: {fileID: 1048691872187223110}
   m_Layer: 0
-  m_Name: Goblin
+  m_Name: Goblin villager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -85,6 +85,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterId: 0
+  _villagerInfo: {fileID: 11400000, guid: 6b9281905ca4eab47afaf63d25ddf85f, type: 2}
   _villagerType: 2
   _animator: {fileID: 2951248046101126307}
   _mesh: {fileID: 1091487649130957363}

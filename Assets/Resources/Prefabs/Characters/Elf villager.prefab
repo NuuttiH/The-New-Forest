@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 5866760818907717019}
   - component: {fileID: 4913263049136771114}
   m_Layer: 0
-  m_Name: Elf
+  m_Name: Elf villager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330,6 +330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterId: 0
+  _villagerInfo: {fileID: 11400000, guid: 49b4b172a9ca7c447b57f2862bd22c34, type: 2}
   _villagerType: 1
   _animator: {fileID: -3023404667555378403}
   _mesh: {fileID: 8952870813299414227}
