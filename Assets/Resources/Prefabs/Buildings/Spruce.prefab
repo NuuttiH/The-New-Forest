@@ -173,16 +173,17 @@ MonoBehaviour:
   - amount: 1
     type: 3
   _requireGrowth: 1
-  _growTime: 7
-  _growthTics: 3
+  _growTime: 12
+  _growthTics: 4
   _growthProgress: 0
   _requireConstruction: 0
   _constructionObject: {fileID: 0}
   _constructionTime: 1
   _constructionDistance: 6.3
+  _finishedConstruction: 0
   _cuttable: 1
   _cutDownResourceType: 2
-  _lumberValue: 3
+  _lumberValue: 5
   _woodCuttingTime: 5
   _woodCuttingDistance: 6.3
   _deconstructType: 1

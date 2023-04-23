@@ -49,6 +49,8 @@ public class MessageLog : MonoBehaviour
 
     public static void NewMessage(MessageData messageData)
     {
+        if(!GameManager.FinishedStartup && messageData.type != MessageType.Error) return;
+        
         GameObject newMessage = Instantiate(_instance._messagePrefab, _instance.gameObject.transform);
         TextMeshProUGUI tmp = newMessage.GetComponent<TextMeshProUGUI>();
         tmp.text = messageData.content;

@@ -780,17 +780,16 @@ MonoBehaviour:
   buildingId: -1
   _objectInfo: {fileID: 11400000, guid: 9e427421436d8ff4dbaba25d2e1ffcc4, type: 2}
   _buildingTrigger: 5
-  BuildingCost:
-  - amount: 1
-    type: 3
+  BuildingCost: []
   _requireGrowth: 1
-  _growTime: 5
+  _growTime: 12
   _growthTics: 3
   _growthProgress: 0
   _requireConstruction: 0
   _constructionObject: {fileID: 0}
   _constructionTime: 1
   _constructionDistance: 6.3
+  _finishedConstruction: 0
   _cuttable: 1
   _cutDownResourceType: 2
   _lumberValue: 0
@@ -804,9 +803,9 @@ MonoBehaviour:
   _fruits:
   - {fileID: 4929448013246193645}
   - {fileID: 4929448012358910151}
-  _fruitGrowTime: 15
+  _fruitGrowTime: 22
   _fruitGrowthTics: 3
-  _fruitPickingTime: 6
+  _fruitPickingTime: 7
   _fruitPickingDistance: 4
   _fruitResourceType: 1
   _fruitFoodValue: 1

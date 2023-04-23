@@ -432,12 +432,10 @@ MonoBehaviour:
   buildingId: 0
   _objectInfo: {fileID: 11400000, guid: 8425c8d8f12f6e64cb051b4c84863ab7, type: 2}
   _buildingTrigger: 4
-  BuildingCost:
-  - amount: 1
-    type: 3
+  BuildingCost: []
   _requireGrowth: 1
-  _growTime: 10
-  _growthTics: 3
+  _growTime: 20
+  _growthTics: 5
   _growthProgress: 0
   _requireConstruction: 0
   _constructionObject: {fileID: 0}
