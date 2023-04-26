@@ -26,6 +26,7 @@ public class IngameUIHandler : MonoBehaviour
     [SerializeField] private AudioEvent _traderDeparture;
     private int _seconds, _minutes, _hours, _secondsTrade, _minutesTrade;
     private bool _tradersAvailable = false;
+    private bool _tradingEnabled = false;
 
     private Menu _currentMenu;
     private GameObject _instantiatedMenu;
@@ -47,14 +48,22 @@ public class IngameUIHandler : MonoBehaviour
         _tradeMenuButton.onClick.AddListener( delegate{ OpenMenu(Menu.Trade); } );
         _escapeButton.onClick.AddListener( delegate{ OpenMenu(Menu.Escape); } );
 
-        _tradeMenuButton.interactable = _tradersAvailable;
+        //_tradeMenuButton.interactable = _tradersAvailable;
 
         Events.onTraderSpeedChange += AdjustTraderTimer;
-        
+        Events.onSaveLoaded += InitTraderFlags;
     }
     void OnDestroy()
     {
         Events.onTraderSpeedChange -= AdjustTraderTimer;
+        Events.onSaveLoaded -= InitTraderFlags;
+    }
+    public static void InitTraderFlags()
+    {
+        if(GameManager.GetFlag(Flag.TradingTimerEnabled)) 
+            _instance._tradingEnabled = true;
+        else if(GameManager.GetFlag(Flag.TradeAvailable)) 
+            _instance._tradeMenuButton.interactable = true;
     }
 
     public static void InitTime(int seconds = 0, int minutes = 0, int hours = 0, int secondsTrade = 70, int minutesTrade = 0)
@@ -87,7 +96,7 @@ public class IngameUIHandler : MonoBehaviour
 
     IEnumerator TimeManagement()
     {
-        while(_secondsTrade >= 60)
+        while(_tradingEnabled && _secondsTrade >= 60)
         {
             _minutesTrade++;
             _secondsTrade -= 60;
@@ -97,7 +106,7 @@ public class IngameUIHandler : MonoBehaviour
             yield return new WaitForSeconds(1f);
 
             _seconds++;
-            _secondsTrade--;
+            if(_tradingEnabled) _secondsTrade--;
             if(_seconds >= 60)
             {
                 _minutes++;
@@ -109,7 +118,7 @@ public class IngameUIHandler : MonoBehaviour
                     _minutes -= 60;
                 }
             }
-            if(_secondsTrade < 0)
+            if(_tradingEnabled && _secondsTrade < 0)
             {
                 _minutesTrade--;
                 _secondsTrade += 60;

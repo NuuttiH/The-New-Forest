@@ -20,7 +20,7 @@ public class PurchasePanel : MonoBehaviour
     [SerializeField] private float _reward;
     [SerializeField] private GameObject _rewardPrefab;
     [SerializeField] private string _rewardString;
-    [SerializeField] private int _requiredFlag = -1;
+    [SerializeField] private Flag _requiredFlag = Flag.None;
 
     private Button _button;
     private bool _canPay;
@@ -42,7 +42,7 @@ public class PurchasePanel : MonoBehaviour
         CheckCost();
         _canHouse = true;
         _isDisabled = false;
-        if(_requiredFlag != -1 && !GameManager.GetFlag(_requiredFlag)) 
+        if(!GameManager.GetFlag(_requiredFlag)) 
             SetDisabled();
         else switch(_rewardType)
         {
@@ -54,7 +54,7 @@ public class PurchasePanel : MonoBehaviour
                 CheckHousing();
                 break;
             case RewardType.Flag:
-                if(GameManager.GetFlag((int)_reward))
+                if(GameManager.GetFlag((Flag)_reward))
                 {
                     // Hide if reward already acquired
                     SetDisabled();
@@ -106,7 +106,7 @@ public class PurchasePanel : MonoBehaviour
                     GameManager.CreateVillager(_rewardPrefab);
                     break;
                 case RewardType.Flag:
-                    GameManager.SetFlag((int)_reward);
+                    GameManager.SetFlag((Flag)_reward);
                     break;
                 case RewardType.TraderSpeed:
                     GameManager.AdjustTraderSpeed(_reward);
@@ -115,6 +115,7 @@ public class PurchasePanel : MonoBehaviour
                         MessageType.Upgrade));
                     break;
             }
+            MissionManager.onIncrementMission(MissionGoal.BuyFromTrader, _targetObjectInfo.id);
         }
         else
         {

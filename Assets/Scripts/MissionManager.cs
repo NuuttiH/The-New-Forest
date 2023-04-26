@@ -37,12 +37,11 @@ public class MissionManager : MonoBehaviour
 			Destroy(this);
 			return;
         }
+
         _missionLinks = new List<LinkedMissionData>[System.Enum.GetValues(typeof(MissionGoal)).Length];
         for(int i=0; i<System.Enum.GetValues(typeof(MissionGoal)).Length; i++)
             _missionLinks[i] = new List<LinkedMissionData>();
         _activeMissionGroups = new List<MissionDataGroup>();
-        onIncrementMission = (goal, count) => IncrementMission(goal, count);
-        //Events.onIncrementMission += IncrementMission;
     }
 
     public static void Init(ScenarioInfo scenarioInfo, 
@@ -95,6 +94,10 @@ public class MissionManager : MonoBehaviour
             }
             groupIndex++;
         }
+        // Event subscriptions
+        onIncrementMission = delegate { };
+        onIncrementMission = (goal, count) => IncrementMission(goal, count);
+        Events.onFlagTriggered += IncrementMissionFlag;
     }
 
     public static ScenarioInfo GetScenarioInfo()
@@ -106,47 +109,58 @@ public class MissionManager : MonoBehaviour
         _instance._display = display;
     }
 
-    private static void IncrementMission(MissionGoal goal, int count)
+    private static void IncrementMissionFlag(Flag flag)
     {
-        Debug.Log($"MissionManager.IncrementMission({goal}, {count})");
+        IncrementMission(MissionGoal.TriggerFlag, (int)flag);
+    }
+    private static void IncrementMission(MissionGoal goal, int val)
+    {
+        if(!GameManager.FinishedStartup) return;
+        Debug.Log($"MissionManager.IncrementMission({goal}, {val})");
         if(_instance._missionLinks[(int)goal].Count == 0) return;
         
         foreach(LinkedMissionData linkedMission in _instance._missionLinks[(int)goal])
         {
             MissionData mission = linkedMission.missionData;
-            if(mission.currentVal < mission.goalVal)
+
+            if(mission.currentVal >= mission.goalVal) continue; // Already completed
+            
+            
+            if(mission.missionGoalId == 0)
             {
-                // Mission not completed yet
-                mission.currentVal += count;
-                Debug.Log($"INCREMENTING: {goal}");
-
-                string text = $" -{mission.title} ({mission.currentVal}/{mission.goalVal})";
-                if(mission.description != "")
-                    text += $" <size=80%><br>   {mission.description}";
-                _instance._display.AddOrEditMission(linkedMission.groupIndex, linkedMission.missionIndex, text);
-
-                if(mission.currentVal >= mission.goalVal)
-                {
-                    // Mission gets completed
-                    _instance.StartCoroutine(_instance.CheckMissionGroupCompletion());
-                }
-                else
-                {
-                    // Mission is still not completed
-                }
+                // No additional mission specifier, adjust mission by val
+                mission.currentVal += val;
             }
             else
             {
-                // Mission already completed
-                mission.currentVal += count;
-                if(mission.currentVal >= mission.goalVal)
+                // Additional mission specifier, check if increment val matches
+                if(mission.missionGoalId == val)
                 {
-                    // Mission is still completed
+                    // Adjust mission by 1
+                    mission.currentVal += 1;
                 }
                 else
                 {
-                    // Mission becomes uncompleted
+                    // Do not increment, skip rest
+                    continue;
                 }
+            }
+            Debug.Log($"INCREMENTING: {goal}");
+
+            string text = $" -{mission.title} ({mission.currentVal}/{mission.goalVal})";
+            if(mission.description != "")
+                text += $" <size=80%><br>   {mission.description}";
+            _instance._display.AddOrEditMission(linkedMission.groupIndex, linkedMission.missionIndex, text);
+
+            if(mission.currentVal >= mission.goalVal)
+            {
+                // Mission gets completed
+                GameManager.AddResource(mission.rewardType, mission.rewardVal);
+                _instance.StartCoroutine(_instance.CheckMissionGroupCompletion());
+            }
+            else
+            {
+                // Mission is still not completed
             }
         }
     }
@@ -168,6 +182,8 @@ public class MissionManager : MonoBehaviour
                 }
             if(completed)   // Handle completion of a mission group
             {
+                // Give reward
+                GameManager.SetFlag(group.rewardFlag);
                 // Unregister current missions and mission group
                 UnregisterMissionGroup(System.Array.IndexOf(_instance._scenarioInfo.missionsData, group));
                 

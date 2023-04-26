@@ -20,6 +20,7 @@ public class Events : MonoBehaviour
     public static Action onJobChange = delegate {};
     public static Action onVillagerCountChange = delegate {};
     public static Action<float, float> onTraderSpeedChange = delegate {};
+    public static Action<Flag> onFlagTriggered = delegate {};
 
 
     public static void ResetEventDelegates()
@@ -38,6 +39,7 @@ public class Events : MonoBehaviour
         onJobChange = delegate {};
         onVillagerCountChange = delegate {};
         onTraderSpeedChange = delegate {};
+        onFlagTriggered = delegate {};
 
         onFoodChange += ResourceChangeEvent;
         onLumberChange += ResourceChangeEvent;

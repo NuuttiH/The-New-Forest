@@ -8,7 +8,7 @@ public class BuildButton : MonoBehaviour
     public GameObject Building;
     [SerializeField] private KeyCode _buildingHotkey;
     [SerializeField] private AudioEvent _audioEvent;
-    [SerializeField] private int _requiredFlag = -1;
+    [SerializeField] private Flag _requiredFlag = Flag.None;
     private PlaceableObject _buildingScript;
     private Button _button;
 
@@ -21,7 +21,7 @@ public class BuildButton : MonoBehaviour
 
         Events.onResourceChange += CheckCost;
 
-        if(_requiredFlag != -1 && !GameManager.GetFlag(_requiredFlag)) 
+        if(!GameManager.GetFlag(_requiredFlag)) 
             Destroy(this.gameObject);
     }
 

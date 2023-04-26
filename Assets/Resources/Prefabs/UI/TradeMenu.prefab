@@ -1134,6 +1134,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
+      propertyPath: _requiredFlag
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
       propertyPath: _targetObjectInfo
       value: 
       objectReference: {fileID: 11400000, guid: 0760f3020aea9cf45b4fc6470571c2ce,
@@ -1283,6 +1288,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_fontSize
       value: 48.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _reward
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
@@ -1458,9 +1468,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
-      propertyPath: _requiredFlag
-      value: 0
+      propertyPath: _reward
+      value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _rewardType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _requiredFlag
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
+        type: 3}
+      propertyPath: _targetObjectInfo
+      value: 
+      objectReference: {fileID: 11400000, guid: 7161fd61fc5f89f4896f3a58c2e56652,
+        type: 2}
     - target: {fileID: 3429598278243455962, guid: f866f161ab2cecc4990a349b5b47b66a,
         type: 3}
       propertyPath: Cost.Array.data[0].type

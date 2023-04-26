@@ -4,8 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum MissionGoal {   None, Food, Lumber, Magic, BuildLumber, BuildFood,
-                            BuildShrine, BuildTent, NewWorker, NewGrass, TreeCount,
-                            BuildGreatTree }
+                            BuildBuilding, BuyFromTrader, NewWorker, NewGrass, 
+                            TreeCount, TriggerFlag }
+                            
+// public enum Resource { None, Food, Lumber, Magic }
 
 [Serializable]
 public class MissionData {
@@ -13,8 +15,11 @@ public class MissionData {
     [TextArea(2, 10)]
     public string description;
     public MissionGoal missionGoal;
+    public int missionGoalId = 0;
     public int goalVal;
     public int currentVal = 0;
+    public Resource rewardType = Resource.None;
+    public int rewardVal = 0;
     /*
     public MissionData(string title, string description, MissionGoal missionGoal, int goalVal)
     {
@@ -34,6 +39,7 @@ public class MissionDataGroup {
     public int nextMissionId;
     public int previousLinkCount = 0;
     [HideInInspector] public int currentVal = 0;
+    public Flag rewardFlag = Flag.None;
     /*
     public MissionDataGroup(string title)
     {

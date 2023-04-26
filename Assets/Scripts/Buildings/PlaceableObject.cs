@@ -35,7 +35,7 @@ public class PlaceableObject : MonoBehaviour
         } 
     }
     [SerializeField] protected ObjectInfo _objectInfo;
-    [SerializeField] protected MissionGoal _buildingTrigger = MissionGoal.None;
+    //[SerializeField] protected MissionGoal _buildingTrigger = MissionGoal.None;
     public Cost[] BuildingCost;
     public bool Placeable { get; protected set; }
     public bool Placed { get; protected set; }
@@ -440,13 +440,9 @@ public class PlaceableObject : MonoBehaviour
         }
         _cuttable = val;
     }
-
+    
     public void TryTrigger()
     {
-        //Debug.Log("TRYTRIGGER1 Increment");
-        if(_buildingTrigger != MissionGoal.None)
-            //Debug.Log("TRYTRIGGER2 Increment");
-            MissionManager.onIncrementMission(_buildingTrigger, 1);
-            //Debug.Log("TRYTRIGGER3 Increment");
+        MissionManager.onIncrementMission(MissionGoal.BuildBuilding, _objectInfo.id);
     }
 }

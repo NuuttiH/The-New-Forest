@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum Resource { None, Food, Lumber, Magic }
 public enum IdType { None, Building, Character, Job }
+public enum Flag { None, TradeAvailable, TradingTimerEnabled, GrassTrees, GrassBuildings }
 
 public class GameManager : MonoBehaviour
 {
@@ -157,7 +158,7 @@ public class GameManager : MonoBehaviour
     // Functions for game data
     public static int GetResource(Resource resourceType)
     {
-        int amount = -1;
+        int amount = 0;
         switch(resourceType)
         {
             case Resource.Food:
@@ -198,6 +199,9 @@ public class GameManager : MonoBehaviour
                 if(newValue > 0) MissionManager.onIncrementMission(MissionGoal.Magic, newValue);
                 _instance._magic = newValue;
                 Events.onMagicChange(oldValue, newValue);
+                break;
+            case Resource.None:
+            default:
                 break;
         }
     }
@@ -419,24 +423,30 @@ public class GameManager : MonoBehaviour
     {
         return (1f / _instance._traderSpeed);
     }
-    public static void SetFlag(int index)
+    public static void SetFlag(Flag flag)
     {
-        Debug.Log($"GameManager.SetFlag({index})");
+        if(flag == Flag.None) return;
+
+        Debug.Log($"GameManager.SetFlag({flag})");
         foreach(Vector2Int pair in _instance._flags)
         {
-            if(pair.x == index)
+            if(pair.x == (int)flag)
             {
+                if(pair.y == 1) return;
                 _instance._flags.Remove(pair);
-                _instance._flags.Add(new Vector2Int(pair.x, 1));
-                return;
+                break;
             }
         }
+        _instance._flags.Add(new Vector2Int((int)flag, 1));
+        Events.onFlagTriggered(flag);
     }
-    public static bool GetFlag(int index)
+    public static bool GetFlag(Flag flag)
     {
+        if(flag == Flag.None) return true;
+
         foreach(Vector2Int pair in _instance._flags)
         {
-            if(pair.x == index)
+            if(pair.x == (int)flag)
             {
                 return pair.y == 1 ? true : false;
             }
