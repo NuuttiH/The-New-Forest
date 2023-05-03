@@ -839,7 +839,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingId: 0
   _objectInfo: {fileID: 11400000, guid: 716b234ec9d2ca745a19ef642376bb5a, type: 2}
-  _buildingTrigger: 5
   BuildingCost:
   - amount: 1
     type: 3
@@ -874,6 +873,8 @@ MonoBehaviour:
   _fruitPickingDistance: 4
   _fruitResourceType: 1
   _fruitFoodValue: 1
+  _selfDestructAfterUse: 0
+  _useCycles: 3
 --- !u!114 &4495042372980586870
 MonoBehaviour:
   m_ObjectHideFlags: 0

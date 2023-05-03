@@ -59,7 +59,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.75, y: 1, z: 0.75}
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
@@ -79,7 +79,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingId: -1
   _objectInfo: {fileID: 11400000, guid: ee0e13e5f2869d8429fe1a2100f7c6ab, type: 2}
-  _buildingTrigger: 6
   BuildingCost:
   - amount: 3
     type: 2
@@ -93,6 +92,7 @@ MonoBehaviour:
   _constructionObject: {fileID: 2573005832705545723}
   _constructionTime: 4
   _constructionDistance: 6.3
+  _finishedConstruction: 0
   _cuttable: 0
   _cutDownResourceType: 2
   _lumberValue: 1

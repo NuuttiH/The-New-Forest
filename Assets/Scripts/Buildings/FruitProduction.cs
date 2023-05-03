@@ -16,6 +16,9 @@ public class FruitProduction : PlaceableObject
     private Vector3 _fruitOriginalScale;
     private float[] _fruitGrowthProgress;
     private float _fruitTicSize;
+    [SerializeField] private bool _selfDestructAfterUse = true;
+    [SerializeField] private int _useCycles = 3;
+    private int _cycles = 0;
     
     
     public override void FinishPlacing()
@@ -53,20 +56,30 @@ public class FruitProduction : PlaceableObject
         _fruitGrowthProgress[i] = 0f;
         _fruits[i].transform.localScale = new Vector3(0f, 0f, 0f);
 
-        while(_fruitGrowthProgress[i] < 1f)
+        if(_selfDestructAfterUse && _cycles >= _useCycles)
         {
-            yield return new WaitForSeconds(
-                1f / GameManager.GetGrowthMultiplier() * _fruitGrowTime / _fruitGrowthTics);
-            _fruits[i].transform.localScale += (_fruitOriginalScale * _fruitTicSize);
-            _fruitGrowthProgress[i] += _fruitTicSize;
+            _cycles++;
+            MessageLog.NewMessage(new MessageData(
+                $"{_objectInfo.name} was foraged completely and disappeared", MessageType.Unimportant));
+            Unplace();
         }
-        
-        Job newJob = new Job(   JobType.Food, _fruitResourceType,
-                                this.buildingId, _fruits[i].transform.position, 
-                                _fruitPickingTime, _fruitPickingDistance);
-        newJob.otherIndex = i;
-        int jobIndex = JobManager.QueueJob(newJob, true);
-        _fruitJobIndex[i] = jobIndex;
+        else
+        {
+            while(_fruitGrowthProgress[i] < 1f)
+            {
+                yield return new WaitForSeconds(
+                    1f / GameManager.GetGrowthMultiplier() * _fruitGrowTime / _fruitGrowthTics);
+                _fruits[i].transform.localScale += (_fruitOriginalScale * _fruitTicSize);
+                _fruitGrowthProgress[i] += _fruitTicSize;
+            }
+            
+            Job newJob = new Job(   JobType.Food, _fruitResourceType,
+                                    this.buildingId, _fruits[i].transform.position, 
+                                    _fruitPickingTime, _fruitPickingDistance);
+            newJob.otherIndex = i;
+            int jobIndex = JobManager.QueueJob(newJob, true);
+            _fruitJobIndex[i] = jobIndex;
+        }
     }
 
     public void Unregister(int index, int otherIndex, bool rewardFood = true)

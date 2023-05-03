@@ -43,6 +43,8 @@ public class PlaceableObject : MonoBehaviour
     protected Vector3Int _startTile;
     protected Vector3[] _vertices;
     protected GameObject _areaSprite;
+    protected bool _areaSpriteOn;
+    protected bool _areaSpriteOnExternal = false;
 
     [SerializeField] protected bool _requireGrowth = true;
     [SerializeField] protected float _growTime = 1f;
@@ -208,7 +210,8 @@ public class PlaceableObject : MonoBehaviour
         sr.sprite = BuildingSystem.GetAreaInUseSprite();
         if(!sr.sprite) Debug.LogError("ERROR: PlacableObject failed to get AreaInUseSprite");
         sr.color = new Color32(255, 255, 255, 50);
-        _areaSprite.SetActive(false);
+        _areaSpriteOn = true;
+        AreaSpriteCheck();
     }
 
     public Vector3 GetStartPosition()
@@ -247,12 +250,14 @@ public class PlaceableObject : MonoBehaviour
         this.gameObject.GetComponent<OpenPopUpOnClick>().Init();
         if(_requireGrowth)
         {
-            _areaSprite.SetActive(true);
+            _areaSpriteOn = true;
+            AreaSpriteCheck();
             StartCoroutine(InitialGrowth());
         }
         else if(_requireConstruction)
         {
-            _areaSprite.SetActive(true); 
+            _areaSpriteOn = true;
+            AreaSpriteCheck();
             StartConstruction();
         }
         if(_requireConstruction && !_finishedConstruction) _constructionObject.SetActive(false);
@@ -280,7 +285,8 @@ public class PlaceableObject : MonoBehaviour
         // Adjust growth to match savedata if still growing
         if(_requireGrowth)
         {
-            _areaSprite.SetActive(true); 
+            _areaSpriteOn = true;
+            AreaSpriteCheck();
             if(_growthProgress < 1f)
             {
                 transform.localScale = (_originalScale * _ticSize);
@@ -297,7 +303,8 @@ public class PlaceableObject : MonoBehaviour
         {
             if(!_finishedConstruction)
             {
-                _areaSprite.SetActive(true); 
+                _areaSpriteOn = true;
+                AreaSpriteCheck();
                 StartConstruction();
             }
             else FinishConstruction();
@@ -343,7 +350,8 @@ public class PlaceableObject : MonoBehaviour
             if(_spawnGrass) GrassSystem.AddGrassSpawnLocationArea(_startTile, Size);
             if(_growthSpeedIncreasePercent != 0f)
                 GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
-            _areaSprite.SetActive(false);
+            _areaSpriteOn = false;
+            AreaSpriteCheck();
         }
         MessageLog.NewMessage(new MessageData($"{_objectInfo.name} has finished growing.", 
                                                 MessageType.Unimportant));
@@ -374,7 +382,8 @@ public class PlaceableObject : MonoBehaviour
             else GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
         }
         if(!_requireGrowth) TryTrigger();
-        _areaSprite.SetActive(false);
+        _areaSpriteOn = false;
+        AreaSpriteCheck();
 
         MessageLog.NewMessage(new MessageData($"{_objectInfo.name} has finished construction.", 
                                                 MessageType.Unimportant));
@@ -439,6 +448,17 @@ public class PlaceableObject : MonoBehaviour
             JobManager.RemoveJob(_cutDownjobIndex);
         }
         _cuttable = val;
+    }
+
+    public void AreaSpriteCheck()
+    {
+        if(_areaSprite == null) return;
+        _areaSprite.SetActive(_areaSpriteOn || _areaSpriteOnExternal);
+    }
+    public void SetAreaSprite(bool val)
+    {
+        _areaSpriteOnExternal = val;
+        AreaSpriteCheck();
     }
     
     public void TryTrigger()
