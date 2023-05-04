@@ -197,6 +197,7 @@ public class PlaceableObject : MonoBehaviour
         }
         
         // Make new _areaSprite object which can be used to display object size
+        if(_areaSprite != null) Destroy(_areaSprite);
         _areaSprite = new GameObject("AreaSprite", typeof(SpriteRenderer));
         // parenting would move this around problematicly
         _areaSprite.transform.SetParent(this.gameObject.transform, true); 

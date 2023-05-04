@@ -48,22 +48,48 @@ public class IngameUIHandler : MonoBehaviour
         _tradeMenuButton.onClick.AddListener( delegate{ OpenMenu(Menu.Trade); } );
         _escapeButton.onClick.AddListener( delegate{ OpenMenu(Menu.Escape); } );
 
-        //_tradeMenuButton.interactable = _tradersAvailable;
-
+        _tradeMenuButton.interactable = _tradersAvailable;
+    }
+    void Start()
+    {
         Events.onTraderSpeedChange += AdjustTraderTimer;
         Events.onSaveLoaded += InitTraderFlags;
+        Events.onFlagTriggered += CheckFlagTrigger;
     }
     void OnDestroy()
     {
         Events.onTraderSpeedChange -= AdjustTraderTimer;
         Events.onSaveLoaded -= InitTraderFlags;
+        Events.onFlagTriggered -= CheckFlagTrigger;
     }
     public static void InitTraderFlags()
     {
-        if(GameManager.GetFlag(Flag.TradingTimerEnabled)) 
+        if(GameManager.GetFlag(Flag.TradingTimerEnabled))
             _instance._tradingEnabled = true;
         else if(GameManager.GetFlag(Flag.TradeAvailable)) 
+        {
+            _instance._tradersAvailable = true;
             _instance._tradeMenuButton.interactable = true;
+        }  
+    }
+    public static void CheckFlagTrigger(Flag flag)
+    {
+        Debug.Log($"IngameUIHandler.CheckFlagTrigger({flag})");
+        switch(flag)
+        {
+            case Flag.TradeAvailable:
+                _instance._tradersAvailable = true;
+                _instance._tradeMenuButton.interactable = true;
+                break;
+            case Flag.TradingTimerEnabled:
+                _instance._tradingEnabled = true;
+                while(_secondsTrade >= 60)
+                {
+                    _minutesTrade++;
+                    _secondsTrade -= 60;
+                }
+                break;
+        }
     }
 
     public static void InitTime(int seconds = 0, int minutes = 0, int hours = 0, int secondsTrade = 70, int minutesTrade = 0)
@@ -150,7 +176,11 @@ public class IngameUIHandler : MonoBehaviour
             _timeText.text  =   _hours.ToString("00") + ":" + 
                                 _minutes.ToString("00") + ":" +
                                 _seconds.ToString("00");
-            if(_tradersAvailable)
+            if(!_tradingEnabled)
+            {
+                _tradeMenuButtonText.text  =  "Trade";
+            }
+            else if(_tradersAvailable)
             {
                 _tradeMenuButtonText.text  =  "Trade\n(Available for "
                 + _minutesTrade.ToString("0") + ":" + _secondsTrade.ToString("00") + ")";
