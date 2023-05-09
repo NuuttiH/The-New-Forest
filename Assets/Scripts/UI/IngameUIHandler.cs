@@ -83,10 +83,10 @@ public class IngameUIHandler : MonoBehaviour
                 break;
             case Flag.TradingTimerEnabled:
                 _instance._tradingEnabled = true;
-                while(_secondsTrade >= 60)
+                while(_instance._secondsTrade >= 60)
                 {
-                    _minutesTrade++;
-                    _secondsTrade -= 60;
+                    _instance._minutesTrade++;
+                    _instance._secondsTrade -= 60;
                 }
                 break;
         }

@@ -4,24 +4,38 @@ using UnityEngine;
 
 public class ObjectDrag : MonoBehaviour
 {
-    private Vector3 offset;
-    private PlaceableObject objectScript;
+    private Vector3Int _cellPos;
+    private Vector3 _offset;
+    private PlaceableObject _objectScript;
 
     void Awake()
     {
-        offset = transform.position = BuildingSystem.GetMouseWorldPosition();
-        objectScript = this.gameObject.GetComponent<PlaceableObject>();
-        objectScript.SetAreaSprite(true);
+        _cellPos = new Vector3Int();
+        transform.position = BuildingSystem.GetMouseWorldPosition();
+        _objectScript = this.gameObject.GetComponent<PlaceableObject>();
     }
 
     void Update()
     {
-        Vector3 pos = BuildingSystem.GetMouseWorldPosition();// + offset;
-        transform.position = BuildingSystem.SnapCoordinateToGrid(pos);
-    }
+        if(!_objectScript.Initialized) return;
 
+        Vector3 pos = BuildingSystem.GetMouseWorldPosition();
+        if(pos == Vector3.zero) // Invalid position
+        {
+            return;
+        }
+        
+        Vector3Int newCellPos = BuildingSystem.GridLayout.WorldToCell(pos);
+        if(newCellPos != _cellPos)
+        {
+            transform.position = BuildingSystem.SnapCoordinateToGrid(pos);
+            BuildingSystem.SetDragOverlay(_objectScript.GetStartPosition(), _objectScript.Size);
+            _cellPos = newCellPos;
+        }
+    }
+    
     void OnDestroy()
     {
-        objectScript.SetAreaSprite(false);
+        BuildingSystem.ResetDragOverlay();
     }
 }

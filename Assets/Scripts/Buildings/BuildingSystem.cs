@@ -11,9 +11,10 @@ public class BuildingSystem : MonoBehaviour
     public static GridLayout GridLayout { get { return _instance._gridLayout; } }
     private Grid _grid;
     [SerializeField] private Tilemap _mainTilemap;
-    [SerializeField] private TileBase _whiteTile;
+    [SerializeField] private TileBase _occupiedTile;
+    [SerializeField] private TileBase _overlayTile;
+    [SerializeField] private TileBase _overlapTile;
     [SerializeField] private TilemapRenderer _tileMapRenderer;
-    [SerializeField] private Sprite _areaInUseSprite;
 
 
     public GameObject testPrefab;
@@ -21,6 +22,8 @@ public class BuildingSystem : MonoBehaviour
 
     private PlaceableObject _objectToPlace;
     private bool _placementBlock = false;
+    private Vector3Int _previousOverlayStart;
+    private TileBase[] _previousOverlayTiles;
     
     private void Awake()
     {
@@ -122,7 +125,7 @@ public class BuildingSystem : MonoBehaviour
 
         foreach(var b in baseArray)
         {
-            if(b==_whiteTile) return false;
+            if(b==_occupiedTile) return false;
         }
         if(placeableObject.RequireGrass) return GrassSystem.HasGrass(area);
         else return true;
@@ -137,7 +140,7 @@ public class BuildingSystem : MonoBehaviour
         TileBase[] tileArray = new TileBase[size.x * size.y * size.z];
         for (int index = 0; index < tileArray.Length; index++)
         {
-            tileArray[index] = _instance._whiteTile;
+            tileArray[index] = _instance._occupiedTile;
         }
         _instance._mainTilemap.SetTilesBlock(area, tileArray);
     }
@@ -179,8 +182,41 @@ public class BuildingSystem : MonoBehaviour
         _instance._objectToPlace = null;
     }
 
-    public static Sprite GetAreaInUseSprite()
+    public static void SetDragOverlay(Vector3 start, Vector3Int size)
     {
-        return _instance._areaInUseSprite;
+        Vector3Int cellPos = GridLayout.WorldToCell(start);
+        //Debug.Log("BuildingSystem: SetDragOverlay(" + cellPos + ", " + size);
+
+        // Undo previous changes 
+        if(_instance._previousOverlayTiles != null)
+        {
+            BoundsInt previousArea = new BoundsInt();
+            previousArea.SetMinMax(_instance._previousOverlayStart, _instance._previousOverlayStart + size);
+            _instance._mainTilemap.SetTilesBlock(previousArea, _instance._previousOverlayTiles);
+        }
+
+        // Make new changes
+        BoundsInt area = new BoundsInt();
+        area.SetMinMax(cellPos, cellPos + size);
+        TileBase[] originalArray = GetTilesBlock(area, _instance._mainTilemap);
+        TileBase[] tileArray = new TileBase[size.x * size.y * size.z];
+        for (int index = 0; index < tileArray.Length; index++)
+        {
+            if(originalArray[index] == null) // empty
+            {
+                tileArray[index] = _instance._overlayTile;
+            }
+            else
+            {
+                tileArray[index] = _instance._overlapTile;
+            }
+        }
+        _instance._previousOverlayStart = cellPos;
+        _instance._previousOverlayTiles = originalArray;
+        _instance._mainTilemap.SetTilesBlock(area, tileArray);
+    }
+    public static void ResetDragOverlay()
+    {
+        _instance._previousOverlayTiles = null;
     }
 }

@@ -399,7 +399,7 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4, y: 10, z: 4}
+  m_Size: {x: 5.1, y: 10, z: 5.1}
   m_Center: {x: 0, y: 5, z: 0}
 --- !u!208 &4856429299836186316
 NavMeshObstacle:
@@ -431,7 +431,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingId: 0
   _objectInfo: {fileID: 11400000, guid: 8425c8d8f12f6e64cb051b4c84863ab7, type: 2}
-  _buildingTrigger: 4
   BuildingCost: []
   _requireGrowth: 1
   _growTime: 20

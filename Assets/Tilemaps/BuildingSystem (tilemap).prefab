@@ -60,7 +60,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _gridLayout: {fileID: 6973004839191354717}
   _mainTilemap: {fileID: 1797003565228509124}
-  _whiteTile: {fileID: 11400000, guid: 6230c3e5c0cf4814a8b25d22482d3f0e, type: 2}
+  _occupiedTile: {fileID: 11400000, guid: 6230c3e5c0cf4814a8b25d22482d3f0e, type: 2}
+  _overlayTile: {fileID: 11400000, guid: 3fb996de5138eba40925afc1d309bd70, type: 2}
+  _overlapTile: {fileID: 11400000, guid: 6c5df305834cf544db0825d159362abb, type: 2}
   _tileMapRenderer: {fileID: 449934286057210303}
   _areaInUseSprite: {fileID: 21300000, guid: 60dc47e903299114494218edbe5a2ad0, type: 3}
   testPrefab: {fileID: 3767771989420210547, guid: 815bd7cef24305e4e9a9e3af49e374d6,

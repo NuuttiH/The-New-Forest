@@ -22,7 +22,7 @@ public class PlaceableObject : MonoBehaviour
 {
     //[HideInInspector] 
     public int buildingId = -1;
-    protected bool _initialized = false;
+    public bool Initialized { get; protected set; }
     public string Name 
     { 
         get 
@@ -42,9 +42,6 @@ public class PlaceableObject : MonoBehaviour
     public Vector3Int Size { get; protected set; }
     protected Vector3Int _startTile;
     protected Vector3[] _vertices;
-    protected GameObject _areaSprite;
-    protected bool _areaSpriteOn;
-    protected bool _areaSpriteOnExternal = false;
 
     [SerializeField] protected bool _requireGrowth = true;
     [SerializeField] protected float _growTime = 1f;
@@ -74,10 +71,14 @@ public class PlaceableObject : MonoBehaviour
     public bool RequireGrass { get { return _requireGrass; } }
 
 
+    void Awake()
+    {
+        Initialized = false;
+        Placeable = false;
+        GetColliderVertexPositionsLocal();
+    }
     void Start()
     {
-        Placeable = false;
-
         if(!GameManager.FinishedStartup) // Placement during game startup
         {
             Placed = true;
@@ -91,10 +92,7 @@ public class PlaceableObject : MonoBehaviour
             StartCoroutine(Initialize(null, 0.01f));
         }
     }
-    void OnDestroy()
-    {
-        Destroy(_areaSprite);
-    }
+    
     public void Init(BuildingSaveData data = null, float wait = 0.3f)
     {
         StartCoroutine(Initialize(data, wait));
@@ -104,12 +102,8 @@ public class PlaceableObject : MonoBehaviour
         //if(data == null) Debug.Log($"PlaceableObject.Initialize(null, {wait})");
         //else Debug.Log($"PlaceableObject.Initialize(data, {wait})");
         yield return new WaitForSecondsRealtime(wait);
-        if(!_initialized)
+        if(!Initialized)
         {
-            _initialized = true;
-            
-            GetColliderVertexPositionsLocal();
-            CalculateSizeInCells();
 
             if(data == null)
             {
@@ -122,12 +116,13 @@ public class PlaceableObject : MonoBehaviour
                     // Reposition to grid to fix preset objects
                     transform.position = BuildingSystem.SnapCoordinateToGrid(
                         this.transform.position);
-                    GetColliderVertexPositionsLocal();
                     CalculateSizeInCells(true);
+                    yield return null;
                     // Placed during startup but no save data -> default object
                     PlaceInStartup();
                     if(_growthProgress >= 1f) FinishGrowth();
-                } 
+                }
+                else CalculateSizeInCells();
             }
             else
             {
@@ -143,8 +138,11 @@ public class PlaceableObject : MonoBehaviour
                 
                 GetComponent<OpenPopUpOnClick>().Init();
 
+                CalculateSizeInCells();
+                yield return null;
                 PlaceInStartup();
             }
+            Initialized = true;
         } 
     }
     IEnumerator EnablePlacement()
@@ -176,6 +174,10 @@ public class PlaceableObject : MonoBehaviour
 
     private void CalculateSizeInCells(bool drawLaser = false)
     {
+        // Move object to center for calculations to avoid calculating outside of the grid
+        Vector3 oldPos = transform.position;
+        transform.position = new Vector3();
+
         Vector3Int[] vertices = new Vector3Int[_vertices.Length];
 
         for(int i=0; i<_vertices.Length; i++)
@@ -188,31 +190,23 @@ public class PlaceableObject : MonoBehaviour
                                 y:(Math.Abs(vertices[0].y - vertices[3].y)),
                                 z:1);
 
+        transform.position = oldPos;
+
         if(drawLaser)
         {
+            vertices = new Vector3Int[_vertices.Length];
+
+            for(int i=0; i<_vertices.Length; i++)
+            {
+                Vector3 worldPos = transform.TransformPoint(_vertices[i]);
+                vertices[i] = BuildingSystem.GridLayout.WorldToCell(worldPos);
+            }
+
             Debug.DrawLine(transform.TransformPoint(_vertices[0]), transform.TransformPoint(_vertices[1]), Color.black, 150f, false);
             Debug.DrawLine(transform.TransformPoint(_vertices[1]), transform.TransformPoint(_vertices[2]), Color.black, 150f, false);
             Debug.DrawLine(transform.TransformPoint(_vertices[2]), transform.TransformPoint(_vertices[3]), Color.black, 150f, false);
             Debug.DrawLine(transform.TransformPoint(_vertices[3]), transform.TransformPoint(_vertices[0]), Color.black, 150f, false);
         }
-        
-        // Make new _areaSprite object which can be used to display object size
-        if(_areaSprite != null) Destroy(_areaSprite);
-        _areaSprite = new GameObject("AreaSprite", typeof(SpriteRenderer));
-        // parenting would move this around problematicly
-        _areaSprite.transform.SetParent(this.gameObject.transform, true); 
-        Vector3 newPos = new Vector3(0f, 0.6f, 0f);
-        if(Size.x % 2 == 0) newPos.x = 1.25f;
-        if(Size.y % 2 == 0) newPos.z -= 1.25f;
-        _areaSprite.transform.localPosition = newPos;
-        _areaSprite.transform.localScale = Size;
-        _areaSprite.transform.localRotation = Quaternion.Euler(90, 0, 0);
-        SpriteRenderer sr = _areaSprite.GetComponent<SpriteRenderer>();
-        sr.sprite = BuildingSystem.GetAreaInUseSprite();
-        if(!sr.sprite) Debug.LogError("ERROR: PlacableObject failed to get AreaInUseSprite");
-        sr.color = new Color32(255, 255, 255, 50);
-        _areaSpriteOn = true;
-        AreaSpriteCheck();
     }
 
     public Vector3 GetStartPosition()
@@ -251,20 +245,13 @@ public class PlaceableObject : MonoBehaviour
         this.gameObject.GetComponent<OpenPopUpOnClick>().Init();
         if(_requireGrowth)
         {
-            _areaSpriteOn = true;
-            AreaSpriteCheck();
             StartCoroutine(InitialGrowth());
         }
         else if(_requireConstruction)
         {
-            _areaSpriteOn = true;
-            AreaSpriteCheck();
             StartConstruction();
         }
         if(_requireConstruction && !_finishedConstruction) _constructionObject.SetActive(false);
-
-        // Reposition _areaSprite to final location
-        //_areaSprite.transform.localPosition = new Vector3(0f, 0.6f, -1f);
     }
     public void PlaceInStartup()
     {
@@ -286,8 +273,6 @@ public class PlaceableObject : MonoBehaviour
         // Adjust growth to match savedata if still growing
         if(_requireGrowth)
         {
-            _areaSpriteOn = true;
-            AreaSpriteCheck();
             if(_growthProgress < 1f)
             {
                 transform.localScale = (_originalScale * _ticSize);
@@ -304,11 +289,12 @@ public class PlaceableObject : MonoBehaviour
         {
             if(!_finishedConstruction)
             {
-                _areaSpriteOn = true;
-                AreaSpriteCheck();
                 StartConstruction();
             }
-            else FinishConstruction();
+            else 
+            {
+                FinishConstruction();
+            }
         }
         if(_requireConstruction && !_finishedConstruction) _constructionObject.SetActive(false);
     }
@@ -351,8 +337,6 @@ public class PlaceableObject : MonoBehaviour
             if(_spawnGrass) GrassSystem.AddGrassSpawnLocationArea(_startTile, Size);
             if(_growthSpeedIncreasePercent != 0f)
                 GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
-            _areaSpriteOn = false;
-            AreaSpriteCheck();
         }
         MessageLog.NewMessage(new MessageData($"{_objectInfo.name} has finished growing.", 
                                                 MessageType.Unimportant));
@@ -383,8 +367,6 @@ public class PlaceableObject : MonoBehaviour
             else GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
         }
         if(!_requireGrowth) TryTrigger();
-        _areaSpriteOn = false;
-        AreaSpriteCheck();
 
         MessageLog.NewMessage(new MessageData($"{_objectInfo.name} has finished construction.", 
                                                 MessageType.Unimportant));
@@ -449,17 +431,6 @@ public class PlaceableObject : MonoBehaviour
             JobManager.RemoveJob(_cutDownjobIndex);
         }
         _cuttable = val;
-    }
-
-    public void AreaSpriteCheck()
-    {
-        if(_areaSprite == null) return;
-        _areaSprite.SetActive(_areaSpriteOn || _areaSpriteOnExternal);
-    }
-    public void SetAreaSprite(bool val)
-    {
-        _areaSpriteOnExternal = val;
-        AreaSpriteCheck();
     }
     
     public void TryTrigger()
