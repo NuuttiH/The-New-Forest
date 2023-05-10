@@ -121,4 +121,27 @@ public static class Tools
 
         panel.transform.position = canvas.transform.TransformPoint(newPosFinal);
     }
+
+    public static string LogHashSet(HashSet<int> set)
+    {
+        string s = "(";
+        
+        if(set.Count > 0)
+        {
+            s += GetFirstValueFromSet(set);
+            bool first = false;
+            foreach(int val in set)
+            {
+                if(!first) first = true;
+                else s += $", {val}";
+            } 
+        }
+        s += ")";
+        return s;
+    }
+    public static int GetFirstValueFromSet(HashSet<int> set)
+    {
+        foreach(var i in set) return i;
+        return -1;
+    }
 }

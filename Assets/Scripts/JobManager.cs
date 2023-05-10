@@ -41,6 +41,28 @@ public class JobManager : MonoBehaviour
         //_jobWeights[JobType.Build] = -100;
         //_jobWeights[JobType.Magic] = -100;
         StartCoroutine(AssessJobWeightsCoroutine());
+        StartCoroutine(DebugLogging());
+    }
+    IEnumerator DebugLogging()
+    {
+        yield return new WaitForSeconds(2f);
+        Debug.Log($"JobManager: Info: _lumberJobs ");
+        foreach(int index in _lumberJobs)
+        {
+            Job job = GameManager.GetJobById(index);
+            Debug.Log($"JobManager: Info: (index: {job.index}, jobType: {job.jobType},  "
+                    + $"targetObjectId: {job.targetObjectId}, inProgress: {job.inProgress}, workerId: {job.workerId})");
+        }
+        while(true)
+        {
+            yield return new WaitForSeconds(3f);
+            Debug.Log($"JobManager: _foodJobs: {Tools.LogHashSet(_foodJobs)}");
+            Debug.Log($"JobManager: _lumberJobs: {Tools.LogHashSet(_lumberJobs)}");
+            Debug.Log($"JobManager: _buildJobs: {Tools.LogHashSet(_buildJobs)}");
+            Debug.Log($"JobManager: _magicJobs: {Tools.LogHashSet(_magicJobs)}");
+            Debug.Log($"JobManager: _inProgressJobs: {Tools.LogHashSet(_inProgressJobs)}");
+            Debug.Log($"JobManager: _priorityJobs: {Tools.LogHashSet(_priorityJobs)}");
+        }
     }
 
     public static int QueueJob(Job job, bool newJob = true)
@@ -77,10 +99,13 @@ public class JobManager : MonoBehaviour
 
     public static void RemoveJob(int jobIndex)
     {
-        Debug.Log("JobManager: Removing job (" + jobIndex + ")");
+        Debug.Log($"JobManager: Removing job index {jobIndex}");
         if(jobIndex == -1) return;
 
         Job job = GameManager.GetJobById(jobIndex);
+        Debug.Log(  $"JobManager: Removing job exists: {job != null})");
+        Debug.Log(  $"JobManager: Removing job data: (jobType: {job.jobType}, targetObjectId: {job.targetObjectId}, "
+                    + $"inProgress: {job.inProgress}, workerId: {job.workerId})");
         if(job.inProgress)
         {
             _instance._inProgressJobs.Remove(jobIndex);
@@ -183,6 +208,7 @@ public class JobManager : MonoBehaviour
                     job = GameManager.GetJobById(GetClosestJobFromSet(
                                 villagerLocation, _instance._foodJobs));
                     job.inProgress = true;
+                    GameManager.UpdateJobInProgress(job.index);
                     _instance._foodJobs.Remove(job.index);
                     _instance._inProgressJobs.Add(job.index);
                 }
@@ -194,6 +220,7 @@ public class JobManager : MonoBehaviour
                     job = GameManager.GetJobById(GetClosestJobFromSet(
                                 villagerLocation, _instance._lumberJobs));
                     job.inProgress = true;
+                    GameManager.UpdateJobInProgress(job.index);
                     _instance._lumberJobs.Remove(job.index);
                     _instance._inProgressJobs.Add(job.index);
                 }
@@ -205,6 +232,7 @@ public class JobManager : MonoBehaviour
                     job = GameManager.GetJobById(GetClosestJobFromSet(
                                 villagerLocation, _instance._buildJobs));
                     job.inProgress = true;
+                    GameManager.UpdateJobInProgress(job.index);
                     _instance._buildJobs.Remove(job.index);
                     _instance._inProgressJobs.Add(job.index);
                 }
@@ -216,6 +244,7 @@ public class JobManager : MonoBehaviour
                     job = GameManager.GetJobById(GetClosestJobFromSet(
                                 villagerLocation, _instance._magicJobs));
                     job.inProgress = true;
+                    GameManager.UpdateJobInProgress(job.index);
                     _instance._magicJobs.Remove(job.index);
                     _instance._inProgressJobs.Add(job.index);
                 }
@@ -268,13 +297,6 @@ public class JobManager : MonoBehaviour
         }
     }
 
-    public static int GetValueFromSet(HashSet<int> set)
-    {
-        foreach (var i in set){
-            return i;
-        }
-        return -1;
-    }
     public static int GetClosestJobFromSet(Vector3 villagerLocation, HashSet<int> set)
     {
         float distance = 1000000;

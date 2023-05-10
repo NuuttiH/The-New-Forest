@@ -536,6 +536,7 @@ MonoBehaviour:
   _lumberInfo: {fileID: 0}
   _magicInfo: {fileID: 0}
   _cutDownButton: {fileID: 3321553834461919401}
+  _cutDownLabel: {fileID: 7185381410633809470}
 --- !u!224 &683176247838260794 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8345342037952964637, guid: 54687cd854ce43a468af3314330ff8d4,

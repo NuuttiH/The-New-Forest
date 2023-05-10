@@ -29,13 +29,8 @@ public class ObjectDrag : MonoBehaviour
         if(newCellPos != _cellPos)
         {
             transform.position = BuildingSystem.SnapCoordinateToGrid(pos);
-            BuildingSystem.SetDragOverlay(_objectScript.GetStartPosition(), _objectScript.Size);
+            BuildingSystem.SetDragOverlay(_objectScript.GetStartPosition(), _objectScript.Size, _objectScript.RequireGrass);
             _cellPos = newCellPos;
         }
-    }
-    
-    void OnDestroy()
-    {
-        BuildingSystem.ResetDragOverlay();
     }
 }

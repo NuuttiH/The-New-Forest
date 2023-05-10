@@ -57,13 +57,13 @@ public class PlaceableObject : MonoBehaviour
 
     protected int _cutDownjobIndex;
     protected int _jobIndex;
-    [SerializeField] protected bool _cuttable = true;
-    protected bool _cutByDefault = false;
+    public bool Cuttable { get; protected set; }
     [SerializeField] protected Resource _cutDownResourceType = Resource.Lumber;
     [SerializeField] protected int _lumberValue = 1;
     [SerializeField] protected float _woodCuttingTime = 5f;
     [SerializeField] protected float _woodCuttingDistance = 6.3f;
     [SerializeField] protected BuildJobType _deconstructType = BuildJobType.Cut;
+    public bool IsTree { get { return _deconstructType == BuildJobType.Cut; } }
     [SerializeField] protected float _growthSpeedIncreasePercent = 0f;
     public float GrowthSpeedIncreasePercent { get; protected set; }
     [SerializeField] protected bool _spawnGrass = false;
@@ -120,7 +120,7 @@ public class PlaceableObject : MonoBehaviour
                     yield return null;
                     // Placed during startup but no save data -> default object
                     PlaceInStartup();
-                    if(_growthProgress >= 1f) FinishGrowth();
+                    //if(_growthProgress >= 1f) FinishGrowth();
                 }
                 else CalculateSizeInCells();
             }
@@ -233,7 +233,7 @@ public class PlaceableObject : MonoBehaviour
 
         Destroy(gameObject.GetComponent<ObjectDrag>());
         GetComponent<NavMeshObstacle>().enabled = true;
-        _cuttable = false;
+        Cuttable = false;
         Placed = true;
         _startTile = start;
         BuildingSystem.TakeArea(start, Size);
@@ -260,7 +260,7 @@ public class PlaceableObject : MonoBehaviour
         Debug.Log("Placing (" + this.gameObject.name + ") in startup...");
         
         GetComponent<NavMeshObstacle>().enabled = true;
-        _cuttable = false;
+        Cuttable = false;
         _startTile = start;
         BuildingSystem.TakeArea(start, Size);
 
@@ -429,8 +429,10 @@ public class PlaceableObject : MonoBehaviour
         else
         {
             JobManager.RemoveJob(_cutDownjobIndex);
+            _cutDownjobIndex = -1;
+            if(_requireConstruction && !_finishedConstruction) Unplace();
         }
-        _cuttable = val;
+        Cuttable = val;
     }
     
     public void TryTrigger()

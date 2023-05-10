@@ -15,10 +15,17 @@ public class PopUpBuildingTooltip : PopUpMenu, IPointerEnterHandler, IPointerExi
     public override void InitAdvanced()
     {
         _placeableObject = _bossObject.GetComponent<BuildButton>().Building.GetComponent<PlaceableObject>();
+        Debug.Log($"PopUpGenericTooltip.InitAdvanced() found _placeableObject: {_placeableObject != null}");
         _hoverScript = _bossObject.GetComponent<OpenTooltipOnHover>();
 
         bool first = true;
-        foreach(Cost cost in _placeableObject.BuildingCost)
+        if(_placeableObject.BuildingCost.Length == 0)
+        {
+            _resourceObject = _resourcePanel.transform.GetChild(0).gameObject;
+            _resourceObject.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
+            //_resourceObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "free";
+        }
+        else foreach(Cost cost in _placeableObject.BuildingCost)
         {
             if(first)
             {
@@ -29,6 +36,7 @@ public class PopUpBuildingTooltip : PopUpMenu, IPointerEnterHandler, IPointerExi
                     GetComponent<Image>(), cost.type);
                 _resourceObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().
                     text = cost.amount.ToString();
+                Debug.Log($"PopUpGenericTooltip.InitAdvanced() set {cost.type} and {cost.amount}");
             }
             else
             {
@@ -37,6 +45,7 @@ public class PopUpBuildingTooltip : PopUpMenu, IPointerEnterHandler, IPointerExi
                     GetComponent<Image>(), cost.type);
                 _newResourceObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().
                     text = cost.amount.ToString();
+                Debug.Log($"PopUpGenericTooltip.InitAdvanced() set {cost.type} and {cost.amount}");
             }
         }
     }

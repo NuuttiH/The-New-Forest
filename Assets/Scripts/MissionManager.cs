@@ -231,6 +231,15 @@ public class MissionManager : MonoBehaviour
             if(mission.description != "")
                 text += " <size=80%><br>   " + mission.description;
             _instance._display.AddOrEditMission(groupIndex, i, text);
+
+            // Check if mission is already completed
+            if(mission.missionGoal == MissionGoal.BuyFromTrader || mission.missionGoal == MissionGoal.TriggerFlag)
+            {
+                if(GameManager.GetFlag((Flag)mission.missionGoalId))
+                {
+                    IncrementMission(mission.missionGoal, mission.missionGoalId);
+                }
+            }
         }
     }
     private static void UnregisterMissionGroup(int groupIndex)

@@ -789,7 +789,6 @@ MonoBehaviour:
   _constructionTime: 1
   _constructionDistance: 6.3
   _finishedConstruction: 0
-  _cuttable: 1
   _cutDownResourceType: 2
   _lumberValue: 0
   _woodCuttingTime: 5
@@ -809,7 +808,7 @@ MonoBehaviour:
   _fruitResourceType: 1
   _fruitFoodValue: 1
   _selfDestructAfterUse: 1
-  _useCycles: 2
+  _useCycles: 3
 --- !u!114 &5887909237642432572
 MonoBehaviour:
   m_ObjectHideFlags: 0

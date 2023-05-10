@@ -79,7 +79,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingId: -1
   _objectInfo: {fileID: 11400000, guid: 7f2006b7b2a87444d947ad8100137b3e, type: 2}
-  _buildingTrigger: 7
   BuildingCost:
   - amount: 5
     type: 2
@@ -94,12 +93,11 @@ MonoBehaviour:
   _constructionTime: 10
   _constructionDistance: 6.3
   _finishedConstruction: 0
-  _cuttable: 1
   _cutDownResourceType: 2
   _lumberValue: 1
   _woodCuttingTime: 5
   _woodCuttingDistance: 6.3
-  _deconstructType: 1
+  _deconstructType: 2
   _growthSpeedIncreasePercent: 0
   _spawnGrass: 0
   _requireGrass: 0

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5532842271071284892}
   - component: {fileID: 7297084498785798059}
   m_Layer: 5
-  m_Name: CostPanel
+  m_Name: ResourceCostPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

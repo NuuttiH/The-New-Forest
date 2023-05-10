@@ -182,23 +182,23 @@ public class GameManager : MonoBehaviour
             case Resource.Food:
                 oldValue = _instance._food;
                 newValue = _instance._food + amount;
-                if(newValue > 0) MissionManager.onIncrementMission(MissionGoal.Food, newValue);
                 _instance._food = newValue;
                 Events.onFoodChange(oldValue, newValue);
+                if(amount > 0) MissionManager.onIncrementMission(MissionGoal.Food, amount);
                 break;
             case Resource.Lumber:
                 oldValue = _instance._lumber;
                 newValue = _instance._lumber + amount;
-                if(newValue > 0) MissionManager.onIncrementMission(MissionGoal.Lumber, newValue);
                 _instance._lumber = newValue;
                 Events.onLumberChange(oldValue, newValue);
+                if(amount > 0) MissionManager.onIncrementMission(MissionGoal.Lumber, amount);
                 break;
             case Resource.Magic:
                 oldValue = _instance._magic;
                 newValue = _instance._magic + amount;
-                if(newValue > 0) MissionManager.onIncrementMission(MissionGoal.Magic, newValue);
                 _instance._magic = newValue;
                 Events.onMagicChange(oldValue, newValue);
+                if(amount > 0) MissionManager.onIncrementMission(MissionGoal.Magic, amount);
                 break;
             case Resource.None:
             default:
@@ -334,6 +334,10 @@ public class GameManager : MonoBehaviour
     public static Job GetJobById(int id)
     {
         return _instance._jobIdDictionary[id];
+    }
+    public static void UpdateJobInProgress(int id, bool val = true)
+    {
+        _instance._jobIdDictionary[id].inProgress = val;
     }
     public static HashSet<int> GetIds(IdType idType)
     {

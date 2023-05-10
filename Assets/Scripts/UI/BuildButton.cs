@@ -74,6 +74,7 @@ public class BuildButton : MonoBehaviour
 
     public void TryBuild()
     {
+        BuildingSystem.ResetDragOverlay();
         if(BuildingSystem.IsPlacingBuilding())
         {
             BuildingSystem.StopBuilding();

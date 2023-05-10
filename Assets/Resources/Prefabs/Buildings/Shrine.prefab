@@ -93,12 +93,11 @@ MonoBehaviour:
   _constructionTime: 4
   _constructionDistance: 6.3
   _finishedConstruction: 0
-  _cuttable: 0
   _cutDownResourceType: 2
   _lumberValue: 1
   _woodCuttingTime: 5
   _woodCuttingDistance: 6.3
-  _deconstructType: 1
+  _deconstructType: 2
   _growthSpeedIncreasePercent: 5
   _spawnGrass: 1
   _requireGrass: 0

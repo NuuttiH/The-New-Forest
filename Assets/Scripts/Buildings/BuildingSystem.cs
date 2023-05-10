@@ -24,6 +24,7 @@ public class BuildingSystem : MonoBehaviour
     private bool _placementBlock = false;
     private Vector3Int _previousOverlayStart;
     private TileBase[] _previousOverlayTiles;
+    private Vector3Int _previousSize;
     
     private void Awake()
     {
@@ -40,6 +41,7 @@ public class BuildingSystem : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.A))
         {
+            ResetDragOverlay();
             InitializedWithObject(testPrefab);
         }
 
@@ -47,6 +49,7 @@ public class BuildingSystem : MonoBehaviour
 
         if(_objectToPlace.Placeable && Input.GetMouseButtonUp(0))
         {
+            ResetDragOverlay();
             if(CanBePlaced(_objectToPlace))
             {
                 Vector3Int start = GridLayout.WorldToCell(_objectToPlace.GetStartPosition());
@@ -61,6 +64,7 @@ public class BuildingSystem : MonoBehaviour
         }
         else if(Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonUp(1))
         {
+            ResetDragOverlay();
             Destroy(_objectToPlace.gameObject);
             _objectToPlace = null;
         }
@@ -103,6 +107,7 @@ public class BuildingSystem : MonoBehaviour
 
     public static TileBase[] GetTilesBlock(BoundsInt area, Tilemap tilemap)
     {
+        if(tilemap == null) tilemap = _instance._mainTilemap;
         TileBase[] array = new TileBase[area.size.x * area.size.y * area.size.z];
         int counter = 0;
 
@@ -125,7 +130,7 @@ public class BuildingSystem : MonoBehaviour
 
         foreach(var b in baseArray)
         {
-            if(b==_occupiedTile) return false;
+            if(b == _occupiedTile || b == _overlapTile) return false;
         }
         if(placeableObject.RequireGrass) return GrassSystem.HasGrass(area);
         else return true;
@@ -182,7 +187,7 @@ public class BuildingSystem : MonoBehaviour
         _instance._objectToPlace = null;
     }
 
-    public static void SetDragOverlay(Vector3 start, Vector3Int size)
+    public static void SetDragOverlay(Vector3 start, Vector3Int size, bool requireGrass)
     {
         Vector3Int cellPos = GridLayout.WorldToCell(start);
         //Debug.Log("BuildingSystem: SetDragOverlay(" + cellPos + ", " + size);
@@ -191,7 +196,8 @@ public class BuildingSystem : MonoBehaviour
         if(_instance._previousOverlayTiles != null)
         {
             BoundsInt previousArea = new BoundsInt();
-            previousArea.SetMinMax(_instance._previousOverlayStart, _instance._previousOverlayStart + size);
+            previousArea.SetMinMax( _instance._previousOverlayStart, 
+                                    _instance._previousOverlayStart + _instance._previousSize);
             _instance._mainTilemap.SetTilesBlock(previousArea, _instance._previousOverlayTiles);
         }
 
@@ -200,10 +206,13 @@ public class BuildingSystem : MonoBehaviour
         area.SetMinMax(cellPos, cellPos + size);
         TileBase[] originalArray = GetTilesBlock(area, _instance._mainTilemap);
         TileBase[] tileArray = new TileBase[size.x * size.y * size.z];
-        for (int index = 0; index < tileArray.Length; index++)
+        TileBase[] grassTileArray = null;
+        if(requireGrass) grassTileArray = GrassSystem.GetTilesBlock(area, null);
+        for(int index = 0; index < tileArray.Length; index++)
         {
-            if(originalArray[index] == null) // empty
+            if(originalArray[index] == null && (!requireGrass || grassTileArray[index] != null)) 
             {
+                // empty and (doesn't require grass or has grass)
                 tileArray[index] = _instance._overlayTile;
             }
             else
@@ -213,10 +222,20 @@ public class BuildingSystem : MonoBehaviour
         }
         _instance._previousOverlayStart = cellPos;
         _instance._previousOverlayTiles = originalArray;
+        _instance._previousSize = size;
         _instance._mainTilemap.SetTilesBlock(area, tileArray);
     }
     public static void ResetDragOverlay()
     {
-        _instance._previousOverlayTiles = null;
+        // Undo previous changes 
+        if(_instance._previousOverlayTiles != null)
+        {
+            BoundsInt previousArea = new BoundsInt();
+            previousArea.SetMinMax( _instance._previousOverlayStart, 
+                                    _instance._previousOverlayStart + _instance._previousSize);
+            _instance._mainTilemap.SetTilesBlock(previousArea, _instance._previousOverlayTiles);
+
+            _instance._previousOverlayTiles = null;
+        }
     }
 }

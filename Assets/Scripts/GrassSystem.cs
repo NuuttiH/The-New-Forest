@@ -284,8 +284,13 @@ public class GrassSystem : MonoBehaviour
 
         return _instance._fullGrassTiles.Contains(new Vector2Int(gridLocation.x, gridLocation.y));
     }
+    public static bool HasGrass(Vector3Int gridLocation)
+    {
+        return _instance._fullGrassTiles.Contains(new Vector2Int(gridLocation.x, gridLocation.y));
+    }
     public static TileBase[] GetTilesBlock(BoundsInt area, Tilemap tilemap)
     {
+        if(tilemap == null) tilemap = _instance._mainTilemap;
         TileBase[] array = new TileBase[area.size.x * area.size.y * area.size.z];
         int counter = 0;
 

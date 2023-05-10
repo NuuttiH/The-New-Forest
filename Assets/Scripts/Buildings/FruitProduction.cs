@@ -17,7 +17,7 @@ public class FruitProduction : PlaceableObject
     private float[] _fruitGrowthProgress;
     private float _fruitTicSize;
     [SerializeField] private bool _selfDestructAfterUse = true;
-    [SerializeField] private int _useCycles = 3;
+    [SerializeField] private int _useCycles = 5;
     private int _cycles = 0;
     
     
@@ -56,9 +56,9 @@ public class FruitProduction : PlaceableObject
         _fruitGrowthProgress[i] = 0f;
         _fruits[i].transform.localScale = new Vector3(0f, 0f, 0f);
 
-        if(_selfDestructAfterUse && _cycles >= _useCycles)
+        if(_selfDestructAfterUse && i == 0) _cycles++;
+        if(_cycles >= _useCycles)
         {
-            _cycles++;
             MessageLog.NewMessage(new MessageData(
                 $"{_objectInfo.name} was foraged completely and disappeared", MessageType.Unimportant));
             Unplace();
