@@ -21,7 +21,7 @@ public class MissionManager : MonoBehaviour
     private static MissionManager _instance;
     [SerializeField] private ScenarioInfo _scenarioInfo;
     [SerializeField] private AudioEvent _missionAudioEvent;
-    [SerializeField] private AudioEvent _winAudioEvent;
+    [SerializeField] private GameObject _winScreen;
     private MissionDisplay _display;
     private int _mainMissionIndex = -1;
     private List<LinkedMissionData>[] _missionLinks;
@@ -263,7 +263,7 @@ public class MissionManager : MonoBehaviour
     }
     private static void CompleteMainMission()
     {
-        Tools.PlayAudio(null, _instance._winAudioEvent);
+        Instantiate(_instance._winScreen);
         Debug.Log("MissionManager.CompleteMainMission()");
     }
 }
