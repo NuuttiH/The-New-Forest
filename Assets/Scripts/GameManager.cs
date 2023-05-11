@@ -104,6 +104,7 @@ public class GameManager : MonoBehaviour
         _objectId = game.objectId;
         _characterId = game.characterId;
         _jobId = game.jobId;
+        yield return null;
         if(game.scenarioInfoId == -1)
         {
             MissionManager.Init(Instantiate(_scenarioInfo));
@@ -114,6 +115,7 @@ public class GameManager : MonoBehaviour
         }
         _traderSpeed = game.traderSpeed;
         _flags = game.flags;
+        yield return null;
         if(game.time.Count == 0) IngameUIHandler.InitTime();
         else
         {

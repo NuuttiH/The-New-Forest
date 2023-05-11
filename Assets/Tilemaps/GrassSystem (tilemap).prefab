@@ -62,6 +62,7 @@ MonoBehaviour:
   _mainTilemap: {fileID: 6848292543511577351}
   _grassTile: {fileID: 11400000, guid: 2998d7b62fd10d54685c87e4ede23660, type: 2}
   _tileMapRenderer: {fileID: 6848292543511577348}
+  _baseGrassGrowthWaitTime: 10
 --- !u!1 &6848292543511577346
 GameObject:
   m_ObjectHideFlags: 0

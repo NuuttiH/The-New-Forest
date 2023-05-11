@@ -808,7 +808,7 @@ MonoBehaviour:
   _fruitResourceType: 1
   _fruitFoodValue: 1
   _selfDestructAfterUse: 1
-  _useCycles: 3
+  _useCycles: 4
 --- !u!114 &5887909237642432572
 MonoBehaviour:
   m_ObjectHideFlags: 0

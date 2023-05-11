@@ -32,6 +32,7 @@ public class SceneLoadingManager : MonoBehaviour
 			yield return null;
 		}
 		Events.ResetEventDelegates();
+		yield return null;
 		operation.allowSceneActivation = true;
 
 		yield return null;

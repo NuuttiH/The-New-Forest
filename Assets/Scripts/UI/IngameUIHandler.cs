@@ -52,10 +52,15 @@ public class IngameUIHandler : MonoBehaviour
     }
     void Start()
     {
+        StartCoroutine(Init());
+    }
+    IEnumerator Init()
+    {
+        yield return null;
         Events.onTraderSpeedChange += AdjustTraderTimer;
         Events.onSaveLoaded += InitTraderFlags;
         Events.onFlagTriggered += CheckFlagTrigger;
-    }
+    } 
     void OnDestroy()
     {
         Events.onTraderSpeedChange -= AdjustTraderTimer;
