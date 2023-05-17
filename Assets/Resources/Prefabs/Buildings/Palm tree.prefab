@@ -441,7 +441,7 @@ MonoBehaviour:
   _constructionTime: 1
   _constructionDistance: 6.3
   _finishedConstruction: 0
-  _cuttable: 1
+  _cuttableDefault: 1
   _cutDownResourceType: 2
   _lumberValue: 1
   _woodCuttingTime: 5

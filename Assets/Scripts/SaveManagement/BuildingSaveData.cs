@@ -15,14 +15,16 @@ public class BuildingSaveData
     public Vector3Int size;
     public Vector3Int startTile;
     public float growthProgress;
-    public int cutDownjobIndex;
     public int jobIndex;
+    public int cutDownjobIndex;
+    public bool cuttable;
+    public List<float> extraSaveData;
 
     public BuildingSaveData(   Vector3 location, Quaternion rotation, 
                                 string prefabName, int buildingId,
                                 Vector3Int size, Vector3Int startTile, 
-                                float growthProgress, int cutDownjobIndex, 
-                                int jobIndex)
+                                float growthProgress, int jobIndex, 
+                                int cutDownjobIndex, bool cuttable)
     {
         this.location = location;
         this.rotation = rotation;
@@ -31,8 +33,10 @@ public class BuildingSaveData
         this.size = size;
         this.startTile = startTile;
         this.growthProgress = growthProgress;
-        this.cutDownjobIndex = cutDownjobIndex;
         this.jobIndex = jobIndex;
+        this.cutDownjobIndex = cutDownjobIndex;
+        this.cuttable = cuttable;
+        this.extraSaveData = new List<float>();
     }
     public BuildingSaveData(){}
 }

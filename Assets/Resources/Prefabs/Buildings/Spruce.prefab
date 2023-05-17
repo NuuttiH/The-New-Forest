@@ -168,7 +168,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingId: 0
   _objectInfo: {fileID: 11400000, guid: 8f41e7eb4001d8f4f8122fbf14b95e25, type: 2}
-  _buildingTrigger: 4
   BuildingCost:
   - amount: 1
     type: 3
@@ -181,7 +180,7 @@ MonoBehaviour:
   _constructionTime: 1
   _constructionDistance: 6.3
   _finishedConstruction: 0
-  _cuttable: 1
+  _cuttableDefault: 1
   _cutDownResourceType: 2
   _lumberValue: 5
   _woodCuttingTime: 5

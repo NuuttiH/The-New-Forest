@@ -13,6 +13,8 @@ public class MagicProduction : PlaceableObject
 
     public override void FinishConstruction()
     {
+        if(_jobIndex != -1) return;
+
         Job newJob = new Job(   JobType.Magic, _resourceType,
                                 this.buildingId, _jobLocation.transform.position, 
                                 _jobTime, _jobDistance);

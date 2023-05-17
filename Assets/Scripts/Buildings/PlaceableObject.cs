@@ -58,6 +58,7 @@ public class PlaceableObject : MonoBehaviour
     protected int _cutDownjobIndex;
     protected int _jobIndex;
     public bool Cuttable { get; protected set; }
+    [SerializeField] protected bool _cuttableDefault = false;
     [SerializeField] protected Resource _cutDownResourceType = Resource.Lumber;
     [SerializeField] protected int _lumberValue = 1;
     [SerializeField] protected float _woodCuttingTime = 5f;
@@ -75,6 +76,7 @@ public class PlaceableObject : MonoBehaviour
     {
         Initialized = false;
         Placeable = false;
+        Cuttable = _cuttableDefault;
         GetColliderVertexPositionsLocal();
     }
     void Start()
@@ -133,8 +135,10 @@ public class PlaceableObject : MonoBehaviour
                 Size = data.size;
                 _startTile = data.startTile;
                 _growthProgress = data.growthProgress;
-                _cutDownjobIndex = data.cutDownjobIndex;
                 _jobIndex = data.jobIndex;
+                _cutDownjobIndex = data.cutDownjobIndex;
+                Cuttable = data.cuttable;
+                InitializeExtra(data);
                 
                 GetComponent<OpenPopUpOnClick>().Init();
 
@@ -145,6 +149,7 @@ public class PlaceableObject : MonoBehaviour
             Initialized = true;
         } 
     }
+    public virtual void InitializeExtra(BuildingSaveData data) {}
     IEnumerator EnablePlacement()
     {
         // Prevent instant placement
@@ -153,12 +158,18 @@ public class PlaceableObject : MonoBehaviour
     }
     public BuildingSaveData FormSaveData()
     {
-        return new BuildingSaveData(   
+        BuildingSaveData data = new BuildingSaveData(   
                         gameObject.transform.position, gameObject.transform.rotation, 
                         _objectInfo.name, buildingId,
                         Size, _startTile, 
-                        _growthProgress, _cutDownjobIndex, 
-                        _jobIndex);
+                        _growthProgress, _jobIndex, 
+                        _cutDownjobIndex, Cuttable);
+        data.extraSaveData = FormSaveDataExtra();
+        return data;
+    }
+    public virtual List<float> FormSaveDataExtra()
+    {
+        return null;
     }
 
 
@@ -233,7 +244,6 @@ public class PlaceableObject : MonoBehaviour
 
         Destroy(gameObject.GetComponent<ObjectDrag>());
         GetComponent<NavMeshObstacle>().enabled = true;
-        Cuttable = false;
         Placed = true;
         _startTile = start;
         BuildingSystem.TakeArea(start, Size);
@@ -246,12 +256,15 @@ public class PlaceableObject : MonoBehaviour
         if(_requireGrowth)
         {
             StartCoroutine(InitialGrowth());
+
+            if(_requireConstruction && !_finishedConstruction) _constructionObject.SetActive(false);
         }
-        else if(_requireConstruction)
+        else if(_requireConstruction && !_finishedConstruction)
         {
             StartConstruction();
+
+            _constructionObject.SetActive(false);
         }
-        if(_requireConstruction && !_finishedConstruction) _constructionObject.SetActive(false);
     }
     public void PlaceInStartup()
     {
@@ -260,7 +273,6 @@ public class PlaceableObject : MonoBehaviour
         Debug.Log("Placing (" + this.gameObject.name + ") in startup...");
         
         GetComponent<NavMeshObstacle>().enabled = true;
-        Cuttable = false;
         _startTile = start;
         BuildingSystem.TakeArea(start, Size);
 

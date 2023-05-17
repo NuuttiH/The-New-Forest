@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class FruitProduction : PlaceableObject
 {
+    private bool _fruitsInitialized = false;
     [SerializeField] private GameObject _fruitPrefab;
     [SerializeField] private GameObject[] _fruits;
     [SerializeField] private float _fruitGrowTime = 20f;
@@ -21,12 +22,47 @@ public class FruitProduction : PlaceableObject
     private int _cycles = 0;
     private bool _beingDestroyed = false;
     
-    
+    // Manage extra save data for fruit production buildings
+    public override List<float> FormSaveDataExtra()
+    {
+        List<float> extraData = new List<float>();
+
+        for(int i=0; i<_fruits.Length; i++)
+        {
+            extraData.Add(_fruitGrowthProgress[i]);
+        }
+        for(int i=0; i<_fruits.Length; i++)
+        {
+            extraData.Add((float)_fruitJobIndex[i]);
+        }
+        extraData.Add((float)_cycles);
+
+        return extraData;
+    }
+    public override void InitializeExtra(BuildingSaveData data) 
+    {
+        if(!_fruitsInitialized) FruitInit();
+
+        int ii = 0;
+        for(int i=0; i<_fruits.Length; i++)
+        {
+            _fruitGrowthProgress[i] = data.extraSaveData[ii];
+            ii++;
+        }
+        for(int i=0; i<_fruits.Length; i++)
+        {
+            _fruitJobIndex[i] = (int)data.extraSaveData[ii];
+            ii++;
+        }
+        _cycles = (int)data.extraSaveData[ii];
+    }
+
     public override void FinishPlacing()
     {
         Debug.Log("FinishPlacing (" + this.gameObject.name + "...");
-        _fruitJobIndex = new int[_fruits.Length];
-        _fruitGrowthProgress = new float[_fruits.Length];
+
+        if(!_fruitsInitialized) FruitInit();
+
         _fruitTicSize = 1f / _fruitGrowthTics;
         _fruitOriginalScale = _fruits[0].transform.localScale;
         for(int i=0; i<_fruits.Length; i++)
@@ -34,14 +70,19 @@ public class FruitProduction : PlaceableObject
             _fruits[i].transform.localScale = new Vector3(0f, 0f, 0f);
         }
     }
-
-    public override void PrepUnplace()
+    public void FruitInit()
     {
+        
+        _fruitJobIndex = new int[_fruits.Length];
         for(int i=0; i<_fruits.Length; i++)
         {
-            Unregister(_fruitJobIndex[i], i, false);
+            _fruitJobIndex[i] = -1;
         }
+        _fruitGrowthProgress = new float[_fruits.Length];
+
+        _fruitsInitialized = true;
     }
+
 
     public override void FinishGrowth()
     {
@@ -51,9 +92,9 @@ public class FruitProduction : PlaceableObject
             StartCoroutine(ManageFruitGrowth(i));
         }
     }
-
     IEnumerator ManageFruitGrowth(int i)
     {
+        yield return null;
         // Check expiration
         if(_selfDestructAfterUse) _cycles++;
         if(_cycles > _useCycles)
@@ -85,6 +126,8 @@ public class FruitProduction : PlaceableObject
             _fruitGrowthProgress[i] += _fruitTicSize;
         }
         
+        if(_fruitJobIndex[i] != -1) yield break;
+        // Add food gathering job if one doesn't exist (loaded from savedata)
         Job newJob = new Job(   JobType.Food, _fruitResourceType,
                                 this.buildingId, _fruits[i].transform.position, 
                                 _fruitPickingTime, _fruitPickingDistance);
@@ -93,6 +136,13 @@ public class FruitProduction : PlaceableObject
         _fruitJobIndex[i] = jobIndex;
     }
 
+    public override void PrepUnplace()
+    {
+        for(int i=0; i<_fruits.Length; i++)
+        {
+            Unregister(_fruitJobIndex[i], i, false);
+        }
+    }
     public void Unregister(int index, int otherIndex, bool rewardFood = true)
     {
         if(rewardFood) GameManager.AddResource(Resource.Food, _fruitFoodValue);

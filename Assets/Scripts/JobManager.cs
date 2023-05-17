@@ -183,6 +183,17 @@ public class JobManager : MonoBehaviour
         JobType jobType = JobType.Idle;
         int jobWeight = _instance._jobWeights[jobType] + randomVal;
 
+        // Check if a job is already supposed to assigned to this villager
+        foreach(int id in _instance._inProgressJobs)
+        {
+            job = GameManager.GetJobById(GetClosestJobFromSet(
+                            villagerLocation, _instance._inProgressJobs));
+            if(job.workerId == villager.characterId)
+            {
+                return job;
+            }
+        }
+
         // Choose jobtype based on weights and random chance
         for(int i=1; i<System.Enum.GetValues(typeof(JobType)).Length; i++)
         {

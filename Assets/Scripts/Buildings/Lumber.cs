@@ -4,13 +4,10 @@ using UnityEngine;
 
 public class Lumber : PlaceableObject
 {
-    public override void FinishPlacing()
-    {
-        Cuttable = true;
-    }
-
     public override void FinishGrowth()
     {
+        if(_cutDownjobIndex != -1) return;
+
         _cutDownjobIndex = JobManager.QueueJob(
             new Job( JobType.Cut, _cutDownResourceType,
                      this.buildingId, this.transform.position, 

@@ -298,7 +298,7 @@ public class GameManager : MonoBehaviour
     }
     public static void RemoveId(IdType idType, int id)
     {
-        Debug.Log($"GameManager.RemoveId({idType}, {id}");
+        //Debug.Log($"GameManager.RemoveId({idType}, {id}");
         switch(idType)
         {
             case IdType.Building:
@@ -317,6 +317,7 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
+        Debug.Log($"GameManager.RemoveId({idType}, {id}, testing removal... {GetObjectById(idType, id)}");
     }
     public static GameObject GetObjectById(IdType idType, int id)
     {
@@ -324,10 +325,12 @@ public class GameManager : MonoBehaviour
         switch(idType)
         {
             case IdType.Building:
-                obj = _instance._objectIdDictionary[id];
+                if(_instance._objectIdDictionary.ContainsKey(id)) 
+                    obj = _instance._objectIdDictionary[id];
                 break;
             case IdType.Character:
-                obj = _instance._characterIdDictionary[id];
+                if(_instance._characterIdDictionary.ContainsKey(id)) 
+                    obj = _instance._characterIdDictionary[id];
                 break;
         }
         if(obj == null) Debug.Log("GameManager.GetObjectById returning null");
@@ -335,6 +338,17 @@ public class GameManager : MonoBehaviour
     }
     public static Job GetJobById(int id)
     {
+        if(!_instance._jobIdDictionary.ContainsKey(id))
+        {
+            Debug.Log($"GameManager.GetJobById({id})");
+            
+            foreach (int jobId in _instance._jobIds)
+            {
+                Debug.Log(  "Job id: " + jobId + 
+                            ", target objec id: " + _instance._jobIdDictionary[id].targetObjectId +
+                            ", worker: " + _instance._jobIdDictionary[id].workerId);
+            }
+        }
         return _instance._jobIdDictionary[id];
     }
     public static void UpdateJobInProgress(int id, bool val = true)
