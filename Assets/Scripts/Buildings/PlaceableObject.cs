@@ -135,6 +135,7 @@ public class PlaceableObject : MonoBehaviour
                 Size = data.size;
                 _startTile = data.startTile;
                 _growthProgress = data.growthProgress;
+                _finishedConstruction = data.finishedConstruction;
                 _jobIndex = data.jobIndex;
                 _cutDownjobIndex = data.cutDownjobIndex;
                 Cuttable = data.cuttable;
@@ -162,8 +163,9 @@ public class PlaceableObject : MonoBehaviour
                         gameObject.transform.position, gameObject.transform.rotation, 
                         _objectInfo.name, buildingId,
                         Size, _startTile, 
-                        _growthProgress, _jobIndex, 
-                        _cutDownjobIndex, Cuttable);
+                        _growthProgress, _finishedConstruction, 
+                        _jobIndex, _cutDownjobIndex, 
+                        Cuttable);
         data.extraSaveData = FormSaveDataExtra();
         return data;
     }
@@ -345,7 +347,7 @@ public class PlaceableObject : MonoBehaviour
         }
         else
         {
-            TryTrigger();
+            MissionManager.onIncrementMission(MissionGoal.BuildBuilding, _objectInfo.id);
             if(_spawnGrass) GrassSystem.AddGrassSpawnLocationArea(_startTile, Size);
             if(_growthSpeedIncreasePercent != 0f)
                 GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
@@ -378,7 +380,7 @@ public class PlaceableObject : MonoBehaviour
                 GameManager.AdjustGrowthMultiplier(0.5f * _growthSpeedIncreasePercent);
             else GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
         }
-        if(!_requireGrowth) TryTrigger();
+        MissionManager.onIncrementMission(MissionGoal.BuildBuilding, _objectInfo.id);
 
         MessageLog.NewMessage(new MessageData($"{_objectInfo.name} has finished construction.", 
                                                 MessageType.Unimportant));
@@ -445,10 +447,5 @@ public class PlaceableObject : MonoBehaviour
             if(_requireConstruction && !_finishedConstruction) Unplace();
         }
         Cuttable = val;
-    }
-    
-    public void TryTrigger()
-    {
-        MissionManager.onIncrementMission(MissionGoal.BuildBuilding, _objectInfo.id);
     }
 }

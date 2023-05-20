@@ -257,7 +257,8 @@ public class Villager : MonoBehaviour
                             // Building
                             _animator.ResetTrigger("IsCasting");
                             targetObject.GetComponent<PlaceableObject>().Construct();
-                            GameManager.RemoveId(IdType.Job, _job.index);
+                            JobManager.RemoveJob(_job.index, true);
+                            //GameManager.RemoveId(IdType.Job, _job.index);
                         }
                         else
                         {

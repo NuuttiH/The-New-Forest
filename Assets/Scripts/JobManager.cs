@@ -97,9 +97,9 @@ public class JobManager : MonoBehaviour
         return job.index;
     }
 
-    public static void RemoveJob(int jobIndex)
+    public static void RemoveJob(int jobIndex, bool finished = false)
     {
-        Debug.Log($"JobManager: Removing job index {jobIndex}");
+        Debug.Log($"JobManager: Removing job index {jobIndex}, finished({finished})");
         if(jobIndex == -1) return;
 
         Job job = GameManager.GetJobById(jobIndex);
@@ -109,7 +109,8 @@ public class JobManager : MonoBehaviour
         if(job.inProgress)
         {
             _instance._inProgressJobs.Remove(jobIndex);
-            GameManager.GetObjectById(IdType.Character, job.workerId).GetComponent<Villager>().CancelJob();
+            if(!finished)
+                GameManager.GetObjectById(IdType.Character, job.workerId).GetComponent<Villager>().CancelJob();
         }
         else switch(job.jobType)
         { // wrong type?
