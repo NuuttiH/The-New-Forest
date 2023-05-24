@@ -21,6 +21,8 @@ public class PopUpMenu : MonoBehaviour
     
     public virtual void Init(GameObject bossObject, ObjectInfo objectInfo)
     {
+        IngameUIHandler.SetActivePopUp(this.gameObject);
+        
         _bossObject = bossObject;
         _bossScript = _bossObject.GetComponent<OpenPopUpOnClick>();
         _objectInfo = objectInfo;

@@ -24,12 +24,14 @@ public class IngameUIHandler : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _timeText;
     [SerializeField] private AudioEvent _traderArrival;
     [SerializeField] private AudioEvent _traderDeparture;
+    [SerializeField] private int _baseTraderDuration = 180;
     private int _seconds, _minutes, _hours, _secondsTrade, _minutesTrade;
     private bool _tradersAvailable = false;
     private bool _tradingEnabled = false;
 
     private Menu _currentMenu;
     private GameObject _instantiatedMenu;
+    private GameObject _activePopup;
 
     void Awake()
     {
@@ -156,25 +158,42 @@ public class IngameUIHandler : MonoBehaviour
 
                 if(_minutesTrade == -1)
                 {
+                    // Handle trading status change
                     _minutesTrade = 0;
                     _tradersAvailable = !_tradersAvailable;
                     _tradeMenuButton.interactable = _tradersAvailable;
-                    if(_tradersAvailable)
-                        Tools.PlayAudio(null, _traderArrival);
-                    else
-                        Tools.PlayAudio(null, _traderDeparture);
 
-                    if(_tradersAvailable) _secondsTrade = 100;
+                    if(_tradersAvailable) _secondsTrade = _baseTraderDuration / 3;
                     else // Make trade menu unavailable
                     {
                         if(_currentMenu == Menu.Trade) OpenMenu();
-                        _secondsTrade = (int)(300 * GameManager.GetTraderSpeed());
+                        _secondsTrade = (int)(_baseTraderDuration * GameManager.GetTraderSpeed());
                     } 
 
                     while(_secondsTrade >= 60)
                     {
                         _minutesTrade++;
                         _secondsTrade -= 60;
+                    }
+
+                    // Effects of trading caravan arriving/departing
+                    if(_tradersAvailable)
+                    {
+                        Tools.PlayAudio(null, _traderArrival);
+                        string extraString = "";
+                        if(_instance._tradingEnabled)
+                            extraString = $" ({_minutesTrade.ToString("0")}:{_secondsTrade.ToString("00")} until departure)";
+                        MessageLog.NewMessage(new MessageData(
+                            $"Trade caravan has arrived!{extraString}", MessageType.Progress));
+                    }
+                    else
+                    {
+                        Tools.PlayAudio(null, _traderDeparture);
+                        string extraString = "";
+                        if(_instance._tradingEnabled)
+                            extraString = $" ({_minutesTrade.ToString("0")}:{_secondsTrade.ToString("00")} until next arrival)";
+                        MessageLog.NewMessage(new MessageData(
+                            $"Trade caravan has departed!{extraString}", MessageType.Progress));
                     }
                 }
             }
@@ -273,5 +292,11 @@ public class IngameUIHandler : MonoBehaviour
         time.Add(_instance._secondsTrade);
         time.Add(_instance._minutesTrade);
         return time;
+    }
+
+    public static void SetActivePopUp(GameObject popUp)
+    {
+        if(_instance._activePopup != null) Destroy(_instance._activePopup);
+        _instance._activePopup = popUp;
     }
 }
