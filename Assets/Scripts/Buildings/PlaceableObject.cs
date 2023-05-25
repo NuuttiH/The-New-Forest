@@ -448,4 +448,9 @@ public class PlaceableObject : MonoBehaviour
         }
         Cuttable = val;
     }
+
+    public void ModifyGrowthTime(float mod)
+    {
+        _growTime *= mod;
+    }
 }

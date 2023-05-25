@@ -433,7 +433,7 @@ MonoBehaviour:
   _objectInfo: {fileID: 11400000, guid: 8425c8d8f12f6e64cb051b4c84863ab7, type: 2}
   BuildingCost: []
   _requireGrowth: 1
-  _growTime: 20
+  _growTime: 40
   _growthTics: 5
   _growthProgress: 0
   _requireConstruction: 0
@@ -447,7 +447,7 @@ MonoBehaviour:
   _woodCuttingTime: 5
   _woodCuttingDistance: 6.3
   _deconstructType: 1
-  _growthSpeedIncreasePercent: 0
+  _growthSpeedIncreasePercent: -2
   _spawnGrass: 0
   _requireGrass: 0
 --- !u!114 &4856429299836186318

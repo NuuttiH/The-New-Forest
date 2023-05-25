@@ -15,10 +15,15 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private TileBase _overlayTile;
     [SerializeField] private TileBase _overlapTile;
     [SerializeField] private TilemapRenderer _tileMapRenderer;
+    private int _maxLength;
 
 
     public GameObject testPrefab;
-    public LayerMask groundLayer;
+    [SerializeField] private LayerMask _groundLayer;
+    [SerializeField] private GameObject _noGrassTree;
+    [SerializeField] private GameObject _grassTree;
+    [SerializeField] private float _baseTreeGrowthWaitTime = 15f;
+    [SerializeField] private float _naturalTreeGrowthModifier = 2.5f;
 
     private PlaceableObject _objectToPlace;
     private bool _placementBlock = false;
@@ -33,8 +38,14 @@ public class BuildingSystem : MonoBehaviour
 		{
 			Destroy(this);
 			return;
-      }
-      _grid = GridLayout.gameObject.GetComponent<Grid>();
+        }
+        _grid = GridLayout.gameObject.GetComponent<Grid>();
+
+        StartCoroutine(NaturalTreeGrowth());
+    }
+    private void Start()
+    {
+        _maxLength = GameManager.MapSize;
     }
 
     private void Update()
@@ -74,7 +85,7 @@ public class BuildingSystem : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         //Debug.DrawRay(ray.origin, ray.direction *150, Color.green, 10f);
-        if(Physics.Raycast(ray, out RaycastHit hit, 500f, _instance.groundLayer))
+        if(Physics.Raycast(ray, out RaycastHit hit, 500f, _instance._groundLayer))
         {
             //Debug.Log(hit.collider.gameObject.name);
             return hit.point;
@@ -90,6 +101,10 @@ public class BuildingSystem : MonoBehaviour
         Vector3Int cellPos = GridLayout.WorldToCell(position);
         position = _instance._grid.GetCellCenterWorld(cellPos);
         return position;
+    }
+    public static Vector3 SnapCoordinateToGrid(Vector3Int cellPos)
+    {
+        return _instance._grid.GetCellCenterWorld(cellPos);
     }
 
     public static void InitializedWithObject(GameObject prefab)
@@ -114,23 +129,46 @@ public class BuildingSystem : MonoBehaviour
         foreach(var v in area.allPositionsWithin)
         {
             Vector3Int pos = new Vector3Int(v.x, v.y, z:0);
+
+            //if(IsInBounds(pos)) 
             array[counter++] = tilemap.GetTile(pos);
+            //else array[counter++] = _instance._occupiedTile;
         }
 
         return array;
     }
+    public static bool IsInBounds(Vector3Int pos)
+    {
+        int minLength = -1 * _instance._maxLength;
+        if(pos.x > _instance._maxLength || pos.x < minLength || pos.y > _instance._maxLength || pos.y < minLength)
+            return false;
+        return true;
+    }/*
+    public static TileBase[] CheckAreaForInBound(BoundsInt area, TileBase[] tiles)
+    {
+
+    }
+    
+            CheckAreaForInBound(previousArea, _instance._previousOverlayTiles);*/
 
     private bool CanBePlaced(PlaceableObject placeableObject)
     {
         BoundsInt area = new BoundsInt();
-        area.position = GridLayout.WorldToCell(_objectToPlace.GetStartPosition());
+        area.position = GridLayout.WorldToCell(placeableObject.GetStartPosition());
         area.size = placeableObject.Size;
 
         TileBase[] baseArray = GetTilesBlock(area, _mainTilemap);
 
-        foreach(var b in baseArray)
+        int index = 0;
+        Vector3Int[] positions = new Vector3Int[baseArray.Length];
+        foreach (Vector3Int point in area.allPositionsWithin) positions[index++] = point;
+
+        for(index = 0; index < baseArray.Length; index++)
         {
-            if(b == _occupiedTile || b == _overlapTile) return false;
+            if(baseArray[index] == _occupiedTile 
+            || baseArray[index] == _overlapTile
+            || IsInBounds(positions[index]) == false) 
+                return false;
         }
         if(placeableObject.RequireGrass) return GrassSystem.HasGrass(area);
         else return true;
@@ -202,17 +240,26 @@ public class BuildingSystem : MonoBehaviour
         }
 
         // Make new changes
+        int index = 0;
         BoundsInt area = new BoundsInt();
         area.SetMinMax(cellPos, cellPos + size);
+
+        Vector3Int[] positions = new Vector3Int[size.x * size.y * size.z];
+        foreach (Vector3Int point in area.allPositionsWithin) positions[index++] = point;
+
         TileBase[] originalArray = GetTilesBlock(area, _instance._mainTilemap);
         TileBase[] tileArray = new TileBase[size.x * size.y * size.z];
+
         TileBase[] grassTileArray = null;
         if(requireGrass) grassTileArray = GrassSystem.GetTilesBlock(area, null);
-        for(int index = 0; index < tileArray.Length; index++)
+
+        for(index = 0; index < tileArray.Length; index++)
         {
-            if(originalArray[index] == null && (!requireGrass || grassTileArray[index] != null)) 
+            if(originalArray[index] == null 
+            && (!requireGrass || grassTileArray[index] != null)
+            && IsInBounds(positions[index])) 
             {
-                // empty and (doesn't require grass or has grass)
+                // empty, (doesn't require grass or has grass), not out of bounds
                 tileArray[index] = _instance._overlayTile;
             }
             else
@@ -233,9 +280,75 @@ public class BuildingSystem : MonoBehaviour
             BoundsInt previousArea = new BoundsInt();
             previousArea.SetMinMax( _instance._previousOverlayStart, 
                                     _instance._previousOverlayStart + _instance._previousSize);
+            //TileBase[] tiles = CheckAreaForInBound(previousArea, _instance._previousOverlayTiles);
             _instance._mainTilemap.SetTilesBlock(previousArea, _instance._previousOverlayTiles);
 
             _instance._previousOverlayTiles = null;
+        }
+    }
+
+    
+    IEnumerator NaturalTreeGrowth()
+    {
+        yield return new WaitForSeconds(3f);
+        // Try spawning new trees in random locations
+        bool reducedWait = false;
+        
+        while(true)
+        {
+            Debug.Log("BuildingSystem: Trying to grow a tree...");
+            // Wait for a time depending on growth speed
+            float waitTime = _instance._baseTreeGrowthWaitTime * (1f / GameManager.GetGrowthMultiplier());
+            if(reducedWait|| waitTime < 5f)
+            {
+                waitTime = 5f;
+                reducedWait = false;
+            }
+
+            yield return new WaitForSeconds(waitTime);
+
+            
+            // Choose random tile
+            Vector3Int tile = new Vector3Int(Random.Range(0, _maxLength), Random.Range(0, _maxLength), 1);
+
+            GameObject potentialBuilding = null;
+            if(GrassSystem.HasGrass(tile))
+            {
+                if(GameManager.GetFlag(Flag.GrassBuildings))
+                {
+                    potentialBuilding = Instantiate(_instance._grassTree);
+                }
+            }
+            else
+            {
+                potentialBuilding = Instantiate(_instance._noGrassTree);
+            }
+            if(potentialBuilding == null)
+            {
+                reducedWait = true;
+                yield break;
+            }
+
+            int oldLayer = potentialBuilding.layer;
+            potentialBuilding.layer = 10; // "Hide" layer
+            PlaceableObject objectToPlace = potentialBuilding.GetComponent<PlaceableObject>();
+            objectToPlace.ModifyGrowthTime(_naturalTreeGrowthModifier);
+
+            yield return new WaitForSeconds(1.5f);
+
+            potentialBuilding.transform.position = _instance._grid.GetCellCenterWorld(tile);
+            if(CanBePlaced(objectToPlace))
+            {
+                Vector3Int start = GridLayout.WorldToCell(objectToPlace.GetStartPosition());
+                potentialBuilding.layer = oldLayer;
+                objectToPlace.Place(start);
+                Debug.Log($"BuildingSystem: Tree is naturally growing in {tile}");
+            }
+            else
+            {
+                Destroy(potentialBuilding);
+                Debug.Log($"BuildingSystem: Tree could not grow in {tile}");
+            }
         }
     }
 }

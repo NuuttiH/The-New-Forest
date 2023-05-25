@@ -418,8 +418,9 @@ public class GameManager : MonoBehaviour
     }
     public static float GetGrowthMultiplier()
     {
-        // Turn percent increase into a simple multiplier
-        return (100f / _instance._growthSpeedPercent);
+        // Turn percent increase into a simple multiplier, avoid lower speed than 40%
+        float val = _instance._growthSpeedPercent > 40f ? _instance._growthSpeedPercent : 40f;
+        return (100f / val);
     }
     public static void AdjustPopulationLimit(int val)
     {

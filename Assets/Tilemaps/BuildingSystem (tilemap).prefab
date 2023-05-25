@@ -64,12 +64,16 @@ MonoBehaviour:
   _overlayTile: {fileID: 11400000, guid: 3fb996de5138eba40925afc1d309bd70, type: 2}
   _overlapTile: {fileID: 11400000, guid: 6c5df305834cf544db0825d159362abb, type: 2}
   _tileMapRenderer: {fileID: 449934286057210303}
-  _areaInUseSprite: {fileID: 21300000, guid: 60dc47e903299114494218edbe5a2ad0, type: 3}
   testPrefab: {fileID: 3767771989420210547, guid: 815bd7cef24305e4e9a9e3af49e374d6,
     type: 3}
-  groundLayer:
+  _groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  _noGrassTree: {fileID: 4856429299836186312, guid: f154a11873f169e438893414592d0391,
+    type: 3}
+  _grassTree: {fileID: 3767771989420210547, guid: 815bd7cef24305e4e9a9e3af49e374d6,
+    type: 3}
+  _baseTreeGrowthWaitTime: 15
 --- !u!1 &4282291628960232144
 GameObject:
   m_ObjectHideFlags: 0
