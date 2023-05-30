@@ -69,8 +69,9 @@ public class PopUpVillager : PopUpMenu
         }
         if(jobType != JobType.Idle)
         {
-            GameObject targetObject = GameManager.GetObjectById(IdType.Character, job.targetObjectId);
-            jobDescription += targetObject.GetComponent<PlaceableObject>().Name;
+            GameObject targetObject = GameManager.GetObjectById(IdType.Building, job.targetObjectId);
+            if(targetObject != null) jobDescription += targetObject.GetComponent<PlaceableObject>().Name;
+            else jobDescription += "???";
         }
         _titleText.text = jobDescription;
     }

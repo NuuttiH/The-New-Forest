@@ -133,7 +133,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 2.5, y: 6, z: 2.5}
+  m_Extents: {x: 2, y: 6, z: 2}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
@@ -172,7 +172,7 @@ MonoBehaviour:
   - amount: 1
     type: 3
   _requireGrowth: 1
-  _growTime: 12
+  _growTime: 30
   _growthTics: 4
   _growthProgress: 0
   _requireConstruction: 0

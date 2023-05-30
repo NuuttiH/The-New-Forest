@@ -333,7 +333,7 @@ public class GameManager : MonoBehaviour
                     obj = _instance._characterIdDictionary[id];
                 break;
         }
-        if(obj == null) Debug.Log("GameManager.GetObjectById returning null");
+        if(obj == null) Debug.Log($"GameManager.GetObjectById({idType}, {id}) returning null");
         return obj;
     }
     public static Job GetJobById(int id)

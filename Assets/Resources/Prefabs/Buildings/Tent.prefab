@@ -59,7 +59,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 2, y: 2, z: 3.5}
+  m_Extents: {x: 1.5, y: 2, z: 3}
   m_MoveThreshold: 0.1
   m_Carve: 1
   m_CarveOnlyStationary: 1
@@ -93,6 +93,7 @@ MonoBehaviour:
   _constructionTime: 10
   _constructionDistance: 6.3
   _finishedConstruction: 0
+  _cuttableDefault: 0
   _cutDownResourceType: 2
   _lumberValue: 1
   _woodCuttingTime: 5

@@ -851,7 +851,7 @@ MonoBehaviour:
   _constructionTime: 1
   _constructionDistance: 6.3
   _finishedConstruction: 0
-  _cuttable: 1
+  _cuttableDefault: 0
   _cutDownResourceType: 2
   _lumberValue: 3
   _woodCuttingTime: 7
@@ -867,7 +867,7 @@ MonoBehaviour:
   - {fileID: 6006169631806271779}
   - {fileID: 2147761503139745542}
   - {fileID: 2600155789981155089}
-  _fruitGrowTime: 16
+  _fruitGrowTime: 22
   _fruitGrowthTics: 5
   _fruitPickingTime: 3
   _fruitPickingDistance: 4

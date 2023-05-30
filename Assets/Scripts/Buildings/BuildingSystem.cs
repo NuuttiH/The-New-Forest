@@ -22,7 +22,7 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private GameObject _noGrassTree;
     [SerializeField] private GameObject _grassTree;
-    [SerializeField] private float _baseTreeGrowthWaitTime = 15f;
+    [SerializeField] private float _baseTreeGrowthWaitTime = 25f;
     [SerializeField] private float _naturalTreeGrowthModifier = 2.5f;
 
     private PlaceableObject _objectToPlace;
@@ -299,9 +299,9 @@ public class BuildingSystem : MonoBehaviour
             Debug.Log("BuildingSystem: Trying to grow a tree...");
             // Wait for a time depending on growth speed
             float waitTime = _instance._baseTreeGrowthWaitTime * (1f / GameManager.GetGrowthMultiplier());
-            if(reducedWait|| waitTime < 5f)
+            if(reducedWait|| waitTime < 8f)
             {
-                waitTime = 5f;
+                waitTime = 8f;
                 reducedWait = false;
             }
 

@@ -411,7 +411,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 0.75, y: 5, z: 0.75}
+  m_Extents: {x: 0.5, y: 5, z: 0.5}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
@@ -431,7 +431,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingId: 0
   _objectInfo: {fileID: 11400000, guid: 8425c8d8f12f6e64cb051b4c84863ab7, type: 2}
-  BuildingCost: []
+  BuildingCost:
+  - amount: 1
+    type: 3
   _requireGrowth: 1
   _growTime: 40
   _growthTics: 5

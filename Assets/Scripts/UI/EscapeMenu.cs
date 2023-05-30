@@ -7,6 +7,8 @@ public class EscapeMenu : MonoBehaviour
 {
     [SerializeField] private AudioEvent _toggleAudioEvent;
 
+    [SerializeField] private Button _continueButton;
+
     [SerializeField] private Button _saveGameButton;
     [SerializeField] private GameObject _saveGameMenu;
 
@@ -22,6 +24,8 @@ public class EscapeMenu : MonoBehaviour
 
     void Start()
     {
+        _continueButton.onClick.AddListener( delegate{ Continue(); } );
+
         _saveGameButton.onClick.AddListener( delegate{ OpenSaveMenu(); } );
         _loadGameButton.onClick.AddListener( delegate{ OpenLoadMenu(); } );
         _optionsButton.onClick.AddListener( delegate{ OpenOptionsMenu(); } );
@@ -36,6 +40,10 @@ public class EscapeMenu : MonoBehaviour
         GameManager.SetGameSpeedToPrevious();
     }
 
+    public void Continue()
+    {
+        IngameUIHandler.OpenMenu(Menu.None);
+    }
     public void OpenSaveMenu()
     {
         Tools.PlayAudio(null, _toggleAudioEvent);

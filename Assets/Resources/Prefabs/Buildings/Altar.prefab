@@ -1669,11 +1669,11 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 2.5, y: 6, z: 2}
+  m_Extents: {x: 2, y: 6, z: 2.25}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 6, z: 0}
+  m_Center: {x: 0, y: 6, z: -1}
   m_TimeToStationary: 0.5
 --- !u!114 &7936792932922857750
 MonoBehaviour:
@@ -1703,12 +1703,13 @@ MonoBehaviour:
   _constructionTime: 5
   _constructionDistance: 6.3
   _finishedConstruction: 0
+  _cuttableDefault: 0
   _cutDownResourceType: 2
   _lumberValue: 1
   _woodCuttingTime: 5
   _woodCuttingDistance: 6.3
   _deconstructType: 2
-  _growthSpeedIncreasePercent: 5
+  _growthSpeedIncreasePercent: 25
   _spawnGrass: 0
   _requireGrass: 1
   _jobTime: 20

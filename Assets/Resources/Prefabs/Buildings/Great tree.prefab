@@ -378,7 +378,7 @@ NavMeshObstacle:
   m_Enabled: 1
   serializedVersion: 3
   m_Shape: 1
-  m_Extents: {x: 4, y: 7.5, z: 4}
+  m_Extents: {x: 3, y: 7.5, z: 3}
   m_MoveThreshold: 0.1
   m_Carve: 0
   m_CarveOnlyStationary: 1
@@ -398,25 +398,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingId: 0
   _objectInfo: {fileID: 11400000, guid: 819e6c4a2f600b044bc06c3bb141b125, type: 2}
-  _buildingTrigger: 11
   BuildingCost:
   - amount: 10
     type: 3
   _requireGrowth: 1
-  _growTime: 1
-  _growthTics: 1
+  _growTime: 60
+  _growthTics: 6
   _growthProgress: 0
   _requireConstruction: 0
   _constructionObject: {fileID: 0}
   _constructionTime: 1
   _constructionDistance: 6.3
-  _cuttable: 1
+  _finishedConstruction: 0
+  _cuttableDefault: 0
   _cutDownResourceType: 2
   _lumberValue: 5
   _woodCuttingTime: 4
   _woodCuttingDistance: 6.2
   _deconstructType: 1
-  _growthSpeedIncreasePercent: 15
+  _growthSpeedIncreasePercent: 40
   _spawnGrass: 0
   _requireGrass: 1
 --- !u!114 &2374951227270050749
