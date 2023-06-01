@@ -388,7 +388,7 @@ public class GameManager : MonoBehaviour
         _instance._villagerCounts[type] += amount;
         Debug.Log($"GameManager.AdjustVillagerCount({type}, {amount}): new count {_instance._villagerCounts[type]}");
         Events.onVillagerCountChange();
-        if(amount > 0) MissionManager.onIncrementMission(MissionGoal.NewWorker, amount);
+        MissionManager.onIncrementMission(MissionGoal.VillagerCount, GetVillagerCount());
     }
     public static int GetVillagerCount(VillagerType type = VillagerType.None)
     {
@@ -428,6 +428,7 @@ public class GameManager : MonoBehaviour
         int newValue = _instance._populationLimit + val;
         _instance._populationLimit = newValue;
         Events.onPopLimitChange();
+        MissionManager.onIncrementMission(MissionGoal.PopulationLimit, _instance._populationLimit);
     }
     public static int GetPopulationLimit()
     {

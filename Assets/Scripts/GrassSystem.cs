@@ -163,7 +163,6 @@ public class GrassSystem : MonoBehaviour
         // Spawn new grass tiles adjacent to existing ones
         while(true)
         {
-            Debug.Log("GrassSystem: Trying to grow grass...");
             // Wait for a time depending on growth speed
             float waitTime = _instance._baseGrassGrowthWaitTime * (1f / GameManager.GetGrowthMultiplier());
             if(_instance._reducedWait || waitTime < 1f)
@@ -171,6 +170,7 @@ public class GrassSystem : MonoBehaviour
                 waitTime = 1f;
                 _instance._reducedWait = false;
             }
+            Debug.Log($"GrassSystem: Trying to grow grass...(waiTime: {waitTime})");
 
             yield return new WaitForSeconds(waitTime);
 

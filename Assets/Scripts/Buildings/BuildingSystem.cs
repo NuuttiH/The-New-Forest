@@ -22,7 +22,7 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField] private LayerMask _groundLayer;
     [SerializeField] private GameObject _noGrassTree;
     [SerializeField] private GameObject _grassTree;
-    [SerializeField] private float _baseTreeGrowthWaitTime = 25f;
+    //[SerializeField] private float _baseTreeGrowthWaitTime = 25f;
     [SerializeField] private float _naturalTreeGrowthModifier = 2.5f;
 
     private PlaceableObject _objectToPlace;
@@ -30,6 +30,9 @@ public class BuildingSystem : MonoBehaviour
     private Vector3Int _previousOverlayStart;
     private TileBase[] _previousOverlayTiles;
     private Vector3Int _previousSize;
+    private int _treeCount;
+
+    private static Vector3 HIDDEN_POSITION = new Vector3(0f, -100f, 0f);
     
     private void Awake()
     {
@@ -40,6 +43,7 @@ public class BuildingSystem : MonoBehaviour
 			return;
         }
         _grid = GridLayout.gameObject.GetComponent<Grid>();
+        _treeCount = 0;
 
         StartCoroutine(NaturalTreeGrowth());
     }
@@ -296,14 +300,14 @@ public class BuildingSystem : MonoBehaviour
         
         while(true)
         {
-            Debug.Log("BuildingSystem: Trying to grow a tree...");
             // Wait for a time depending on growth speed
-            float waitTime = _instance._baseTreeGrowthWaitTime * (1f / GameManager.GetGrowthMultiplier());
-            if(reducedWait|| waitTime < 8f)
+            float waitTime = 30f * (1f / GameManager.GetGrowthMultiplier());
+            if(reducedWait|| waitTime < 10f)
             {
                 waitTime = 8f;
                 reducedWait = false;
             }
+            Debug.Log($"BuildingSystem: Trying to grow a tree...(waiTime: {waitTime})");
 
             yield return new WaitForSeconds(waitTime);
 
@@ -316,39 +320,51 @@ public class BuildingSystem : MonoBehaviour
             {
                 if(GameManager.GetFlag(Flag.GrassBuildings))
                 {
-                    potentialBuilding = Instantiate(_instance._grassTree);
+                    potentialBuilding = Instantiate(_instance._grassTree, HIDDEN_POSITION, Quaternion.identity);
                 }
             }
             else
             {
-                potentialBuilding = Instantiate(_instance._noGrassTree);
+                potentialBuilding = Instantiate(_instance._noGrassTree, HIDDEN_POSITION, Quaternion.identity);
             }
+
             if(potentialBuilding == null)
             {
                 reducedWait = true;
-                yield break;
-            }
-
-            int oldLayer = potentialBuilding.layer;
-            potentialBuilding.layer = 10; // "Hide" layer
-            PlaceableObject objectToPlace = potentialBuilding.GetComponent<PlaceableObject>();
-            objectToPlace.ModifyGrowthTime(_naturalTreeGrowthModifier);
-
-            yield return new WaitForSeconds(1.5f);
-
-            potentialBuilding.transform.position = _instance._grid.GetCellCenterWorld(tile);
-            if(CanBePlaced(objectToPlace))
-            {
-                Vector3Int start = GridLayout.WorldToCell(objectToPlace.GetStartPosition());
-                potentialBuilding.layer = oldLayer;
-                objectToPlace.Place(start);
-                Debug.Log($"BuildingSystem: Tree is naturally growing in {tile}");
             }
             else
             {
-                Destroy(potentialBuilding);
-                Debug.Log($"BuildingSystem: Tree could not grow in {tile}");
+                int oldLayer = potentialBuilding.layer;
+                potentialBuilding.layer = 10; // "Hide" layer
+                PlaceableObject objectToPlace = potentialBuilding.GetComponent<PlaceableObject>();
+                objectToPlace.ModifyGrowthTime(_naturalTreeGrowthModifier);
+
+                yield return new WaitForSeconds(1.5f);
+
+                potentialBuilding.transform.position = _instance._grid.GetCellCenterWorld(tile);
+                if(CanBePlaced(objectToPlace))
+                {
+                    Vector3Int start = GridLayout.WorldToCell(objectToPlace.GetStartPosition());
+                    potentialBuilding.layer = oldLayer;
+                    objectToPlace.Place(start);
+                    Debug.Log($"BuildingSystem: Tree is naturally growing in {tile}");
+                }
+                else
+                {
+                    Destroy(potentialBuilding);
+                    Debug.Log($"BuildingSystem: Tree could not grow in {tile}");
+                }
             }
         }
+    }
+
+    public static void UpdateTreeCount(int val)
+    {
+        _instance._treeCount += val;
+        MissionManager.onIncrementMission(MissionGoal.TreeCount, _instance._treeCount);
+    }
+    public static int GetTreeCount()
+    {
+        return _instance._treeCount;
     }
 }

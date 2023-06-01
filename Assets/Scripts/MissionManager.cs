@@ -64,13 +64,18 @@ public class MissionManager : MonoBehaviour
         int ii = 0;
         foreach(MissionData mission in _instance._scenarioInfo.mainMission.missions)
         {
-            text = $" -{mission.title} ({mission.currentVal}/{mission.goalVal})";
-            if(mission.description != "")
-                text += $" <size=80%><br>   {mission.description}";
+            // Make initial updates to mission values if needed
+            MissionData updatedMission = UpdateMission(mission);
+            
+            // Make mission text
+            text = $" -{mission.title} ({updatedMission.currentVal}/{updatedMission.goalVal})";
+            if(updatedMission.description != "")
+                text += $" <size=80%><br>   {updatedMission.description}";
             textList.Add(text);
 
-            LinkedMissionData linkedMission = new LinkedMissionData(mission, -1, ii);
-            _instance._missionLinks[(int)mission.missionGoal].Add(linkedMission);
+            // Make mission link data
+            LinkedMissionData linkedMission = new LinkedMissionData(updatedMission, -1, ii);
+            _instance._missionLinks[(int)updatedMission.missionGoal].Add(linkedMission);
             ii++;
         }  
         _instance._display.Init(_instance._mainMissionIndex, textList); 
@@ -128,12 +133,22 @@ public class MissionManager : MonoBehaviour
             
             if(mission.missionGoalId == 0)
             {
-                // No additional mission specifier, adjust mission by val
-                mission.currentVal += val;
+                // No additional mission specifier, adjust value
+
+                if(goal == MissionGoal.TreeCount || goal == MissionGoal.VillagerCount || goal == MissionGoal.PopulationLimit)
+                {
+                    // Update whole value
+                    mission.currentVal = val;
+                }
+                else
+                {
+                    // Increment by val only
+                    mission.currentVal += val;
+                }
             }
             else
             {
-                // Additional mission specifier, check if increment val matches
+                // Additional mission specifier, only increment if val matches
                 if(mission.missionGoalId == val)
                 {
                     // Adjust mission by 1
@@ -223,7 +238,7 @@ public class MissionManager : MonoBehaviour
         // Register missions
         for(int i=0; i<group.missions.Length; i++)
         {
-            MissionData mission = group.missions[i];
+            MissionData mission = UpdateMission(group.missions[i]);
             //Debug.Log($"TEST: _instance._missionLinks[(int)mission.missionGoal].Count: {_instance._missionLinks[(int)mission.missionGoal].Count}, (int)mission.missionGoal: {(int)mission.missionGoal}, _instance._missionLinks.Length: { _instance._missionLinks.Length}, mission: {mission!=null}");
             LinkedMissionData linkedMission = new LinkedMissionData(mission, groupIndex, i);
             _instance._missionLinks[(int)mission.missionGoal].Add(linkedMission);
@@ -266,4 +281,21 @@ public class MissionManager : MonoBehaviour
         Instantiate(_instance._winScreen);
         Debug.Log("MissionManager.CompleteMainMission()");
     }
+
+    private static MissionData UpdateMission(MissionData mission)
+    {
+        switch(mission.missionGoal)
+            {
+            case MissionGoal.TreeCount:
+                mission.currentVal = BuildingSystem.GetTreeCount();
+                break;
+            case MissionGoal.VillagerCount:
+                mission.currentVal = GameManager.GetVillagerCount();
+                break;
+            case MissionGoal.PopulationLimit:
+                mission.currentVal = GameManager.GetPopulationLimit();
+                break;
+        }
+        return mission;
+    }     
 }

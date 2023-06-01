@@ -39,7 +39,6 @@ public class PurchasePanel : MonoBehaviour
         _costTMP.text = $"{Cost[0].amount}x lumber";
         
         Events.onResourceChange += CheckCost;
-        CheckCost();
         _canHouse = true;
         _isDisabled = false;
         if(!GameManager.GetFlag(_requiredFlag)) 
@@ -63,6 +62,7 @@ public class PurchasePanel : MonoBehaviour
             case RewardType.TraderSpeed:
                 break;
         }
+        CheckCost();
     }
 
     void OnDestroy()

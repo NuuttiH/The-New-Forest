@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum MissionGoal {   None, Food, Lumber, Magic, BuildLumber, BuildFood,
-                            BuildBuilding, BuyFromTrader, NewWorker, NewGrass, 
-                            TreeCount, TriggerFlag }
+                            BuildBuilding, BuyFromTrader, VillagerCount, NewGrass, 
+                            TreeCount, TriggerFlag, PopulationLimit }
                             
 // public enum Resource { None, Food, Lumber, Magic }
 

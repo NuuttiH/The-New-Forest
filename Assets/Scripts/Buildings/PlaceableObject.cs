@@ -84,6 +84,7 @@ public class PlaceableObject : MonoBehaviour
         if(!GameManager.FinishedStartup) // Placement during game startup
         {
             Placed = true;
+            BuildingSystem.UpdateTreeCount(1);
             StartCoroutine(Initialize(null, 0.3f));
         }
         else // Placement during gameplay
@@ -93,6 +94,10 @@ public class PlaceableObject : MonoBehaviour
             StartCoroutine(EnablePlacement());  
             StartCoroutine(Initialize(null, 0.01f));
         }
+    }
+    void OnDestroy()
+    {
+        if(Placed) BuildingSystem.UpdateTreeCount(-1);
     }
     
     public void Init(BuildingSaveData data = null, float wait = 0.3f)
@@ -249,6 +254,7 @@ public class PlaceableObject : MonoBehaviour
         Placed = true;
         _startTile = start;
         BuildingSystem.TakeArea(start, Size);
+        BuildingSystem.UpdateTreeCount(1);
 
         _originalScale = transform.localScale;
         _ticSize = 1f / _growthTics;
