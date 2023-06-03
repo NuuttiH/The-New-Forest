@@ -23,6 +23,7 @@ public class GameState
     public MissionDataGroup mainMission;
     public MissionDataGroup[] missionsData;
     public float traderSpeed;
+    public int income;
     public List<Vector2Int> flags;
     public List<int> time;
 
@@ -47,6 +48,7 @@ public class GameState
         this.mainMission = null;
         this.missionsData = null;
         this.traderSpeed = 1f;
+        this.income = 1;
         this.flags = new List<Vector2Int>();
         this.time = new List<int>();
     }
@@ -70,6 +72,7 @@ public class GameState
         this.mainMission = null;
         this.missionsData = null;
         this.traderSpeed = 1f;
+        this.income = 1;
         this.flags = new List<Vector2Int>();
         this.time = new List<int>();
     }

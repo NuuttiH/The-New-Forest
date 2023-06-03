@@ -301,10 +301,11 @@ public class BuildingSystem : MonoBehaviour
         while(true)
         {
             // Wait for a time depending on growth speed
-            float waitTime = 30f * (1f / GameManager.GetGrowthMultiplier());
-            if(reducedWait|| waitTime < 10f)
+            float waitTime = 45f * (1f / GameManager.GetGrowthMultiplier());
+            if(waitTime < 30f) waitTime = 30f;
+            if(reducedWait)
             {
-                waitTime = 8f;
+                waitTime = 5f;
                 reducedWait = false;
             }
             Debug.Log($"BuildingSystem: Trying to grow a tree...(waiTime: {waitTime})");
@@ -346,7 +347,7 @@ public class BuildingSystem : MonoBehaviour
                 {
                     Vector3Int start = GridLayout.WorldToCell(objectToPlace.GetStartPosition());
                     potentialBuilding.layer = oldLayer;
-                    objectToPlace.Place(start);
+                    objectToPlace.Place(start, true);
                     Debug.Log($"BuildingSystem: Tree is naturally growing in {tile}");
                 }
                 else

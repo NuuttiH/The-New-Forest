@@ -17,7 +17,8 @@ public class SaveMenu : MonoBehaviour
 
     void Start()
     {
-        // TODO Adjust button appearance and text
+        IngameUIHandler.PushToMenuStack(this.gameObject);
+
         _Save1Button.onClick.AddListener( delegate{ Save(SaveIdentifier.First); } );
         _Save2Button.onClick.AddListener( delegate{ Save(SaveIdentifier.Second); } );
         _Save3Button.onClick.AddListener( delegate{ Save(SaveIdentifier.Third); } );
@@ -40,6 +41,6 @@ public class SaveMenu : MonoBehaviour
     }
     public void Return()
     {
-        Destroy(this.gameObject);
+        IngameUIHandler.PopFromMenuStack(this.gameObject);
     }
 }

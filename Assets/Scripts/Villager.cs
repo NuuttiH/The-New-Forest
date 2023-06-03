@@ -278,7 +278,7 @@ public class Villager : MonoBehaviour
                 }
                 //if(!_job.repeatable) GameManager.RemoveId(IdType.Job, _job.index);
                 _currentAction = CurrentAction.WaitingForAction;
-                _waitTime = 0.5f; 
+                _waitTime = 0.15f; 
                 _job = null;
                 Events.onJobChange();
             }

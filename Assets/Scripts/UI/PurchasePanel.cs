@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public enum RewardType { None, Resource, Villager, Flag, TraderSpeed}
+public enum RewardType { None, Food, Lumber, Magic, Villager, Flag, TraderSpeed, Income}
 
 public class PurchasePanel : MonoBehaviour
 {
@@ -16,7 +16,6 @@ public class PurchasePanel : MonoBehaviour
     [SerializeField] private ObjectInfo _targetObjectInfo;
     public Cost[] Cost;
     [SerializeField] private RewardType _rewardType;
-    [SerializeField] private Resource _rewardResourceType;
     [SerializeField] private float _reward;
     [SerializeField] private GameObject _rewardPrefab;
     [SerializeField] private string _rewardString;
@@ -38,14 +37,15 @@ public class PurchasePanel : MonoBehaviour
         _targetTMP.text = _targetObjectInfo.name;
         _costTMP.text = $"{Cost[0].amount}x lumber";
         
-        Events.onResourceChange += CheckCost;
         _canHouse = true;
         _isDisabled = false;
         if(!GameManager.GetFlag(_requiredFlag)) 
             SetDisabled();
         else switch(_rewardType)
         {
-            case RewardType.Resource:
+            case RewardType.Food:
+            case RewardType.Lumber:
+            case RewardType.Magic:
                 break;
             case RewardType.Villager:
                 Events.onVillagerCountChange += CheckHousing;
@@ -60,28 +60,31 @@ public class PurchasePanel : MonoBehaviour
                 }
                 break;
             case RewardType.TraderSpeed:
+            case RewardType.Income:
                 break;
         }
+        Events.onResourceChange += CheckCost;
         CheckCost();
     }
 
     void OnDestroy()
     {
-        Events.onResourceChange -= CheckCost;
         switch(_rewardType)
         {
-            case RewardType.Resource:
+            case RewardType.Food:
+            case RewardType.Lumber:
+            case RewardType.Magic:
                 break;
             case RewardType.Villager:
                 Events.onVillagerCountChange -= CheckHousing;
                 Events.onPopLimitChange -= CheckHousing;
                 break;
             case RewardType.Flag:
-                //
-                break;
             case RewardType.TraderSpeed:
+            case RewardType.Income:
                 break;
         }
+        Events.onResourceChange -= CheckCost;
     }
 
     public void SetDisabled()
@@ -99,8 +102,14 @@ public class PurchasePanel : MonoBehaviour
         {
             switch(_rewardType)
             {
-                case RewardType.Resource:
-                    GameManager.AddResource(_rewardResourceType, (int)_reward);
+                case RewardType.Food:
+                    GameManager.AddResource(Resource.Food, (int)_reward);
+                    break;
+                case RewardType.Lumber:
+                    GameManager.AddResource(Resource.Lumber, (int)_reward);
+                    break;
+                case RewardType.Magic:
+                    GameManager.AddResource(Resource.Magic, (int)_reward);
                     break;
                 case RewardType.Villager:
                     GameManager.CreateVillager(_rewardPrefab);
@@ -112,6 +121,12 @@ public class PurchasePanel : MonoBehaviour
                     GameManager.AdjustTraderSpeed(_reward);
                     MessageLog.NewMessage(new MessageData(
                         $"Traders travelling speed has been increased!", 
+                        MessageType.Upgrade));
+                    break;
+                case RewardType.Income:
+                    GameManager.AdjustIncome((int)_reward);
+                    MessageLog.NewMessage(new MessageData(
+                        $"Magical output has been increased!", 
                         MessageType.Upgrade));
                     break;
             }

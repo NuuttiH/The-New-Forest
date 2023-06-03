@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
     private int _food;
     private int _lumber;
     private int _magic;
+    private int _income;
     private float _growthSpeedPercent = 100f;
     private int _populationLimit;
     private float _traderSpeed;
@@ -114,6 +115,7 @@ public class GameManager : MonoBehaviour
             MissionManager.Init(Instantiate(_scenarioInfo), game.mainMission, game.missionsData);
         }
         _traderSpeed = game.traderSpeed;
+        _income = game.income;
         _flags = game.flags;
         yield return null;
         if(game.time.Count == 0) IngameUIHandler.InitTime();
@@ -129,6 +131,7 @@ public class GameManager : MonoBehaviour
         Events.onSaveLoaded();
 
         LogDictionaries();
+        StartCoroutine(Income());
     }
     public static void LogDictionaries()
     {
@@ -148,6 +151,16 @@ public class GameManager : MonoBehaviour
             Debug.Log(  "Job id: " + id + 
                         ", target objec id: " + _instance._jobIdDictionary[id].targetObjectId +
                         ", worker: " + _instance._jobIdDictionary[id].workerId);
+        }
+    }
+    IEnumerator Income()
+    {
+        // Run upkeep once per minute
+        while(true)
+        {
+            yield return new WaitForSeconds(60f);
+
+            AddResource(Resource.Magic, _income);
         }
     }
 
@@ -443,7 +456,16 @@ public class GameManager : MonoBehaviour
     }
     public static float GetTraderSpeed()
     {
-        return (1f / _instance._traderSpeed);
+        return _instance._traderSpeed;
+    }
+    public static void AdjustIncome(int val)
+    {
+        Debug.Log($"GameManager.AdjustIncome({val})");
+        _instance._income += val;
+    }
+    public static int GetIncome()
+    {
+        return _instance._income;
     }
     public static void SetFlag(Flag flag)
     {

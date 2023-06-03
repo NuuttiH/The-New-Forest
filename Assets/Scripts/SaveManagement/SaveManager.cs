@@ -91,6 +91,8 @@ public class SaveManager : MonoBehaviour
         _instance._saveData.objectId = GameManager.GetRunningId(IdType.Building);
         _instance._saveData.characterId = GameManager.GetRunningId(IdType.Character);
         _instance._saveData.jobId = GameManager.GetRunningId(IdType.Job);
+        _instance._saveData.traderSpeed = GameManager.GetTraderSpeed();
+        _instance._saveData.income = GameManager.GetIncome();
         //_instance._saveData.scenarioInfoId = MissionManager.GetScenarioInfo();
 
         _instance._saveData.characterSaveData = new List<CharacterSaveData>();

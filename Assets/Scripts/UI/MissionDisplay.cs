@@ -36,7 +36,7 @@ public class MissionDisplay : MonoBehaviour
     }
     public void Init(int groupIndex, List<string> text)
     {
-        // Add main mission
+        // Add main mission, groupIndex will be -1
         _groupIndexToActualIndex.Add(groupIndex, 0);
         _missionGroup.Add(_mainMissionGroup.gameObject);
         _mainMissionGroup.GetChild(0).GetComponent<TextMeshProUGUI>().text = text[0];
@@ -85,7 +85,9 @@ public class MissionDisplay : MonoBehaviour
 
         if(group == null)
         {
-            Debug.Log($"MissionDisplay.AddOrEditMission({groupIndex}, {missionIndex}, {message}) ERROR: group == null");
+            Debug.Log($"MissionDisplay.AddOrEditMission({groupIndex}, {missionIndex}, {message}) ERROR: group == null; existing groups are:");
+            foreach(KeyValuePair<int, int> pair in _groupIndexToActualIndex) 
+                Debug.Log($"groupIndex: {pair.Key}, actualIndex: {pair.Value}");
             return;
         }
 

@@ -31,6 +31,7 @@ public class IngameUIHandler : MonoBehaviour
 
     private Menu _currentMenu;
     private GameObject _instantiatedMenu;
+    private Stack<GameObject> _menuStack;
     private GameObject _activePopup;
 
     void Awake()
@@ -51,6 +52,7 @@ public class IngameUIHandler : MonoBehaviour
         _escapeButton.onClick.AddListener( delegate{ OpenMenu(Menu.Escape); } );
 
         _tradeMenuButton.interactable = _tradersAvailable;
+        _menuStack = new Stack<GameObject>();
     }
     void Start()
     {
@@ -167,7 +169,7 @@ public class IngameUIHandler : MonoBehaviour
                     else // Make trade menu unavailable
                     {
                         if(_currentMenu == Menu.Trade) OpenMenu();
-                        _secondsTrade = (int)(_baseTraderDuration * GameManager.GetTraderSpeed());
+                        _secondsTrade = (int)(_baseTraderDuration / GameManager.GetTraderSpeed());
                     } 
 
                     while(_secondsTrade >= 60)
@@ -251,16 +253,57 @@ public class IngameUIHandler : MonoBehaviour
             }
 
             // Close previously opened menu, open new or return to initial state
-            if(_instance._instantiatedMenu != null) Destroy(_instance._instantiatedMenu);
+            if(_instance._instantiatedMenu != null)
+            {
+                while(_instance._menuStack.Count > 0)
+                {
+                    GameObject menuObject = _instance._menuStack.Pop();
+                    Destroy(menuObject);
+                }
+                _instance._instantiatedMenu = null;
+            }
             if(prefab != null)
             {
                 _instance._instantiatedMenu = Instantiate(prefab);
-                _instance._screenCover.SetActive(true);
+                PushToMenuStack(_instance._instantiatedMenu);
             }
             else    
             {
                 _instance._screenCover.SetActive(false);
             }
+        }
+    }
+    public static void PushToMenuStack(GameObject menuObject)
+    {
+        GameObject lastMenu = null;
+        if(_instance._menuStack.Count > 0) lastMenu = _instance._menuStack.Peek();
+        if(lastMenu != null) lastMenu.SetActive(false);
+        Debug.Log($"IngameUIHandler.PushToMenuStack() lastMenu == null: {lastMenu==null}");
+
+        _instance._menuStack.Push(menuObject);
+        _instance._screenCover.SetActive(true);
+    }
+    public static void PopFromMenuStack(GameObject menuObject = null)
+    {
+        GameObject lastMenu = null;
+        if(_instance._menuStack.Count > 0) lastMenu = _instance._menuStack.Pop();
+        if(lastMenu == null)
+        {
+            Debug.Log($"IngameUIHandler.PopFromMenuStack() error: lastMenu == null");
+            return;
+        } 
+        else if(menuObject != null && menuObject != lastMenu) 
+        {
+            Debug.Log($"IngameUIHandler.PopFromMenuStack() error: menuObject != lastMenu");
+            return;
+        }
+        
+        Destroy(lastMenu);
+        if(_instance._menuStack.Count == 0) _instance._screenCover.SetActive(true);
+        else 
+        {
+            lastMenu = _instance._menuStack.Peek();
+            lastMenu.SetActive(true);
         }
     }
     public static void ScreenCoverClick()

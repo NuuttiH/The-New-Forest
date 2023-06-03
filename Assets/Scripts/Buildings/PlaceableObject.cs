@@ -238,11 +238,11 @@ public class PlaceableObject : MonoBehaviour
         return transform.TransformPoint(_vertices[0]);
     }
 
-    public void Place(Vector3Int start)
+    public void Place(Vector3Int start, bool free = false)
     {
         Debug.Log($"Placing {this.gameObject.name}...");
 
-        if(!GameManager.TryPay(BuildingCost))
+        if(!free && !GameManager.TryPay(BuildingCost))
         {
             Debug.Log($"Failed to place {this.gameObject.name}, due to cost");
             Destroy(this.gameObject);
