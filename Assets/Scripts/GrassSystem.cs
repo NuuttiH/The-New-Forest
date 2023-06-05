@@ -3,6 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+
+public struct ExtraGrassSpawn
+{
+    public Vector2Int location;
+    public List<Vector2Int> extraSpawnLocations;  // Other linked spawn locations
+
+    public ExtraGrassSpawn(Vector2Int location)
+    {
+        this.location = location;
+        this.extraSpawnLocations = new List<Vector2Int>();
+    }
+}
+
 public class GrassSystem : MonoBehaviour
 {
     private static GrassSystem _instance;
@@ -15,10 +28,10 @@ public class GrassSystem : MonoBehaviour
     [SerializeField] private TileBase _grassTile;
     [SerializeField] private TilemapRenderer _tileMapRenderer;
 
-    private List<Vector2Int> _partialGrassTiles;
-    private HashSet<Vector2Int> _partialGrassTilesSet;
-    private HashSet<Vector2Int> _fullGrassTiles;
-    private List<Vector2Int> _extraGrassSpawnLocations;
+    private List<Vector2Int> _potentialGrassTilesList;
+    private HashSet<Vector2Int> _potentialGrassTilesSet;
+    private HashSet<Vector2Int> _grassTilesSet;
+    private HashSet<Vector2Int> _extraGrassGrowthCores;
     private bool _reducedWait = false;
 
     [SerializeField] private float _baseGrassGrowthWaitTime = 10f;
@@ -32,10 +45,10 @@ public class GrassSystem : MonoBehaviour
             return;
         }
         _grid = GridLayout.gameObject.GetComponent<Grid>();
-        _partialGrassTiles = new List<Vector2Int>();
-        _partialGrassTilesSet = new HashSet<Vector2Int>();
-        _fullGrassTiles = new HashSet<Vector2Int>();
-        _extraGrassSpawnLocations = new List<Vector2Int>();
+        _potentialGrassTilesList = new List<Vector2Int>();
+        _potentialGrassTilesSet = new HashSet<Vector2Int>();
+        _grassTilesSet = new HashSet<Vector2Int>();
+        _extraGrassGrowthCores = new HashSet<Vector2Int>();
     }
     
     void Start()
@@ -50,7 +63,7 @@ public class GrassSystem : MonoBehaviour
         if(!_initialized) 
         {
             _initialized = true;
-            Debug.Log($"GrassSystem: default initialization");
+            Debug.Log($"GrassSystem: default initialization, tilemap.CellBounds: {_instance._mainTilemap.cellBounds}");
 
             // Read existing grass data from level tilemap
             foreach(var pos in _instance._mainTilemap.cellBounds.allPositionsWithin)
@@ -58,104 +71,108 @@ public class GrassSystem : MonoBehaviour
                 if(_instance._mainTilemap.HasTile(pos))
                 {
                     Vector2Int pos2D = new Vector2Int(pos.x, pos.y);
-                    _partialGrassTiles.Add(pos2D);
-                    _partialGrassTilesSet.Add(pos2D);
-                    //Debug.Log($"GrassSystem: Detected grass tile in position: {pos2D.x}, {pos2D.y}");
+                    _grassTilesSet.Add(pos2D);
+                    _potentialGrassTilesSet.Remove(pos2D);
+                    
+                    // Check nearby spots as potential growth
+                    Vector2Int nearbyPosition = new Vector2Int(pos2D.x, pos2D.y + 1);
+                    if(!_grassTilesSet.Contains(nearbyPosition)) 
+                        _potentialGrassTilesSet.Add(nearbyPosition);
+
+                    nearbyPosition = new Vector2Int(pos2D.x + 1, pos2D.y);
+                    if(!_grassTilesSet.Contains(nearbyPosition)) 
+                        _potentialGrassTilesSet.Add(nearbyPosition);
+
+                    nearbyPosition = new Vector2Int(pos2D.x, pos2D.y - 1);
+                    if(!_grassTilesSet.Contains(nearbyPosition)) 
+                        _potentialGrassTilesSet.Add(nearbyPosition);
+
+                    nearbyPosition = new Vector2Int(pos2D.x - 1, pos2D.y);
+                    if(!_grassTilesSet.Contains(nearbyPosition)) 
+                        _potentialGrassTilesSet.Add(nearbyPosition);
                 }
             }
 
-            // Check if grass tiles are fully grown
-            foreach(Vector2Int tilePosition in _partialGrassTiles)
+            foreach(Vector2Int pos2D in _potentialGrassTilesSet)
             {
-                Vector2Int pos = new Vector2Int(tilePosition.x - 1, tilePosition.y + 1);
-                if(!_fullGrassTiles.Contains(pos) && !_partialGrassTilesSet.Contains(pos)) continue;
-                pos = new Vector2Int(tilePosition.x, tilePosition.y + 1);
-                if(!_fullGrassTiles.Contains(pos) && !_partialGrassTilesSet.Contains(pos)) continue;
-                pos = new Vector2Int(tilePosition.x + 1, tilePosition.y + 1);
-                if(!_fullGrassTiles.Contains(pos) && !_partialGrassTilesSet.Contains(pos)) continue;
-
-                pos = new Vector2Int(tilePosition.x - 1, tilePosition.y);
-                if(!_fullGrassTiles.Contains(pos) && !_partialGrassTilesSet.Contains(pos)) continue;
-                pos = new Vector2Int(tilePosition.x, tilePosition.y);
-                if(!_fullGrassTiles.Contains(pos) && !_partialGrassTilesSet.Contains(pos)) continue;
-                pos = new Vector2Int(tilePosition.x + 1, tilePosition.y);
-                if(!_fullGrassTiles.Contains(pos) && !_partialGrassTilesSet.Contains(pos)) continue;
-
-                pos = new Vector2Int(tilePosition.x - 1, tilePosition.y - 1);
-                if(!_fullGrassTiles.Contains(pos) && !_partialGrassTilesSet.Contains(pos)) continue;
-                pos = new Vector2Int(tilePosition.x, tilePosition.y - 1);
-                if(!_fullGrassTiles.Contains(pos) && !_partialGrassTilesSet.Contains(pos)) continue;
-                pos = new Vector2Int(tilePosition.x + 1, tilePosition.y - 1);
-                if(!_fullGrassTiles.Contains(pos) && !_partialGrassTilesSet.Contains(pos)) continue;
-
-                // If no continue triggered, all surroundings tiles also have grass
-                _fullGrassTiles.Add(tilePosition);
-                //Debug.Log($"GrassSystem: Detected fully grown position: {tilePosition.x}, {tilePosition.y}");
-            }
-            foreach(Vector2Int tilePosition in _fullGrassTiles)
-            {
-                _partialGrassTiles.Remove(tilePosition);
-                _partialGrassTilesSet.Remove(tilePosition);
+                _potentialGrassTilesList.Add(pos2D);
             }
 
             StartCoroutine(GrowGrass());
         }
     }
 
-    public static void LoadGrassTiles(  List<Vector2Int> partialGrassTiles, 
-                                        HashSet<Vector2Int> fullGrassTiles,
-                                        List<Vector2Int> extraGrassSpawnLocations)
+    public static void LoadGrassTiles(  List<Vector2Int> potentialGrassTiles, 
+                                        HashSet<Vector2Int> grassTiles)
     {
         _instance._initialized = true;
-        Debug.Log($"GrassSystem: Initialization from save data of {partialGrassTiles.Count} partial and {fullGrassTiles.Count} full grass tiles");
+        Debug.Log($"GrassSystem: Initialization from save data of {potentialGrassTiles.Count} potential and {grassTiles.Count} grown grass tiles");
         
-        _instance._partialGrassTiles = partialGrassTiles;
-        foreach(Vector2Int partialGrass2D in partialGrassTiles)
+        _instance._potentialGrassTilesList = potentialGrassTiles;
+        foreach(Vector2Int pos2D in potentialGrassTiles)
         {
-            _instance._partialGrassTilesSet.Add(partialGrass2D);
-            Vector3Int grass3D = new Vector3Int(partialGrass2D.x, partialGrass2D.y, 0);
-            _instance._mainTilemap.SetTile(grass3D, _instance._grassTile);
+            _instance._potentialGrassTilesSet.Add(pos2D);
+            Vector3Int pos3D = new Vector3Int(pos2D.x, pos2D.y, 0);
+            _instance._mainTilemap.SetTile(pos3D, _instance._grassTile);
         }
-        _instance._fullGrassTiles = fullGrassTiles;
-        foreach(Vector2Int fullGrass2D in fullGrassTiles)
+        _instance._grassTilesSet = grassTiles;
+        foreach(Vector2Int pos2D in grassTiles)
         {
-            Vector3Int grass3D = new Vector3Int(fullGrass2D.x, fullGrass2D.y, 0);
-            _instance._mainTilemap.SetTile(grass3D, _instance._grassTile);
+            Vector3Int pos3D = new Vector3Int(pos2D.x, pos2D.y, 0);
+            _instance._mainTilemap.SetTile(pos3D, _instance._grassTile);
         }
-        _instance._extraGrassSpawnLocations = extraGrassSpawnLocations;
 
         _instance.StartCoroutine(_instance.GrowGrass());
     }
     public static List<Vector2Int> GetPartialGrassTiles()
     {
-        return _instance._partialGrassTiles;
+        return _instance._potentialGrassTilesList;
     }
     public static HashSet<Vector2Int> GetFullGrassTiles()
     {
-        return _instance._fullGrassTiles;
-    }
-    public static List<Vector2Int> GetExtraGrassSpawns()
-    {
-        return _instance._extraGrassSpawnLocations;
+        return _instance._grassTilesSet;
     }
 
     public static void RecordNewGrassTile(Vector2Int grass2D)
     {
         Debug.Log("GrassSystem: Recording tile: " + grass2D.x + ", " + grass2D.y);
-        _instance._partialGrassTiles.Add(grass2D);
-        _instance._partialGrassTilesSet.Add(grass2D);
+
+        _instance._grassTilesSet.Add(grass2D);
+        _instance._potentialGrassTilesSet.Remove(grass2D);
+        _instance._potentialGrassTilesList.Remove(grass2D);
+        
+        // Check nearby spots as potential growth
+        Vector2Int nearbyPosition = new Vector2Int(grass2D.x, grass2D.y + 1);
+        if(!_instance._grassTilesSet.Contains(nearbyPosition))
+        {
+            _instance._potentialGrassTilesList.Add(nearbyPosition);
+            _instance._potentialGrassTilesSet.Add(nearbyPosition);
+        }
+
+        nearbyPosition = new Vector2Int(grass2D.x + 1, grass2D.y);
+        if(!_instance._grassTilesSet.Contains(nearbyPosition)) 
+        {
+            _instance._potentialGrassTilesList.Add(nearbyPosition);
+            _instance._potentialGrassTilesSet.Add(nearbyPosition);
+        }
+
+        nearbyPosition = new Vector2Int(grass2D.x, grass2D.y - 1);
+        if(!_instance._grassTilesSet.Contains(nearbyPosition))
+        {
+            _instance._potentialGrassTilesList.Add(nearbyPosition);
+            _instance._potentialGrassTilesSet.Add(nearbyPosition);
+        }
+
+        nearbyPosition = new Vector2Int(grass2D.x - 1, grass2D.y);
+        if(!_instance._grassTilesSet.Contains(nearbyPosition))
+        {
+            _instance._potentialGrassTilesList.Add(nearbyPosition);
+            _instance._potentialGrassTilesSet.Add(nearbyPosition);
+        }
+
         Vector3Int grass3D = new Vector3Int(grass2D.x, grass2D.y, 0);
         _instance._mainTilemap.SetTile(grass3D, _instance._grassTile);
-        _instance._extraGrassSpawnLocations.Remove(grass2D);
         MissionManager.onIncrementMission(MissionGoal.NewGrass, 1);
-    }
-    public static void RecordGrassSpawnLocation(Vector2Int grass2D)
-    {
-        if(!_instance._fullGrassTiles.Contains(grass2D) 
-        && !_instance._partialGrassTiles.Contains(grass2D))
-        {
-            _instance._extraGrassSpawnLocations.Add(grass2D);
-        }   
     }
 
     IEnumerator GrowGrass()
@@ -174,73 +191,23 @@ public class GrassSystem : MonoBehaviour
 
             yield return new WaitForSeconds(waitTime);
 
-            // Randomize (50/50) growth on either extra spawn location or existing grass tile
-            if(_instance._extraGrassSpawnLocations.Count > 0 && Random.Range(0, 1) == 0)
+            // Choose random grass tile
+            Vector2Int grass2D = _instance._potentialGrassTilesList[
+                Random.Range(0, (_instance._potentialGrassTilesList.Count - 1))];
+            
+            
+            if(!_instance._grassTilesSet.Contains(grass2D))
             {
-                // Choose random extra tile
-                Vector2Int grass2D = _instance._extraGrassSpawnLocations[
-                    Random.Range(0, (_instance._extraGrassSpawnLocations.Count - 1))];
                 RecordNewGrassTile(grass2D);
             }
             else
             {
-                // Choose random grass tile
-                Vector2Int grass2D = _instance._partialGrassTiles[
-                    Random.Range(0, (_instance._partialGrassTiles.Count - 1))];
-                
-                Vector2Int[] tiles = GetAdjacentTiles(grass2D);
-
-                int i = Random.Range(0, tiles.Length - 1);
-                int ii = i+1;
-                if(ii == tiles.Length) ii = 0;
-
-                // Search for adjacent tile without grass
-                if(_instance._fullGrassTiles.Contains(tiles[i]))
-                {
-                    _reducedWait = true;
-                }
-                else
-                {
-                    if(!_instance._partialGrassTilesSet.Contains(tiles[i]))
-                    {
-                        RecordNewGrassTile(tiles[i]);
-                    }
-                    else while(ii != i)
-                    {
-                        if(!_instance._partialGrassTilesSet.Contains(tiles[ii]))
-                        {
-                            RecordNewGrassTile(tiles[ii]);
-                        }
-                        else
-                        {
-                            ii++;
-                            if(ii > 7) ii = 0;
-                        }
-                    }
-
-                    if(i == ii)
-                    {
-                        // All adjacent tiles were grown
-                        _instance._partialGrassTiles.Remove(grass2D);
-                        _instance._partialGrassTilesSet.Remove(grass2D);
-                        _instance._fullGrassTiles.Add(grass2D);
-                        _reducedWait = true;
-                        Debug.Log($"GrassSystem: Chosen tile ({grass2D.x}, {grass2D.y}) fully grown!");
-                    }
-                }
+                _instance._potentialGrassTilesList.Remove(grass2D);
+                _instance._potentialGrassTilesSet.Remove(grass2D);
+                _reducedWait = true;
+                Debug.Log($"GrassSystem: Chosen tile ({grass2D}) fully grown!");
             }
         }
-    }
-    public static Vector2Int[] GetAdjacentTiles(Vector2Int grass2D)
-    {
-        Vector2Int[] tiles = new Vector2Int[8];
-        
-        tiles[0] = new Vector2Int(grass2D.x, grass2D.y + 1);
-        tiles[1] = new Vector2Int(grass2D.x - 1, grass2D.y);
-        tiles[2] = new Vector2Int(grass2D.x + 1, grass2D.y);
-        tiles[3] = new Vector2Int(grass2D.x, grass2D.y - 1);
-
-        return tiles;
     }
     
     public static void TakeArea(Vector3Int start, Vector3Int size)
@@ -255,15 +222,101 @@ public class GrassSystem : MonoBehaviour
             }
         }
     }
-    public static void AddGrassSpawnLocationArea(Vector3Int start, Vector3Int size)
+
+    public static void AddExtraGrassSpawnArea(Vector3Int start, Vector3Int size)
     {
-        Debug.Log("GrassSystem: AddGrassSpawnLocationArea(" + start + ", " + size);
+        Vector2Int core = new Vector2Int(start.x, start.y);
+        // Center core if size dimension >= 3
+        if(size.x >= 3) core.x += Mathf.FloorToInt((size.x - 1) / 2);
+        if(size.y >= 3) core.y += Mathf.FloorToInt((size.y - 1) / 2);
+
+        if(_instance._extraGrassGrowthCores.Contains(core))
+        {
+            Debug.Log($"GrassSystem: AddExtraGrassSpawnArea({start}, {size}), error, core location ({core}) is already in use");
+            return;
+        }
+
+        ExtraGrassSpawn newSpawn = new ExtraGrassSpawn(core);
+
+        string s = "";
         
         for(int x = start.x; x < (start.x + size.x); x++)
         {
             for(int y = start.y; y < (start.y + size.y); y++)
             {
-                RecordGrassSpawnLocation(new Vector2Int(x, y));
+                Vector2Int location = new Vector2Int(x, y);
+                if(!HasGrass(location))
+                {
+                    newSpawn.extraSpawnLocations.Add(location);
+                    s += $"{location}, ";
+                }
+            }
+        }
+        _instance._extraGrassGrowthCores.Add(core);
+        _instance.StartCoroutine(_instance.ExtraGrowGrass(newSpawn));
+        Debug.Log($"GrassSystem: AddExtraGrassSpawnArea({start}, {size}), core location: {core}, other locations {s}");
+    }
+    public static void RemoveExtraGrassSpawnArea(Vector3Int start, Vector3Int size)
+    {
+        Vector2Int core = new Vector2Int(start.x, start.y);
+        // Center core if size dimension >= 3
+        if(size.x >= 3) core.x += Mathf.FloorToInt((size.x - 1) / 2);
+        if(size.y >= 3) core.y += Mathf.FloorToInt((size.y - 1) / 2);
+
+        _instance._extraGrassGrowthCores.Remove(core);
+    }
+    IEnumerator ExtraGrowGrass(ExtraGrassSpawn spawn)
+    {
+        Debug.Log($"GrassSystem.ExtraGrowGrass in {spawn.location} started...)");
+        // Wait for a time depending on growth speed and random modifier
+        float waitTime = _instance._baseGrassGrowthWaitTime 
+                            * (1f / GameManager.GetGrowthMultiplier()) 
+                            * Random.Range(0.5f, 1.5f);
+        if(waitTime < 3f) waitTime = 3f;
+        yield return new WaitForSeconds(waitTime);
+
+        // Grow grass on core location first if possible
+        if(!HasGrass(spawn.location))
+        {
+            RecordNewGrassTile(spawn.location);
+        }
+
+        // Spawn new grass tiles adjacent to existing ones
+        while(true)
+        {
+            waitTime = _instance._baseGrassGrowthWaitTime 
+                        * (1f / GameManager.GetGrowthMultiplier()) 
+                        * Random.Range(0.5f, 1.5f);
+            if(waitTime < 3f) waitTime = 3f;
+            Debug.Log($"GrassSystem: Trying to grow grass...(waiTime: {waitTime})(extra in {spawn.location})");
+
+            yield return new WaitForSeconds(waitTime);
+
+            // End coroutine if spawn was removed
+            if(!_instance._extraGrassGrowthCores.Contains(spawn.location))
+            {
+                Debug.Log($"GrassSystem: ExtraGrassSpawnArea ({spawn.location}) was removed, ending coroutine!");
+                yield break;    // End coroutine
+            } 
+
+            // End coroutine if no spawn locations left
+            if(spawn.extraSpawnLocations.Count == 0)
+            {
+                Debug.Log($"GrassSystem: ExtraGrassSpawnArea ({spawn.location}) is fully grown!");
+                _instance._extraGrassGrowthCores.Remove(spawn.location);
+                yield break;    // End coroutine
+            } 
+
+            // Choose random grass tile
+            int i = Random.Range(0, (spawn.extraSpawnLocations.Count - 1));
+            Vector2Int grass2D = spawn.extraSpawnLocations[i];
+            
+            if(HasGrass(grass2D)) spawn.extraSpawnLocations.RemoveAt(i);
+            else
+            {
+                RecordNewGrassTile(grass2D);
+                spawn.extraSpawnLocations.RemoveAt(i);
+                
             }
         }
     }
@@ -282,11 +335,15 @@ public class GrassSystem : MonoBehaviour
     {
         Vector3Int gridLocation = GridLayout.WorldToCell(location);
 
-        return _instance._fullGrassTiles.Contains(new Vector2Int(gridLocation.x, gridLocation.y));
+        return _instance._grassTilesSet.Contains(new Vector2Int(gridLocation.x, gridLocation.y));
     }
     public static bool HasGrass(Vector3Int gridLocation)
     {
-        return _instance._fullGrassTiles.Contains(new Vector2Int(gridLocation.x, gridLocation.y));
+        return _instance._grassTilesSet.Contains(new Vector2Int(gridLocation.x, gridLocation.y));
+    }
+    public static bool HasGrass(Vector2Int gridLocation)
+    {
+        return _instance._grassTilesSet.Contains(gridLocation);
     }
     public static TileBase[] GetTilesBlock(BoundsInt area, Tilemap tilemap)
     {

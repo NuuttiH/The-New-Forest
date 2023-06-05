@@ -101,6 +101,7 @@ MonoBehaviour:
   _deconstructType: 2
   _growthSpeedIncreasePercent: 15
   _spawnGrass: 1
+  _spawnGrassExtraArea: 1
   _requireGrass: 0
 --- !u!114 &3419444868286069986
 MonoBehaviour:

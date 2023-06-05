@@ -75,8 +75,7 @@ public class SaveManager : MonoBehaviour
         }
 
         GrassSystem.LoadGrassTiles( _instance._saveData.partialGrassTiles, 
-                                    _instance._saveData.fullGrassTiles,
-                                    _instance._saveData.extraGrassSpawnLocations);
+                                    _instance._saveData.fullGrassTiles);
                                     
 
         Debug.Log("SaveManager, LoadData(): Save loaded!");
@@ -124,7 +123,6 @@ public class SaveManager : MonoBehaviour
         
         _instance._saveData.partialGrassTiles = GrassSystem.GetPartialGrassTiles();
         _instance._saveData.fullGrassTiles = GrassSystem.GetFullGrassTiles();
-        _instance._saveData.extraGrassSpawnLocations = GrassSystem.GetExtraGrassSpawns();
 
         ScenarioInfo scenarioInfo = MissionManager.GetScenarioInfo();
         _instance._saveData.scenarioInfoId = scenarioInfo.id;

@@ -158,7 +158,7 @@ public class IngameUIHandler : MonoBehaviour
                 _minutesTrade--;
                 _secondsTrade += 60;
 
-                if(_minutesTrade == -1)
+                if(_minutesTrade <= -1)
                 {
                     // Handle trading status change
                     _minutesTrade = 0;
@@ -316,13 +316,17 @@ public class IngameUIHandler : MonoBehaviour
     public void AdjustTraderTimer(float oldValue, float newValue)
     {
         Debug.Log($"IngameUIHandler.AdjustTraderTimer({oldValue}, {newValue})");
-        int secondAdjustment = (int)(300f * oldValue - 300f * newValue);
-
-        _secondsTrade -= secondAdjustment;
-        while(_secondsTrade <= 0)
+        if(!_tradersAvailable)
         {
-            _minutesTrade--;
-            _secondsTrade += 60;
+            // Adjust trader wait time while waiting for trader, no need to adjust during trade phase
+            int secondAdjustment = (int)(300f * oldValue - 300f * newValue);
+
+            _secondsTrade -= secondAdjustment;
+            while(_secondsTrade <= 0)
+            {
+                _minutesTrade--;
+                _secondsTrade += 60;
+            }
         }
     }
 

@@ -68,6 +68,7 @@ public class PlaceableObject : MonoBehaviour
     [SerializeField] protected float _growthSpeedIncreasePercent = 0f;
     public float GrowthSpeedIncreasePercent { get; protected set; }
     [SerializeField] protected bool _spawnGrass = false;
+    [SerializeField] protected int _spawnGrassExtraArea = 0;
     [SerializeField] protected bool _requireGrass = true;
     public bool RequireGrass { get { return _requireGrass; } }
 
@@ -354,7 +355,7 @@ public class PlaceableObject : MonoBehaviour
         else
         {
             MissionManager.onIncrementMission(MissionGoal.BuildBuilding, _objectInfo.id);
-            if(_spawnGrass) GrassSystem.AddGrassSpawnLocationArea(_startTile, Size);
+            if(_spawnGrass) SetGrassSpawning(true);
             if(_growthSpeedIncreasePercent != 0f)
                 GameManager.AdjustGrowthMultiplier(_growthSpeedIncreasePercent);
         }
@@ -379,7 +380,7 @@ public class PlaceableObject : MonoBehaviour
     {
         this._constructionObject.SetActive(true);
         this._finishedConstruction = true;
-        if(_spawnGrass) GrassSystem.AddGrassSpawnLocationArea(_startTile, Size);
+        if(_spawnGrass) SetGrassSpawning(true);
         if(_growthSpeedIncreasePercent != 0f)
         {
             if(_requireGrowth) 
@@ -422,7 +423,7 @@ public class PlaceableObject : MonoBehaviour
         }
         if(_growthSpeedIncreasePercent != 0f)
             GameManager.AdjustGrowthMultiplier(appliedGrowthMultiplier * _growthSpeedIncreasePercent);
-        if(_spawnGrass) Debug.LogError("TODO remove spawn grass area");
+        if(_spawnGrass) SetGrassSpawning(false);
 
         PrepUnplace();
         BuildingSystem.ReleaseArea(_startTile, Size);
@@ -458,5 +459,31 @@ public class PlaceableObject : MonoBehaviour
     public void ModifyGrowthTime(float mod)
     {
         _growTime *= mod;
+    }
+
+    public void SetGrassSpawning(bool val)
+    {
+        if(val)
+        {
+            // Turn on
+            Vector3Int spawnStart = new Vector3Int( _startTile.x - _spawnGrassExtraArea,
+                                                    _startTile.y - _spawnGrassExtraArea,
+                                                    1);
+            Vector3Int spawnArea = new Vector3Int(  Size.x + (2 * _spawnGrassExtraArea),
+                                                    Size.y + (2 * _spawnGrassExtraArea),
+                                                    1);
+            GrassSystem.AddExtraGrassSpawnArea(spawnStart, spawnArea);
+        }
+        else
+        {
+            // Turn off
+            Vector3Int spawnStart = new Vector3Int( _startTile.x - _spawnGrassExtraArea,
+                                                    _startTile.y - _spawnGrassExtraArea,
+                                                    1);
+            Vector3Int spawnArea = new Vector3Int(  Size.x + (2 * _spawnGrassExtraArea),
+                                                    Size.y + (2 * _spawnGrassExtraArea),
+                                                    1);
+            GrassSystem.RemoveExtraGrassSpawnArea(spawnStart, spawnArea);
+        }
     }
 }
