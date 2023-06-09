@@ -23,7 +23,7 @@ public class PopUpBuildingTooltip : PopUpMenu, IPointerEnterHandler, IPointerExi
         {
             _resourceObject = _resourcePanel.transform.GetChild(0).gameObject;
             _resourceObject.transform.GetChild(0).gameObject.GetComponent<Image>().enabled = false;
-            //_resourceObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "free";
+            _resourceObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().text = "";
         }
         else foreach(Cost cost in _placeableObject.BuildingCost)
         {

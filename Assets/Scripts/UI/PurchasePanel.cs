@@ -39,8 +39,12 @@ public class PurchasePanel : MonoBehaviour
         
         _canHouse = true;
         _isDisabled = false;
-        if(!GameManager.GetFlag(_requiredFlag)) 
+        if(!GameManager.GetFlag(_requiredFlag))
+        {
             SetDisabled();
+            Events.onFlagTriggered += CheckFlag;
+        }
+            
         else switch(_rewardType)
         {
             case RewardType.Food:
@@ -85,12 +89,13 @@ public class PurchasePanel : MonoBehaviour
                 break;
         }
         Events.onResourceChange -= CheckCost;
+        Events.onFlagTriggered -= CheckFlag;
     }
 
-    public void SetDisabled()
+    public void SetDisabled(bool val = true)
     {
-        _isDisabled = true;
-        _button.interactable = false;
+        _isDisabled = val;
+        _button.interactable = !val;
     }
 
     private void HandlePurchase()
@@ -162,5 +167,9 @@ public class PurchasePanel : MonoBehaviour
         int villagerCount = GameManager.GetVillagerCount();
         int housingLimit = GameManager.GetPopulationLimit();
         return housingLimit > villagerCount ? true : false;
+    }
+    public void CheckFlag(Flag flag)
+    {
+        if(_requiredFlag == flag) SetDisabled(false); 
     }
 }

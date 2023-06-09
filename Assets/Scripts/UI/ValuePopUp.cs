@@ -6,8 +6,8 @@ using TMPro;
 public class ValuePopUp : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _tmp;
-    private Vector3 _initialPositionAdjustment = new Vector3(0f, -100f, 0f);
-    private float _positionAdjustmentSpeed = 50f;
+    private Vector3 _initialPositionAdjustment = new Vector3(-5f, -30f, 0f);
+    private float _positionAdjustmentSpeed = 15f;
 
     public void Init(int value)
     {
