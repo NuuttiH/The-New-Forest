@@ -13,6 +13,7 @@ public class MagicProduction : PlaceableObject
 
     public override void FinishConstruction()
     {
+        //Debug.Log($"MagicProduction: creating new job... (previous _jobIndex: {_jobIndex})");
         if(_jobIndex != -1) return;
 
         Job newJob = new Job(   JobType.Magic, _resourceType,
@@ -20,5 +21,6 @@ public class MagicProduction : PlaceableObject
                                 _jobTime, _jobDistance);
         newJob.rewardValue = _jobMagicValue;
         _jobIndex = JobManager.QueueJob(newJob, true);
+        //Debug.Log($"MagicProduction: creating new job... (new _jobIndex: {_jobIndex})");
     }
 }

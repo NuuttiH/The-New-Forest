@@ -377,6 +377,7 @@ public class PlaceableObject : MonoBehaviour
     }
     public void Construct()
     {
+        _jobIndex = -1;
         this._constructionObject.SetActive(true);
         this._finishedConstruction = true;
         if(_spawnGrass) SetGrassSpawning(true);
