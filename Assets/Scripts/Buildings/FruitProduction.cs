@@ -120,8 +120,7 @@ public class FruitProduction : PlaceableObject
         
         while(_fruitGrowthProgress[i] < 1f)
         {
-            yield return new WaitForSeconds(
-                1f / GameManager.GetGrowthMultiplier() * _fruitGrowTime / _fruitGrowthTics);
+            yield return new WaitForSeconds(GameManager.GetGrowthMultiplier() * _fruitGrowTime / _fruitGrowthTics);
             _fruits[i].transform.localScale += (_fruitOriginalScale * _fruitTicSize);
             _fruitGrowthProgress[i] += _fruitTicSize;
         }

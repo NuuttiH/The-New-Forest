@@ -314,9 +314,11 @@ public class PlaceableObject : MonoBehaviour
             }
             else 
             {
+                if(_spawnGrass) SetGrassSpawning(true);
                 FinishConstruction();
             }
         }
+        else if(_spawnGrass) SetGrassSpawning(true);
         if(_requireConstruction && !_finishedConstruction) _constructionObject.SetActive(false);
     }
     public virtual void FinishPlacing()
@@ -339,8 +341,7 @@ public class PlaceableObject : MonoBehaviour
     {
         while(_growthProgress < 1f)
         {
-            yield return new WaitForSeconds(
-                1f / GameManager.GetGrowthMultiplier() * _growTime / _growthTics);
+            yield return new WaitForSeconds(GameManager.GetGrowthMultiplier() * _growTime / _growthTics);
             transform.localScale += (_originalScale * _ticSize);
             if(transform.localScale.x > _originalScale.x) transform.localScale = _originalScale;
             _growthProgress += _ticSize;

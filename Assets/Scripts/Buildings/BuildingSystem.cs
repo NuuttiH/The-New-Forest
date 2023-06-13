@@ -147,13 +147,7 @@ public class BuildingSystem : MonoBehaviour
         if(pos.x > _instance._maxLength || pos.x < minLength || pos.y > _instance._maxLength || pos.y < minLength)
             return false;
         return true;
-    }/*
-    public static TileBase[] CheckAreaForInBound(BoundsInt area, TileBase[] tiles)
-    {
-
     }
-    
-            CheckAreaForInBound(previousArea, _instance._previousOverlayTiles);*/
 
     private bool CanBePlaced(PlaceableObject placeableObject)
     {
@@ -301,8 +295,8 @@ public class BuildingSystem : MonoBehaviour
         while(true)
         {
             // Wait for a time depending on growth speed
-            float waitTime = 45f * (1f / GameManager.GetGrowthMultiplier());
-            if(waitTime < 30f) waitTime = 30f;
+            float waitTime = 35f * GameManager.GetGrowthMultiplier();
+            if(waitTime < 18f) waitTime = 18f;
             if(reducedWait)
             {
                 waitTime = 5f;

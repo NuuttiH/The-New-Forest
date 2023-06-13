@@ -137,7 +137,8 @@ public class ResourcePanel : MonoBehaviour
     private void RefreshResource(float oldValue, float newValue)
     {
         float change = newValue - oldValue;
-        _textField.text = newValue.ToString("000.0") + "%";
+        if(newValue < 100) _textField.text = newValue.ToString("00.0") + "%";
+        else _textField.text = newValue.ToString("000.0") + "%";
 
         GameObject valueChangeText = Instantiate(
             _valueChangeTextPrefab, this.transform.position, 
