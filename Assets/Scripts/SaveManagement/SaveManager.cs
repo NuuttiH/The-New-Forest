@@ -11,6 +11,7 @@ public class SaveManager : MonoBehaviour
     private static SaveManager _instance;
 
     private GameState _saveData;
+    [SerializeField] private float _autosaveInterval = 80f;
 
     void Awake()
     {
@@ -26,9 +27,28 @@ public class SaveManager : MonoBehaviour
         _saveData = new GameState();
     }
 
-    public static GameState GetData()
+    public static GameState GetData(SaveIdentifier saveIdentifier = SaveIdentifier.None)
     {
-        return _instance._saveData;
+        // Get data for currently loaded save by default
+        if(saveIdentifier == SaveIdentifier.None) return _instance._saveData;
+
+        // Else, fetch data from a file
+        GameState data = new GameState();
+        try
+        {
+            XmlSerializer serializer = new XmlSerializer(typeof(GameState));
+        
+            FileStream stream = new FileStream( _instance.GetSavePath(saveIdentifier), 
+                                                FileMode.Open, FileAccess.Read);
+            data = serializer.Deserialize(stream) as GameState;
+            stream.Close();
+        }
+        catch(FileNotFoundException e)
+        {
+            // This is fine
+        }
+        
+        return data;
     }
 
     public static void LoadData(SaveIdentifier saveIdentifier)
@@ -158,5 +178,10 @@ public class SaveManager : MonoBehaviour
             savePath = System.IO.Path.Combine(Application.persistentDataPath, identifier);
         }
         return savePath;
+    }
+
+    public static float GetAutosaveInterval()
+    {
+        return _instance._autosaveInterval;
     }
 }

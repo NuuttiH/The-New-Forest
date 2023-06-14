@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ScenarioInfo _scenarioInfo;
     [SerializeField] private int _mapSize = 128;
     public static int MapSize { get { return _instance._mapSize; } }
+    private Dictionary<int, ObjectInfo> _objectInfoDict = new Dictionary<int, ObjectInfo>();
 
     public static bool FinishedLoading { get; protected set; }
     public static bool FinishedStartup { get; protected set; }
@@ -132,6 +133,7 @@ public class GameManager : MonoBehaviour
 
         LogDictionaries();
         StartCoroutine(Income());
+        StartCoroutine(Autosave());
     }
     public static void LogDictionaries()
     {
@@ -163,6 +165,15 @@ public class GameManager : MonoBehaviour
             AddResource(Resource.Magic, _income);
         }
     }
+    IEnumerator Autosave()
+    {
+        while(true)
+        {
+            yield return new WaitForSeconds(SaveManager.GetAutosaveInterval());
+
+            SaveManager.SaveData(SaveIdentifier.Auto);
+        }
+    }
 
     public static void DeleteDefaultObjects()
     {
@@ -171,6 +182,23 @@ public class GameManager : MonoBehaviour
     }
 
     // Functions for game data
+    public static ScenarioInfo GetScenarioInfo()
+    {
+        return _instance._scenarioInfo;
+    }
+    public static ObjectInfo GetObjectInfo(int id)
+    {
+        if(_instance._objectInfoDict.Count == 0)
+        {
+            Object[] objectInfos = Resources.LoadAll("ScriptableObjects/ObjectInfo", typeof(ObjectInfo));
+            foreach(ObjectInfo info in objectInfos)
+            {
+                _instance._objectInfoDict.Add(info.id, info);
+            }
+        }
+
+        return _instance._objectInfoDict[id];
+    }
     public static int GetResource(Resource resourceType)
     {
         int amount = 0;
@@ -188,7 +216,6 @@ public class GameManager : MonoBehaviour
         }
         return amount;
     }
-    
     public static void AddResource(Resource resourceType, int amount)
     {
         int oldValue, newValue;
