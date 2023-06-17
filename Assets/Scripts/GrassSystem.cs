@@ -182,9 +182,9 @@ public class GrassSystem : MonoBehaviour
         {
             // Wait for a time depending on growth speed
             float waitTime = _instance._baseGrassGrowthWaitTime * GameManager.GetGrowthMultiplier();
-            if(_instance._reducedWait || waitTime < 0.8f)
+            if(_instance._reducedWait || waitTime < 0.5f)
             {
-                waitTime = 0.8f;
+                waitTime = 0.5f;
                 _instance._reducedWait = false;
             }
             Debug.Log($"GrassSystem: Trying to grow grass...(waiTime: {waitTime})");
@@ -268,10 +268,8 @@ public class GrassSystem : MonoBehaviour
     IEnumerator ExtraGrowGrass(ExtraGrassSpawn spawn)
     {
         Debug.Log($"GrassSystem.ExtraGrowGrass in {spawn.location} started...)");
-        // Wait for a time depending on random modifier, slightly faster than unmodified base speed
-        float waitTime = _instance._baseGrassGrowthWaitTime * 0.8f 
-                            * Random.Range(0.5f, 1.5f);
-        if(waitTime < 3f) waitTime = 3f;
+        // Wait for a time depending on random modifier, slightly slower than unmodified base speed
+        float waitTime = _instance._baseGrassGrowthWaitTime * Random.Range(0.75f, 2f);
         yield return new WaitForSeconds(waitTime);
 
         // Grow grass on core location first if possible

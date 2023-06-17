@@ -513,6 +513,7 @@ MonoBehaviour:
   Building: {fileID: 0}
   _buildingHotkey: 0
   _audioEvent: {fileID: 11400000, guid: 93723a11920935849923e9ea6874320e, type: 2}
+  _requiredFlag: 0
 --- !u!114 &6330594795865143750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,7 +529,7 @@ MonoBehaviour:
   _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
     type: 3}
   _objectInfo: {fileID: 11400000, guid: 8425c8d8f12f6e64cb051b4c84863ab7, type: 2}
-  _tooltipWaitTime: 2
+  _tooltipWaitTime: 0.5
 --- !u!1 &4684999072814435407
 GameObject:
   m_ObjectHideFlags: 0

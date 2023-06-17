@@ -14,9 +14,11 @@ public class PopUpBuildingTooltip : PopUpMenu, IPointerEnterHandler, IPointerExi
 
     public override void InitAdvanced()
     {
-        _placeableObject = _bossObject.GetComponent<BuildButton>().Building.GetComponent<PlaceableObject>();
+        BuildButton buildButtonScript = _bossObject.GetComponent<BuildButton>();
+        _placeableObject = buildButtonScript.Building.GetComponent<PlaceableObject>();
         Debug.Log($"PopUpGenericTooltip.InitAdvanced() found _placeableObject: {_placeableObject != null}");
         _hoverScript = _bossObject.GetComponent<OpenTooltipOnHover>();
+        gameObject.GetComponent<Button>().onClick.AddListener( delegate{ buildButtonScript.TryBuild(); } ); 
 
         bool first = true;
         if(_placeableObject.BuildingCost.Length == 0)

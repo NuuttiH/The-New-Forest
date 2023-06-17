@@ -65,7 +65,7 @@ public class BuildingSystem : MonoBehaviour
         if(_objectToPlace.Placeable && Input.GetMouseButtonUp(0))
         {
             ResetDragOverlay();
-            if(CanBePlaced(_objectToPlace))
+            if(CanBePlaced(_objectToPlace, true))
             {
                 Vector3Int start = GridLayout.WorldToCell(_objectToPlace.GetStartPosition());
                 _objectToPlace.Place(start);
@@ -149,7 +149,7 @@ public class BuildingSystem : MonoBehaviour
         return true;
     }
 
-    private bool CanBePlaced(PlaceableObject placeableObject)
+    private bool CanBePlaced(PlaceableObject placeableObject, bool giveErrorMessage = false)
     {
         BoundsInt area = new BoundsInt();
         area.position = GridLayout.WorldToCell(placeableObject.GetStartPosition());
@@ -165,10 +165,22 @@ public class BuildingSystem : MonoBehaviour
         {
             if(baseArray[index] == _occupiedTile 
             || baseArray[index] == _overlapTile
-            || IsInBounds(positions[index]) == false) 
+            || IsInBounds(positions[index]) == false)
+            {
+                if(giveErrorMessage) 
+                    MessageLog.NewMessage(new MessageData(
+                        $"Can't place '{placeableObject.Name}', location is not available", MessageType.Error));
                 return false;
+            }   
         }
-        if(placeableObject.RequireGrass) return GrassSystem.HasGrass(area);
+        if(placeableObject.RequireGrass)
+        {
+            bool val = GrassSystem.HasGrass(area);
+            if(giveErrorMessage && !val) 
+                MessageLog.NewMessage(new MessageData(
+                    $"Can't place '{placeableObject.Name}', it requires grass", MessageType.Error));
+            return val;
+        }
         else return true;
     }
 

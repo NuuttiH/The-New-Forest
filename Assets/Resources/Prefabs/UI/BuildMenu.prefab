@@ -156,7 +156,7 @@ MonoBehaviour:
   _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
     type: 3}
   _objectInfo: {fileID: 11400000, guid: 716b234ec9d2ca745a19ef642376bb5a, type: 2}
-  _tooltipWaitTime: 2
+  _tooltipWaitTime: 0.5
 --- !u!1 &2509904010736942048
 GameObject:
   m_ObjectHideFlags: 0
@@ -313,7 +313,7 @@ MonoBehaviour:
   _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
     type: 3}
   _objectInfo: {fileID: 11400000, guid: 8f41e7eb4001d8f4f8122fbf14b95e25, type: 2}
-  _tooltipWaitTime: 2
+  _tooltipWaitTime: 0.5
 --- !u!1 &2734608131284886764
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,7 +470,7 @@ MonoBehaviour:
   _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
     type: 3}
   _objectInfo: {fileID: 11400000, guid: 7f2006b7b2a87444d947ad8100137b3e, type: 2}
-  _tooltipWaitTime: 2
+  _tooltipWaitTime: 0.5
 --- !u!1 &2948563222086600049
 GameObject:
   m_ObjectHideFlags: 0
@@ -1675,7 +1675,7 @@ MonoBehaviour:
   _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
     type: 3}
   _objectInfo: {fileID: 11400000, guid: 819e6c4a2f600b044bc06c3bb141b125, type: 2}
-  _tooltipWaitTime: 2
+  _tooltipWaitTime: 0.5
 --- !u!1 &6396943537856982352
 GameObject:
   m_ObjectHideFlags: 0
@@ -1832,7 +1832,7 @@ MonoBehaviour:
   _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
     type: 3}
   _objectInfo: {fileID: 11400000, guid: ee0e13e5f2869d8429fe1a2100f7c6ab, type: 2}
-  _tooltipWaitTime: 2
+  _tooltipWaitTime: 0.5
 --- !u!1 &6419773332784173959
 GameObject:
   m_ObjectHideFlags: 0
@@ -2095,7 +2095,7 @@ MonoBehaviour:
   _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
     type: 3}
   _objectInfo: {fileID: 11400000, guid: 9e427421436d8ff4dbaba25d2e1ffcc4, type: 2}
-  _tooltipWaitTime: 2
+  _tooltipWaitTime: 0.5
 --- !u!1 &7904757559647402982
 GameObject:
   m_ObjectHideFlags: 0
@@ -2252,7 +2252,7 @@ MonoBehaviour:
   _UIPrefab: {fileID: 364676816467689365, guid: 8c0c0dc69a6372b45ac37147561730ff,
     type: 3}
   _objectInfo: {fileID: 11400000, guid: 4e37631d9688d5d4b834e37356875ae1, type: 2}
-  _tooltipWaitTime: 2
+  _tooltipWaitTime: 0.5
 --- !u!1 &8521940254574586855
 GameObject:
   m_ObjectHideFlags: 0
