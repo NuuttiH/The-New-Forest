@@ -49,6 +49,7 @@ public class MessageLog : MonoBehaviour
 
     public static void NewMessage(MessageData messageData)
     {
+        Debug.Log($"MessageLog.NewMessage({messageData.content}, {messageData.type}, {messageData.duration})");
         if(!GameManager.FinishedStartup && messageData.type != MessageType.Error) return;
         
         GameObject newMessage = Instantiate(_instance._messagePrefab, _instance.gameObject.transform);
