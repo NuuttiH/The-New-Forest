@@ -5,7 +5,7 @@ using UnityEngine;
 
 public enum MissionGoal {   None, Food, Lumber, Magic, BuildLumber, BuildFood,
                             BuildBuilding, BuyFromTrader, VillagerCount, NewGrass, 
-                            TreeCount, TriggerFlag, PopulationLimit }
+                            TreeCount, TriggerFlag, PopulationLimit, GrowthPercent }
                             
 // public enum Resource { None, Food, Lumber, Magic }
 

@@ -93,7 +93,7 @@ MonoBehaviour:
   _villagerAudio: {fileID: 11400000, guid: ecc09893ae15fa94bbb6ddd2fa4453f7, type: 2}
   logicTic: 0.6
   _upkeep:
-  - amount: 1
+  - amount: 2
     type: 1
   _jobEffiency:
   - jobType: 0

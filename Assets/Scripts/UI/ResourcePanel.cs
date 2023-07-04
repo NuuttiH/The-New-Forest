@@ -98,7 +98,8 @@ public class ResourcePanel : MonoBehaviour
                 break;
             case PanelType.GrowthModifier:
                 fvalue = GameManager.GetGrowthValue();
-                _textField.text = fvalue.ToString("000.0") + "%";
+                if(fvalue < 100) _textField.text = fvalue.ToString("00.0") + "%";
+                else _textField.text = fvalue.ToString("000.0") + "%";
                 break; 
             case PanelType.PopulationLimit:
                 value = GameManager.GetPopulationLimit();

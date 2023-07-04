@@ -473,7 +473,7 @@ public class PlaceableObject : MonoBehaviour
             Vector3Int spawnArea = new Vector3Int(  Size.x + (2 * _spawnGrassExtraArea),
                                                     Size.y + (2 * _spawnGrassExtraArea),
                                                     1);
-            GrassSystem.AddExtraGrassSpawnArea(spawnStart, spawnArea);
+            GrassSystem.AddExtraGrassSpawnArea(spawnStart, spawnArea, this);
         }
         else
         {
@@ -486,5 +486,15 @@ public class PlaceableObject : MonoBehaviour
                                                     1);
             GrassSystem.RemoveExtraGrassSpawnArea(spawnStart, spawnArea);
         }
+    }
+    
+    public virtual void GrassSpawningFinished()
+    {
+        _cutDownjobIndex = JobManager.QueueJob(
+            new Job( JobType.Build, _cutDownResourceType,
+                    this.buildingId, this.transform.position, 
+                    _woodCuttingTime, _woodCuttingDistance,
+                    -1, _deconstructType), true);
+        Cuttable = true;
     }
 }

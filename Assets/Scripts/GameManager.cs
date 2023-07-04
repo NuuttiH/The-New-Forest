@@ -451,6 +451,7 @@ public class GameManager : MonoBehaviour
         float newValue = _instance._growthSpeedPercent + val;
         Events.onGrowthModChange(_instance._growthSpeedPercent, newValue);
         _instance._growthSpeedPercent = newValue;
+        MissionManager.onIncrementMission(MissionGoal.GrowthPercent, (int)newValue);
     }
     public static float GetGrowthValue()
     {

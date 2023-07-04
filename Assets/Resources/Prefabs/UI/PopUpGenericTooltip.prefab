@@ -33,7 +33,7 @@ RectTransform:
   m_Children:
   - {fileID: 2076645516014381174}
   m_Father: {fileID: 374410890276810855}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -412,8 +412,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1377368023579501153, guid: 54687cd854ce43a468af3314330ff8d4,
         type: 3}
+      propertyPath: m_overflowMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1377368023579501153, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
       propertyPath: m_enableAutoSizing
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483596702097672361, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3483596702097672361, guid: 54687cd854ce43a468af3314330ff8d4,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8345342037952964637, guid: 54687cd854ce43a468af3314330ff8d4,
         type: 3}
@@ -588,7 +603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _image: {fileID: 1970587043249020877}
   _textArea: {fileID: 7349826272913963547}
-  _extraText: {fileID: 0}
+  _titleText: {fileID: 0}
   _exitButton: {fileID: 0}
   _foodInfo: {fileID: 11400000, guid: 2d846ad33e3ea8d4bb0a1b36af8d9309, type: 2}
   _lumberInfo: {fileID: 11400000, guid: 6aad082e0f3a86b4b90707c9c5f84e5c, type: 2}

@@ -223,7 +223,7 @@ public class GrassSystem : MonoBehaviour
         }
     }
 
-    public static void AddExtraGrassSpawnArea(Vector3Int start, Vector3Int size)
+    public static void AddExtraGrassSpawnArea(Vector3Int start, Vector3Int size, PlaceableObject script = null)
     {
         Vector2Int core = new Vector2Int(start.x, start.y);
         // Center core if size dimension >= 3
@@ -253,7 +253,7 @@ public class GrassSystem : MonoBehaviour
             }
         }
         _instance._extraGrassGrowthCores.Add(core);
-        _instance.StartCoroutine(_instance.ExtraGrowGrass(newSpawn));
+        _instance.StartCoroutine(_instance.ExtraGrowGrass(newSpawn, script));
         Debug.Log($"GrassSystem: AddExtraGrassSpawnArea({start}, {size}), core location: {core}, other locations {s}");
     }
     public static void RemoveExtraGrassSpawnArea(Vector3Int start, Vector3Int size)
@@ -265,7 +265,7 @@ public class GrassSystem : MonoBehaviour
 
         _instance._extraGrassGrowthCores.Remove(core);
     }
-    IEnumerator ExtraGrowGrass(ExtraGrassSpawn spawn)
+    IEnumerator ExtraGrowGrass(ExtraGrassSpawn spawn, PlaceableObject script)
     {
         Debug.Log($"GrassSystem.ExtraGrowGrass in {spawn.location} started...)");
         // Wait for a time depending on random modifier, slightly slower than unmodified base speed
@@ -293,6 +293,12 @@ public class GrassSystem : MonoBehaviour
             if(!_instance._extraGrassGrowthCores.Contains(spawn.location))
             {
                 Debug.Log($"GrassSystem: ExtraGrassSpawnArea ({spawn.location}) was removed, ending coroutine!");
+                
+                if(script != null)
+                {
+                    // Call back, max grass growth reached
+                    script.GrassSpawningFinished();
+                }
                 yield break;    // End coroutine
             } 
 
@@ -301,6 +307,13 @@ public class GrassSystem : MonoBehaviour
             {
                 Debug.Log($"GrassSystem: ExtraGrassSpawnArea ({spawn.location}) is fully grown!");
                 _instance._extraGrassGrowthCores.Remove(spawn.location);
+
+                
+                if(script != null)
+                {
+                    // Call back, max grass growth reached
+                    script.GrassSpawningFinished();
+                }
                 yield break;    // End coroutine
             } 
 

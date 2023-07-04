@@ -20,10 +20,10 @@ public class SaveMenu : MonoBehaviour
     {
         IngameUIHandler.PushToMenuStack(this.gameObject);
 
-        SetUpSaveButton(_autoSaveButton, SaveIdentifier.Auto);
-        SetUpSaveButton(_Save1Button, SaveIdentifier.First);
-        SetUpSaveButton(_Save2Button, SaveIdentifier.Second);
-        SetUpSaveButton(_Save3Button, SaveIdentifier.Third);
+        SetUpSaveButton(SaveIdentifier.Auto);
+        SetUpSaveButton(SaveIdentifier.First);
+        SetUpSaveButton(SaveIdentifier.Second);
+        SetUpSaveButton(SaveIdentifier.Third);
         
         _returnButton.onClick.AddListener( delegate{ Return(); } );
     }
@@ -35,9 +35,10 @@ public class SaveMenu : MonoBehaviour
         }
     }
 
-    public void SetUpSaveButton(Button button, SaveIdentifier saveIdentifier)
+    public void SetUpSaveButton(SaveIdentifier saveIdentifier, bool onlyUpdate = false)
     {
-        if(saveIdentifier != SaveIdentifier.Auto)
+        Button button = GetSaveButton(saveIdentifier);
+        if(saveIdentifier != SaveIdentifier.Auto && !onlyUpdate)
             button.onClick.AddListener( delegate{ Save(saveIdentifier); } );
         GameState state = SaveManager.GetData(saveIdentifier);
         if(!state.isSave) return;
@@ -59,6 +60,22 @@ public class SaveMenu : MonoBehaviour
     {
         Tools.PlayAudio(null, _buttonAudioEvent);
         SaveManager.SaveData(saveIdentifier);
+        SetUpSaveButton(saveIdentifier, true); // Update text
+    }
+    public Button GetSaveButton(SaveIdentifier saveIdentifier)
+    {
+        switch(saveIdentifier)
+        {
+            case SaveIdentifier.Auto:
+                return _autoSaveButton;
+            case SaveIdentifier.First:
+                return _Save1Button;
+            case SaveIdentifier.Second:
+                return _Save2Button;
+            case SaveIdentifier.Third:
+                return _Save3Button;
+        }
+        return null;
     }
     public void Return()
     {

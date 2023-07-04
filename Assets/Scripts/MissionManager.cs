@@ -23,7 +23,7 @@ public class MissionManager : MonoBehaviour
     [SerializeField] private AudioEvent _missionAudioEvent;
     [SerializeField] private GameObject _winScreen;
     private MissionDisplay _display;
-    private int _mainMissionIndex = -1;
+    public static int MAIN_MISSION_INDEX = -1;
     private List<LinkedMissionData>[] _missionLinks;
     private List<MissionDataGroup> _activeMissionGroups;
 
@@ -78,7 +78,7 @@ public class MissionManager : MonoBehaviour
             _instance._missionLinks[(int)updatedMission.missionGoal].Add(linkedMission);
             ii++;
         }  
-        _instance._display.Init(_instance._mainMissionIndex, textList); 
+        _instance._display.Init(MAIN_MISSION_INDEX, textList); 
 
         // Handle the current missions
         int groupIndex = 0;
@@ -135,15 +135,28 @@ public class MissionManager : MonoBehaviour
             {
                 // No additional mission specifier, adjust value
 
-                if(goal == MissionGoal.TreeCount || goal == MissionGoal.VillagerCount || goal == MissionGoal.PopulationLimit)
+                if(goal == MissionGoal.TreeCount || goal == MissionGoal.VillagerCount 
+                    || goal == MissionGoal.PopulationLimit || goal == MissionGoal.GrowthPercent)
                 {
                     // Update whole value
                     mission.currentVal = val;
+                    if(linkedMission.groupIndex == MAIN_MISSION_INDEX)
+                    {
+                        _instance._scenarioInfo.mainMission.missions[linkedMission.missionIndex]
+                            .currentVal = val;
+                    }
+                    //else _instance._scenarioInfo.missionsData[linkedMission.groupIndex].missions[linkedMission.missionIndex].currentVal = val;
                 }
                 else
                 {
                     // Increment by val only
                     mission.currentVal += val;
+                    if(linkedMission.groupIndex == MAIN_MISSION_INDEX)
+                    {
+                        _instance._scenarioInfo.mainMission.missions[linkedMission.missionIndex]
+                            .currentVal += val;
+                    }
+                    //else _instance._scenarioInfo.missionsData[linkedMission.groupIndex].missions[linkedMission.missionIndex].currentVal += val;
                 }
             }
             else
@@ -153,6 +166,12 @@ public class MissionManager : MonoBehaviour
                 {
                     // Adjust mission by 1
                     mission.currentVal += 1;
+                    if(linkedMission.groupIndex == MAIN_MISSION_INDEX)
+                    {
+                        _instance._scenarioInfo.mainMission.missions[linkedMission.missionIndex]
+                            .currentVal += 1;
+                    }
+                    //else _instance._scenarioInfo.missionsData[linkedMission.groupIndex].missions[linkedMission.missionIndex].currentVal += 1;
                 }
                 else
                 {
@@ -284,6 +303,8 @@ public class MissionManager : MonoBehaviour
 
     private static MissionData UpdateMission(MissionData mission)
     {
+        if(!GameManager.FinishedStartup) return mission; // Too early to receive updated info
+
         switch(mission.missionGoal)
             {
             case MissionGoal.TreeCount:
@@ -294,6 +315,11 @@ public class MissionManager : MonoBehaviour
                 break;
             case MissionGoal.PopulationLimit:
                 mission.currentVal = GameManager.GetPopulationLimit();
+                break;
+            case MissionGoal.GrowthPercent:
+                mission.currentVal = (int)GameManager.GetGrowthValue();
+                break;
+            default:
                 break;
         }
         return mission;
