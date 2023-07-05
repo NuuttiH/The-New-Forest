@@ -26,6 +26,7 @@ public class MissionManager : MonoBehaviour
     public static int MAIN_MISSION_INDEX = -1;
     private List<LinkedMissionData>[] _missionLinks;
     private List<MissionDataGroup> _activeMissionGroups;
+    private bool _needCheckForCompletion;
 
     public static System.Action<MissionGoal, int> onIncrementMission = delegate { };
     
@@ -124,6 +125,7 @@ public class MissionManager : MonoBehaviour
         Debug.Log($"MissionManager.IncrementMission({goal}, {val})");
         if(_instance._missionLinks[(int)goal].Count == 0) return;
         
+        // Check all missions with the goal that was incremented
         foreach(LinkedMissionData linkedMission in _instance._missionLinks[(int)goal])
         {
             MissionData mission = linkedMission.missionData;
@@ -186,11 +188,19 @@ public class MissionManager : MonoBehaviour
                 text += $" <size=80%><br>   {mission.description}";
             _instance._display.AddOrEditMission(linkedMission.groupIndex, linkedMission.missionIndex, text);
 
+            // Check if mission is now completed
             if(mission.currentVal >= mission.goalVal)
             {
-                // Mission gets completed
-                GameManager.AddResource(mission.rewardType, mission.rewardVal);
-                _instance.StartCoroutine(_instance.CheckMissionGroupCompletion());
+                if(linkedMission.groupIndex == MAIN_MISSION_INDEX)
+                {
+                    CheckMainMissionGroupCompletion();
+                }
+                else
+                {
+                    GameManager.AddResource(mission.rewardType, mission.rewardVal);
+                    _instance._needCheckForCompletion = true;
+                    _instance.StartCoroutine(_instance.CheckMissionGroupCompletion());
+                }
             }
             else
             {
@@ -198,9 +208,24 @@ public class MissionManager : MonoBehaviour
             }
         }
     }
+    private static void CheckMainMissionGroupCompletion()
+    {
+        Debug.Log("MissionManager.CheckMainMissionGroupCompletion()");
+        foreach(MissionData mission in _instance._scenarioInfo.mainMission.missions)
+        {
+            if(mission.currentVal < mission.goalVal) return;
+        }
+        
+        Instantiate(_instance._winScreen);
+        Debug.Log("MissionManager: Game over");
+    }
     IEnumerator CheckMissionGroupCompletion()
     {
+        // Avoid repeated calls causing unnecessary execution
         yield return new WaitForSeconds(0.1f);
+        if(!_instance._needCheckForCompletion) yield break;
+        _needCheckForCompletion = false;
+
         // Check all active mission groups
         foreach(MissionDataGroup group in _instance._activeMissionGroups)
         {
@@ -221,12 +246,6 @@ public class MissionManager : MonoBehaviour
                 // Unregister current missions and mission group
                 UnregisterMissionGroup(System.Array.IndexOf(_instance._scenarioInfo.missionsData, group));
                 
-                // Handle completion of main mission group
-                if(_instance._scenarioInfo.mainMission == group)
-                {
-                    CompleteMainMission();
-                    break;
-                }
                 // Handle completion of regular mission group
                 Tools.PlayAudio(null, _instance._missionAudioEvent);
                 MessageLog.NewMessage(new MessageData(
@@ -294,11 +313,6 @@ public class MissionManager : MonoBehaviour
                 }
             }
         }
-    }
-    private static void CompleteMainMission()
-    {
-        Instantiate(_instance._winScreen);
-        Debug.Log("MissionManager.CompleteMainMission()");
     }
 
     private static MissionData UpdateMission(MissionData mission)

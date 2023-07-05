@@ -6,17 +6,28 @@ using TMPro;
 
 public class MainMenuHandler : MonoBehaviour
 {
-    [SerializeField] private Button _testButton;
-    [SerializeField] private Button _exitButton;
+    [SerializeField] private AudioEvent _toggleAudioEvent;
+
+    [SerializeField] private Button _newGameButton;
+    [SerializeField] private Button _loadGameButton;
+    [SerializeField] private GameObject _loadGameMenu;
+    //[SerializeField] private Button _exitButton;
 
     void Awake()
     {
-        _testButton.onClick.AddListener( delegate{ SceneLoadingManager.LoadLevel("GameTest"); } );
-        _exitButton.onClick.AddListener( delegate{ Debug.Log("Exit not implemented"); } );
+        _newGameButton.onClick.AddListener( delegate{ NewGame(); } );
+        _loadGameButton.onClick.AddListener( delegate{ OpenLoadMenu(); } );
+        //_exitButton.onClick.AddListener( delegate{ Debug.Log("Exit not implemented"); } );
     }
 
-    void Start()
+    public void NewGame()
     {
-        
+        Tools.PlayAudio(null, _toggleAudioEvent);
+        SceneLoadingManager.LoadLevel("GameTest");
+    }
+    public void OpenLoadMenu()
+    {
+        Tools.PlayAudio(null, _toggleAudioEvent);
+        Instantiate(_loadGameMenu);
     }
 }

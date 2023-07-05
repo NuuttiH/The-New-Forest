@@ -52,7 +52,8 @@ public class EscapeMenu : MonoBehaviour
     public void OpenLoadMenu()
     {
         Tools.PlayAudio(null, _toggleAudioEvent);
-        Instantiate(_loadGameMenu);
+        GameObject loadMenu = Instantiate(_loadGameMenu);
+        loadMenu.GetComponent<LoadMenu>().InitInGame();
     }
     public void OpenOptionsMenu()
     {
