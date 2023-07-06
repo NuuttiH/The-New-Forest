@@ -80,7 +80,7 @@ MonoBehaviour:
   buildingId: -1
   _objectInfo: {fileID: 11400000, guid: ee0e13e5f2869d8429fe1a2100f7c6ab, type: 2}
   BuildingCost:
-  - amount: 3
+  - amount: 6
     type: 2
   - amount: 1
     type: 3

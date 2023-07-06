@@ -85,9 +85,12 @@ public class MissionDisplay : MonoBehaviour
 
         if(group == null)
         {
-            Debug.Log($"MissionDisplay.AddOrEditMission({groupIndex}, {missionIndex}, {message}) ERROR: group == null; existing groups are:");
-            foreach(KeyValuePair<int, int> pair in _groupIndexToActualIndex) 
-                Debug.Log($"groupIndex: {pair.Key}, actualIndex: {pair.Value}");
+            #if UNITY_EDITOR
+                Debug.Log($"MissionDisplay.AddOrEditMission({groupIndex}, {missionIndex}, {message}) ERROR: group == null; existing groups are:");
+                foreach(KeyValuePair<int, int> pair in _groupIndexToActualIndex) 
+                    Debug.Log($"groupIndex: {pair.Key}, actualIndex: {pair.Value}");
+            #endif
+            
             return;
         }
 

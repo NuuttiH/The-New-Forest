@@ -128,10 +128,14 @@ public class GameManager : MonoBehaviour
         FinishedLoading = true;
         yield return new WaitForSeconds(0.4f);
         FinishedStartup = true;
-        Debug.Log("GameManager.Startup(): Finished startup");
+
+        #if UNITY_EDITOR
+            Debug.Log("GameManager.Startup(): Finished startup");
+            LogDictionaries();
+        #endif
+        
         Events.onSaveLoaded();
 
-        LogDictionaries();
         StartCoroutine(Income());
         StartCoroutine(Autosave());
     }
@@ -258,10 +262,12 @@ public class GameManager : MonoBehaviour
         {
             GameManager.AddResource(cost.type, -cost.amount);
         }
-        else
-        {
-            Debug.Log($"TryPay() exeeded available resources");
-        }
+        #if UNITY_EDITOR
+            else
+            {
+                Debug.Log($"TryPay() exeeded available resources");
+            }
+        #endif
 
         return val;
     }
@@ -294,16 +300,20 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
-        if(obj != null) Debug.Log($"GameManager.GenerateId({idType}) new id({newId}) for {obj.name}");
-        else if(job != null) Debug.Log($"GameManager.GenerateId({idType}) new id({newId}) for {job.jobType}");
-        else Debug.Log($"GameManager.GenerateId({idType}) new id({newId}) for NULL");
+        #if UNITY_EDITOR
+            if(obj != null) Debug.Log($"GameManager.GenerateId({idType}) new id({newId}) for {obj.name}");
+            else if(job != null) Debug.Log($"GameManager.GenerateId({idType}) new id({newId}) for {job.jobType}");
+            else Debug.Log($"GameManager.GenerateId({idType}) new id({newId}) for NULL");
+        #endif
         return newId;
     }
     public static void AddId(IdType idType, int id, GameObject obj = null, Job job = null)
     {
-        if(obj != null) Debug.Log($"GameManager.AddId({idType}) new id({id}) for {obj.name}");
-        else if(job != null) Debug.Log($"GameManager.AddId({idType}) new id({id}) for {job.jobType}");
-        else Debug.Log($"GameManager.AddId({idType}) new id({id}) for NULL");
+        #if UNITY_EDITOR
+            if(obj != null) Debug.Log($"GameManager.AddId({idType}) new id({id}) for {obj.name}");
+            else if(job != null) Debug.Log($"GameManager.AddId({idType}) new id({id}) for {job.jobType}");
+            else Debug.Log($"GameManager.AddId({idType}) new id({id}) for NULL");
+        #endif
 
         switch(idType)
         {
@@ -357,7 +367,7 @@ public class GameManager : MonoBehaviour
             default:
                 break;
         }
-        Debug.Log($"GameManager.RemoveId({idType}, {id}, testing removal... {GetObjectById(idType, id)}");
+        //Debug.Log($"GameManager.RemoveId({idType}, {id}, testing removal... {GetObjectById(idType, id)}");
     }
     public static GameObject GetObjectById(IdType idType, int id)
     {
@@ -373,22 +383,24 @@ public class GameManager : MonoBehaviour
                     obj = _instance._characterIdDictionary[id];
                 break;
         }
-        if(obj == null) Debug.Log($"GameManager.GetObjectById({idType}, {id}) returning null");
+        // if(obj == null) Debug.Log($"GameManager.GetObjectById({idType}, {id}) returning null");
         return obj;
     }
     public static Job GetJobById(int id)
     {
-        if(!_instance._jobIdDictionary.ContainsKey(id))
-        {
-            Debug.Log($"GameManager.GetJobById({id})");
-            
-            foreach (int jobId in _instance._jobIds)
+        #if UNITY_EDITOR
+            if(!_instance._jobIdDictionary.ContainsKey(id))
             {
-                Debug.Log(  "Job id: " + jobId + 
-                            ", target objec id: " + _instance._jobIdDictionary[id].targetObjectId +
-                            ", worker: " + _instance._jobIdDictionary[id].workerId);
+                Debug.Log($"GameManager.GetJobById({id})");
+                
+                foreach (int jobId in _instance._jobIds)
+                {
+                    Debug.Log(  "Job id: " + jobId + 
+                                ", target objec id: " + _instance._jobIdDictionary[id].targetObjectId +
+                                ", worker: " + _instance._jobIdDictionary[id].workerId);
+                }
             }
-        }
+        #endif
         return _instance._jobIdDictionary[id];
     }
     public static void UpdateJobInProgress(int id, bool val = true)
@@ -426,7 +438,7 @@ public class GameManager : MonoBehaviour
     public static void AdjustVillagerCount(VillagerType type, int amount)
     {
         _instance._villagerCounts[type] += amount;
-        Debug.Log($"GameManager.AdjustVillagerCount({type}, {amount}): new count {_instance._villagerCounts[type]}");
+        //Debug.Log($"GameManager.AdjustVillagerCount({type}, {amount}): new count {_instance._villagerCounts[type]}");
         Events.onVillagerCountChange();
         MissionManager.onIncrementMission(MissionGoal.VillagerCount, GetVillagerCount());
     }
@@ -447,7 +459,7 @@ public class GameManager : MonoBehaviour
     }
     public static void AdjustGrowthMultiplier(float val)
     {
-        Debug.Log($"GameManager.AdjustGrowthMultiplier({val})");
+        //Debug.Log($"GameManager.AdjustGrowthMultiplier({val})");
         float newValue = _instance._growthSpeedPercent + val;
         Events.onGrowthModChange(_instance._growthSpeedPercent, newValue);
         _instance._growthSpeedPercent = newValue;
@@ -465,7 +477,7 @@ public class GameManager : MonoBehaviour
     }
     public static void AdjustPopulationLimit(int val)
     {
-        Debug.Log($"GameManager.AdjustPopulationLimit({val})");
+        //Debug.Log($"GameManager.AdjustPopulationLimit({val})");
         int newValue = _instance._populationLimit + val;
         _instance._populationLimit = newValue;
         Events.onPopLimitChange();
@@ -477,7 +489,7 @@ public class GameManager : MonoBehaviour
     }
     public static void AdjustTraderSpeed(float val)
     {
-        Debug.Log($"GameManager.AdjustTraderSpeed({val})");
+        //Debug.Log($"GameManager.AdjustTraderSpeed({val})");
         float newValue = _instance._traderSpeed + val;
         Events.onTraderSpeedChange(_instance._traderSpeed, newValue);
         _instance._traderSpeed = newValue;
@@ -488,7 +500,7 @@ public class GameManager : MonoBehaviour
     }
     public static void AdjustIncome(int val)
     {
-        Debug.Log($"GameManager.AdjustIncome({val})");
+        //Debug.Log($"GameManager.AdjustIncome({val})");
         _instance._income += val;
     }
     public static int GetIncome()
@@ -499,7 +511,7 @@ public class GameManager : MonoBehaviour
     {
         if(flag == Flag.None) return;
 
-        Debug.Log($"GameManager.SetFlag({flag})");
+        //Debug.Log($"GameManager.SetFlag({flag})");
         foreach(Vector2Int pair in _instance._flags)
         {
             if(pair.x == (int)flag)
@@ -531,7 +543,7 @@ public class GameManager : MonoBehaviour
         _instance._previousGameSpeed = _instance._currentGameSpeed;
         _instance._currentGameSpeed = newSpeed;
         Time.timeScale = newSpeed;
-        Debug.Log($"GameManager: SetGameSpeed({newSpeed})");
+        //Debug.Log($"GameManager: SetGameSpeed({newSpeed})");
         Events.onGameSpeedChange();
     }
     public static void SetGameSpeedToPrevious()
@@ -549,6 +561,6 @@ public class GameManager : MonoBehaviour
         villager.SetColor(colorId);
         AdjustVillagerCount(villagerType, 1);
         
-        Debug.Log($"GameManager.CreateVillager(), pop: {GameManager.GetVillagerCount()}/{GameManager.GetPopulationLimit()}");
+        //Debug.Log($"GameManager.CreateVillager(), pop: {GameManager.GetVillagerCount()}/{GameManager.GetPopulationLimit()}");
     }
 }

@@ -60,7 +60,7 @@ public class PopUpMenu : MonoBehaviour
                 image.sprite = _magicInfo.sprite;
                 break;
             default:
-                Debug.LogError($"ERROR: PopUpMenu.SetImage() can't handle '{resource}'");
+                //Debug.LogError($"ERROR: PopUpMenu.SetImage() can't handle '{resource}'");
                 break;
         }
     }

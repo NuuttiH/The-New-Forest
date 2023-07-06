@@ -37,6 +37,8 @@ public class Villager : MonoBehaviour
     private Vector3 _targetLocation;
     private float _waitTime;
     private bool _cancelJob;
+    private float _distance;
+    private int _isStuckEvaluation;
 
     public float logicTic = 0.6f;
 
@@ -144,7 +146,7 @@ public class Villager : MonoBehaviour
         // If _cancelJob flag raised, cancel current job
         if(_cancelJob)
         {
-            Debug.Log("Canceling job...");
+            //Debug.Log("Canceling job...");
             _currentAction = CurrentAction.WaitingForAction;
             _waitTime = 0f;
             _job = null;
@@ -182,6 +184,8 @@ public class Villager : MonoBehaviour
                                                 z: _job.position.z );
                 _agent.SetDestination(_targetLocation);
                 _animator.SetTrigger("IsRunning");
+                _distance = Vector3.Distance(transform.position, _targetLocation);
+                _isStuckEvaluation = 0;
             }
             Events.onJobChange();
         }
@@ -189,10 +193,10 @@ public class Villager : MonoBehaviour
         {
             if(_currentAction == CurrentAction.Moving) // Move towards job, do it if close enough
             {
-                float distance = Vector3.Distance(transform.position, _targetLocation);
+                float newDistance = Vector3.Distance(transform.position, _targetLocation);
                 //Debug.Log("Job Distance: " + distance);
 
-                if(distance < _job.workDistance) // Close enough, start job
+                if(newDistance < _job.workDistance) // Close enough, start job
                 {
                     _animator.ResetTrigger("IsRunning");
                     _waitTime = _job.length * (1f / jobEfficiency[_job.jobType]);
@@ -235,12 +239,24 @@ public class Villager : MonoBehaviour
                     //Quaternion rotation = Quaternion.LookRotation(_targetLocation);
                     //transform.rotation = Quaternion.Slerp(transform.rotation, rotation, 1f);
                 }
+                else
+                {
+                    // Check if distance is not changing (villager is stuck)
+                    if(Mathf.Abs(_distance - newDistance) < 0.5f) _isStuckEvaluation++;
+                    else _isStuckEvaluation = 0;
+                    if(_isStuckEvaluation > 5)
+                    {
+                        // Unstuck
+                        _agent.Warp(_targetLocation);
+                    }
+                    _distance = newDistance;
+                }
             }
             else // Job finished, turn off animation
             {
-                Debug.Log("Job finished: " + _job.jobType);
+                //Debug.Log("Job finished: " + _job.jobType);
                 GameObject targetObject = GameManager.GetObjectById(IdType.Building, _job.targetObjectId);
-                Debug.Log($"Villager ({this.gameObject.name}), finished job (target:{targetObject.name})");
+                //Debug.Log($"Villager ({this.gameObject.name}), finished job (target:{targetObject.name})");
                 switch(_job.jobType)
                 {
                     case JobType.Cut:
@@ -341,8 +357,6 @@ public class Villager : MonoBehaviour
     public void SetColor(int colorChoice)
     {
         _colorChoice = colorChoice;
-        Debug.Log("TODO");
-
         // Change color based on colorChoice
         Material[] mat = new Material[1];
         if(colorChoice < _mesh.materials.Length)
@@ -352,7 +366,7 @@ public class Villager : MonoBehaviour
         }
         else
         {
-            Debug.Log($"Villager ({this.gameObject.name}), SetColor({colorChoice}): ERROR, SET COLOR VARIANT NOT FOUND");
+            //Debug.Log($"Villager ({this.gameObject.name}), SetColor({colorChoice}): ERROR, SET COLOR VARIANT NOT FOUND");
         }
     }
 

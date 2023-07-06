@@ -211,21 +211,23 @@ public class PlaceableObject : MonoBehaviour
 
         transform.position = oldPos;
 
-        if(drawLaser)
-        {
-            vertices = new Vector3Int[_vertices.Length];
-
-            for(int i=0; i<_vertices.Length; i++)
+        #if UNITY_EDITOR
+            if(drawLaser)
             {
-                Vector3 worldPos = transform.TransformPoint(_vertices[i]);
-                vertices[i] = BuildingSystem.GridLayout.WorldToCell(worldPos);
-            }
+                vertices = new Vector3Int[_vertices.Length];
 
-            Debug.DrawLine(transform.TransformPoint(_vertices[0]), transform.TransformPoint(_vertices[1]), Color.black, 150f, false);
-            Debug.DrawLine(transform.TransformPoint(_vertices[1]), transform.TransformPoint(_vertices[2]), Color.black, 150f, false);
-            Debug.DrawLine(transform.TransformPoint(_vertices[2]), transform.TransformPoint(_vertices[3]), Color.black, 150f, false);
-            Debug.DrawLine(transform.TransformPoint(_vertices[3]), transform.TransformPoint(_vertices[0]), Color.black, 150f, false);
-        }
+                for(int i=0; i<_vertices.Length; i++)
+                {
+                    Vector3 worldPos = transform.TransformPoint(_vertices[i]);
+                    vertices[i] = BuildingSystem.GridLayout.WorldToCell(worldPos);
+                }
+
+                Debug.DrawLine(transform.TransformPoint(_vertices[0]), transform.TransformPoint(_vertices[1]), Color.black, 150f, false);
+                Debug.DrawLine(transform.TransformPoint(_vertices[1]), transform.TransformPoint(_vertices[2]), Color.black, 150f, false);
+                Debug.DrawLine(transform.TransformPoint(_vertices[2]), transform.TransformPoint(_vertices[3]), Color.black, 150f, false);
+                Debug.DrawLine(transform.TransformPoint(_vertices[3]), transform.TransformPoint(_vertices[0]), Color.black, 150f, false);
+            }
+        #endif
     }
 
     public Vector3 GetStartPosition()
@@ -241,11 +243,11 @@ public class PlaceableObject : MonoBehaviour
 
     public void Place(Vector3Int start, bool free = false)
     {
-        Debug.Log($"Placing {this.gameObject.name}...");
+        //Debug.Log($"Placing {this.gameObject.name}...");
 
         if(!free && !GameManager.TryPay(BuildingCost))
         {
-            Debug.Log($"Failed to place {this.gameObject.name}, due to cost");
+            //Debug.Log($"Failed to place {this.gameObject.name}, due to cost");
             Destroy(this.gameObject);
             return;
         }
@@ -279,7 +281,7 @@ public class PlaceableObject : MonoBehaviour
     {
         Vector3Int start = BuildingSystem.GridLayout.WorldToCell(GetStartPosition());
 
-        Debug.Log("Placing (" + this.gameObject.name + ") in startup...");
+        //Debug.Log("Placing (" + this.gameObject.name + ") in startup...");
         
         GetComponent<NavMeshObstacle>().enabled = true;
         _startTile = start;
@@ -370,7 +372,7 @@ public class PlaceableObject : MonoBehaviour
     }
     public void StartConstruction()
     {
-        Debug.Log($"Starting construction job for {gameObject.name}");
+        //Debug.Log($"Starting construction job for {gameObject.name}");
         Job newJob = new Job(   JobType.Build, Resource.None,
                                 this.buildingId, this._constructionObject.transform.position, 
                                 _constructionTime, _constructionDistance);

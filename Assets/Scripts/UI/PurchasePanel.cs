@@ -139,7 +139,7 @@ public class PurchasePanel : MonoBehaviour
         }
         else
         {
-            Debug.Log($"HandlePurchase() for {_targetObjectInfo.name} failed");
+            //Debug.Log($"HandlePurchase() for {_targetObjectInfo.name} failed");
         }
     }
 

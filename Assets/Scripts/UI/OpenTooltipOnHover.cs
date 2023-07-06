@@ -23,7 +23,7 @@ public class OpenTooltipOnHover : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("OpenTooltipOnHover.OnPointerEnter()");
+        //Debug.Log("OpenTooltipOnHover.OnPointerEnter()");
         _objectHoverState = true;
         _lastChange = Time.time;
         if(_popUpMenu == null)
@@ -31,7 +31,7 @@ public class OpenTooltipOnHover : MonoBehaviour, IPointerEnterHandler, IPointerE
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("OpenTooltipOnHover.OnPointerExit()");
+        //Debug.Log("OpenTooltipOnHover.OnPointerExit()");
         _objectHoverState = false;
         _lastChange = Time.time;
 
@@ -44,7 +44,7 @@ public class OpenTooltipOnHover : MonoBehaviour, IPointerEnterHandler, IPointerE
     IEnumerator TryOpenPopup(float startupTime)
     {
         yield return new WaitForSecondsRealtime(_tooltipWaitTime);
-        Debug.Log("OpenTooltipOnHover.TryOpenPopup() Wait over");
+        //Debug.Log("OpenTooltipOnHover.TryOpenPopup() Wait over");
 
         if(startupTime != _lastChange) yield break;
 
@@ -54,7 +54,7 @@ public class OpenTooltipOnHover : MonoBehaviour, IPointerEnterHandler, IPointerE
 
         Tools.AdjustPanelPlacementInCanvasToMousePos(
             obj.GetComponent<Canvas>(), obj.transform.GetChild(0).gameObject);
-        Debug.Log("OpenTooltipOnHover.TryOpenPopup() Finished");
+        //Debug.Log("OpenTooltipOnHover.TryOpenPopup() Finished");
     }
 
     void OnDestroy()

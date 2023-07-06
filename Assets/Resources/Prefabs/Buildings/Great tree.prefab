@@ -380,7 +380,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 2, y: 7.5, z: 2}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 7.5, z: 0}
   m_TimeToStationary: 0.5
@@ -399,11 +399,11 @@ MonoBehaviour:
   buildingId: 0
   _objectInfo: {fileID: 11400000, guid: 819e6c4a2f600b044bc06c3bb141b125, type: 2}
   BuildingCost:
-  - amount: 10
+  - amount: 12
     type: 3
   _requireGrowth: 1
-  _growTime: 60
-  _growthTics: 6
+  _growTime: 80
+  _growthTics: 7
   _growthProgress: 0
   _requireConstruction: 0
   _constructionObject: {fileID: 0}

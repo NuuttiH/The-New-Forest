@@ -83,7 +83,7 @@ public class IngameUIHandler : MonoBehaviour
     }
     public static void CheckFlagTrigger(Flag flag)
     {
-        Debug.Log($"IngameUIHandler.CheckFlagTrigger({flag})");
+        //Debug.Log($"IngameUIHandler.CheckFlagTrigger({flag})");
         switch(flag)
         {
             case Flag.TradeAvailable:
@@ -103,7 +103,7 @@ public class IngameUIHandler : MonoBehaviour
 
     public static void InitTime(int seconds = 0, int minutes = 0, int hours = 0, int secondsTrade = 70, int minutesTrade = 0)
     {
-        Debug.Log($"IngameUIHandler.InitTime({seconds}, {minutes}, {hours}, {secondsTrade}, {minutesTrade},)");
+        //Debug.Log($"IngameUIHandler.InitTime({seconds}, {minutes}, {hours}, {secondsTrade}, {minutesTrade},)");
 
         _instance._seconds = seconds; 
         _instance._minutes = minutes; 
@@ -221,7 +221,6 @@ public class IngameUIHandler : MonoBehaviour
 
     public static void OpenMenu(Menu menu = Menu.None, bool playAudio = true)
     {
-        Debug.Log("OpenMenu...");
         if(playAudio) Tools.PlayAudio(null, _instance._toggleAudioEvent);
 
         if(_instance._currentMenu == menu) 
@@ -278,7 +277,7 @@ public class IngameUIHandler : MonoBehaviour
         GameObject lastMenu = null;
         if(_instance._menuStack.Count > 0) lastMenu = _instance._menuStack.Peek();
         if(lastMenu != null) lastMenu.SetActive(false);
-        Debug.Log($"IngameUIHandler.PushToMenuStack() lastMenu == null: {lastMenu==null}");
+        //Debug.Log($"IngameUIHandler.PushToMenuStack() lastMenu == null: {lastMenu==null}");
 
         _instance._menuStack.Push(menuObject);
         _instance._screenCover.SetActive(true);
@@ -289,12 +288,12 @@ public class IngameUIHandler : MonoBehaviour
         if(_instance._menuStack.Count > 0) lastMenu = _instance._menuStack.Pop();
         if(lastMenu == null)
         {
-            Debug.Log($"IngameUIHandler.PopFromMenuStack() error: lastMenu == null");
+            //Debug.Log($"IngameUIHandler.PopFromMenuStack() error: lastMenu == null");
             return;
         } 
         else if(menuObject != null && menuObject != lastMenu) 
         {
-            Debug.Log($"IngameUIHandler.PopFromMenuStack() error: menuObject != lastMenu");
+            //Debug.Log($"IngameUIHandler.PopFromMenuStack() error: menuObject != lastMenu");
             return;
         }
         
@@ -315,7 +314,7 @@ public class IngameUIHandler : MonoBehaviour
 
     public void AdjustTraderTimer(float oldValue, float newValue)
     {
-        Debug.Log($"IngameUIHandler.AdjustTraderTimer({oldValue}, {newValue})");
+        //Debug.Log($"IngameUIHandler.AdjustTraderTimer({oldValue}, {newValue})");
         if(!_tradersAvailable)
         {
             // Adjust trader wait time while waiting for trader, no need to adjust during trade phase

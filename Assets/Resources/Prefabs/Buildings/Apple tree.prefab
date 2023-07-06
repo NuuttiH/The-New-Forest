@@ -821,7 +821,7 @@ NavMeshObstacle:
   m_Shape: 1
   m_Extents: {x: 1, y: 7, z: 1}
   m_MoveThreshold: 0.1
-  m_Carve: 0
+  m_Carve: 1
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 7, z: 0}
   m_TimeToStationary: 0.5
@@ -859,6 +859,7 @@ MonoBehaviour:
   _deconstructType: 1
   _growthSpeedIncreasePercent: 0
   _spawnGrass: 0
+  _spawnGrassExtraArea: 0
   _requireGrass: 1
   _fruitPrefab: {fileID: 0}
   _fruits:

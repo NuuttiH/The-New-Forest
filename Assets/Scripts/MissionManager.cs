@@ -122,7 +122,7 @@ public class MissionManager : MonoBehaviour
     private static void IncrementMission(MissionGoal goal, int val)
     {
         if(!GameManager.FinishedStartup) return;
-        Debug.Log($"MissionManager.IncrementMission({goal}, {val})");
+        //Debug.Log($"MissionManager.IncrementMission({goal}, {val})");
         if(_instance._missionLinks[(int)goal].Count == 0) return;
         
         // Check all missions with the goal that was incremented
@@ -181,7 +181,7 @@ public class MissionManager : MonoBehaviour
                     continue;
                 }
             }
-            Debug.Log($"INCREMENTING: {goal}");
+            //Debug.Log($"INCREMENTING: {goal}");
 
             string text = $" -{mission.title} ({mission.currentVal}/{mission.goalVal})";
             if(mission.description != "")
@@ -210,14 +210,14 @@ public class MissionManager : MonoBehaviour
     }
     private static void CheckMainMissionGroupCompletion()
     {
-        Debug.Log("MissionManager.CheckMainMissionGroupCompletion()");
+        //Debug.Log("MissionManager.CheckMainMissionGroupCompletion()");
         foreach(MissionData mission in _instance._scenarioInfo.mainMission.missions)
         {
             if(mission.currentVal < mission.goalVal) return;
         }
         
         Instantiate(_instance._winScreen);
-        Debug.Log("MissionManager: Game over");
+        //Debug.Log("MissionManager: Game over");
     }
     IEnumerator CheckMissionGroupCompletion()
     {

@@ -41,7 +41,10 @@ public class JobManager : MonoBehaviour
         //_jobWeights[JobType.Build] = -100;
         //_jobWeights[JobType.Magic] = -100;
         StartCoroutine(AssessJobWeightsCoroutine());
-        StartCoroutine(DebugLogging());
+
+        #if UNITY_EDITOR
+            StartCoroutine(DebugLogging());
+        #endif
     }
     IEnumerator DebugLogging()
     {
@@ -70,7 +73,7 @@ public class JobManager : MonoBehaviour
         if(newJob) job.index = GameManager.GenerateId(IdType.Job, null, job);
         else GameManager.AddId(IdType.Job, job.index, null, job);
         
-        Debug.Log("JobManager: New job added (" + job.index + ", " + job.targetObjectId + ")");
+        //Debug.Log("JobManager: New job added (" + job.index + ", " + job.targetObjectId + ")");
         
         if(job.inProgress)
         {
@@ -99,13 +102,17 @@ public class JobManager : MonoBehaviour
 
     public static void RemoveJob(int jobIndex, bool finished = false)
     {
-        Debug.Log($"JobManager: Removing job index {jobIndex}, finished({finished})");
+        //Debug.Log($"JobManager: Removing job index {jobIndex}, finished({finished})");
         if(jobIndex == -1) return;
 
         Job job = GameManager.GetJobById(jobIndex);
-        Debug.Log(  $"JobManager: Removing job exists: {job != null})");
-        Debug.Log(  $"JobManager: Removing job data: (jobType: {job.jobType}, targetObjectId: {job.targetObjectId}, "
-                    + $"inProgress: {job.inProgress}, workerId: {job.workerId})");
+
+        #if UNITY_EDITOR
+            Debug.Log(  $"JobManager: Removing job exists: {job != null})");
+            Debug.Log(  $"JobManager: Removing job data: (jobType: {job.jobType}, targetObjectId: {job.targetObjectId}, "
+                        + $"inProgress: {job.inProgress}, workerId: {job.workerId})");
+        #endif
+
         if(job.inProgress)
         {
             _instance._inProgressJobs.Remove(jobIndex);
@@ -138,15 +145,15 @@ public class JobManager : MonoBehaviour
         int weight = 40;
         // Food job
         if(_instance._foodJobs.Count < 1) weight = -100;
-        else if(GameManager.GetResource(Resource.Food) > 40) weight = 4;
-        else if(GameManager.GetResource(Resource.Food) > 10) weight = 8;
+        else if(GameManager.GetResource(Resource.Food) > 15) weight = 4;
+        else if(GameManager.GetResource(Resource.Food) > 8) weight = 8;
         _instance._jobWeights[JobType.Food] = weight;
 
         // Lumber job
         weight = 10;
         if(_instance._lumberJobs.Count < 1) weight = -100;
-        else if(GameManager.GetResource(Resource.Lumber) > 20) weight = 4;
-        else if(GameManager.GetResource(Resource.Lumber) > 10) weight = 7;
+        else if(GameManager.GetResource(Resource.Lumber) > 25) weight = 4;
+        else if(GameManager.GetResource(Resource.Lumber) > 15) weight = 7;
         _instance._jobWeights[JobType.Cut] = weight;
 
         // Build job
@@ -158,8 +165,8 @@ public class JobManager : MonoBehaviour
         // Magic job
         weight = 15;
         if(_instance._magicJobs.Count < 1) weight = -100;
-        else if(GameManager.GetResource(Resource.Magic) > 10) weight = 3;
-        else if(GameManager.GetResource(Resource.Magic) > 5) weight = 8;
+        else if(GameManager.GetResource(Resource.Magic) > 24) weight = 3;
+        else if(GameManager.GetResource(Resource.Magic) > 12) weight = 10;
         _instance._jobWeights[JobType.Magic] = weight;
     }
     IEnumerator AssessJobWeightsCoroutine()
@@ -268,12 +275,12 @@ public class JobManager : MonoBehaviour
         
         if(jobType == JobType.Idle)
         {
-            Debug.Log("JobManager.AssignJob assigned idle job");
+            //Debug.Log("JobManager.AssignJob assigned idle job");
             return null;
         }
         if(job == null)
         {
-            Debug.LogError($"JobManager.AssignJob can't handle jobtype ({jobType})");
+            //Debug.LogError($"JobManager.AssignJob can't handle jobtype ({jobType})");
             return null;
         }
         job.workerId = villager.characterId;
@@ -282,7 +289,7 @@ public class JobManager : MonoBehaviour
 
     public static void FinishRepeatingJob(Job job)
     {
-        Debug.Log("FinishRepeatingJob");
+        //Debug.Log("FinishRepeatingJob");
         GameManager.AddResource(job.resource, job.rewardValue);
         job.inProgress = false;
         

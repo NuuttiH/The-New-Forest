@@ -83,13 +83,13 @@ public static class Tools
         {
             if(mousePos.y < 0)
             {
-                Debug.Log("bottomleft");
+                //Debug.Log("bottomleft");
                 screenCorner = Corner.BottomLeft;
                 panelCorner = Corner.TopRight;
             }
             else
             {
-                Debug.Log("topleft");
+                //Debug.Log("topleft");
                 screenCorner = Corner.TopLeft;
                 panelCorner = Corner.BottomRight;
             }
@@ -98,13 +98,13 @@ public static class Tools
         {
             if(mousePos.y < 0)
             {
-                Debug.Log("bottomright");
+                //Debug.Log("bottomright");
                 screenCorner = Corner.BottomRight;
                 panelCorner = Corner.TopLeft;
             }
             else
             {
-                Debug.Log("topright");
+                //Debug.Log("topright");
                 screenCorner = Corner.TopRight;
                 panelCorner = Corner.BottomLeft;
             }

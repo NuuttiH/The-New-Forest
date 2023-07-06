@@ -59,7 +59,7 @@ public class FruitProduction : PlaceableObject
 
     public override void FinishPlacing()
     {
-        Debug.Log("FinishPlacing (" + this.gameObject.name + "...");
+        //Debug.Log("FinishPlacing (" + this.gameObject.name + "...");
 
         if(!_fruitsInitialized) FruitInit();
 

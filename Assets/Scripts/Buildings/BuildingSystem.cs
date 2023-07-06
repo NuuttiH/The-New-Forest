@@ -186,10 +186,11 @@ public class BuildingSystem : MonoBehaviour
 
     public static void TakeArea(Vector3Int start, Vector3Int size)
     {
-        Debug.Log("BuildingSystem: TakeArea(" + start + ", " + size);
+        //Debug.Log("BuildingSystem: TakeArea(" + start + ", " + size);
         BoundsInt area = new BoundsInt();
         area.SetMinMax(start, start + size);
-        Debug.Log("BuildingSystem: area set to (" + area.min + ", " + area.max);
+        //Debug.Log("BuildingSystem: area set to (" + area.min + ", " + area.max);
+
         TileBase[] tileArray = new TileBase[size.x * size.y * size.z];
         for (int index = 0; index < tileArray.Length; index++)
         {
@@ -200,10 +201,11 @@ public class BuildingSystem : MonoBehaviour
 
     public static void ReleaseArea(Vector3Int start, Vector3Int size)
     {
-        Debug.Log("BuildingSystem: ReleaseArea(" + start + ", " + size);
+        //Debug.Log("BuildingSystem: ReleaseArea(" + start + ", " + size);
         BoundsInt area = new BoundsInt();
         area.SetMinMax(start, start + size);
-        Debug.Log("BuildingSystem: area set to (" + area.min + ", " + area.max);
+        //Debug.Log("BuildingSystem: area set to (" + area.min + ", " + area.max);
+
         TileBase[] tileArray = new TileBase[size.x * size.y * size.z];
         _instance._mainTilemap.SetTilesBlock(area, tileArray);
     }
@@ -314,7 +316,7 @@ public class BuildingSystem : MonoBehaviour
                 waitTime = 5f;
                 reducedWait = false;
             }
-            Debug.Log($"BuildingSystem: Trying to grow a tree...(waiTime: {waitTime})");
+            //Debug.Log($"BuildingSystem: Trying to grow a tree...(waiTime: {waitTime})");
 
             yield return new WaitForSeconds(waitTime);
 
@@ -354,12 +356,12 @@ public class BuildingSystem : MonoBehaviour
                     Vector3Int start = GridLayout.WorldToCell(objectToPlace.GetStartPosition());
                     potentialBuilding.layer = oldLayer;
                     objectToPlace.Place(start, true);
-                    Debug.Log($"BuildingSystem: Tree is naturally growing in {tile}");
+                    //Debug.Log($"BuildingSystem: Tree is naturally growing in {tile}");
                 }
                 else
                 {
                     Destroy(potentialBuilding);
-                    Debug.Log($"BuildingSystem: Tree could not grow in {tile}");
+                    //Debug.Log($"BuildingSystem: Tree could not grow in {tile}");
                 }
             }
         }

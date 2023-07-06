@@ -16,7 +16,7 @@ public class PopUpBuildingTooltip : PopUpMenu, IPointerEnterHandler, IPointerExi
     {
         BuildButton buildButtonScript = _bossObject.GetComponent<BuildButton>();
         _placeableObject = buildButtonScript.Building.GetComponent<PlaceableObject>();
-        Debug.Log($"PopUpGenericTooltip.InitAdvanced() found _placeableObject: {_placeableObject != null}");
+        //Debug.Log($"PopUpGenericTooltip.InitAdvanced() found _placeableObject: {_placeableObject != null}");
         _hoverScript = _bossObject.GetComponent<OpenTooltipOnHover>();
         gameObject.GetComponent<Button>().onClick.AddListener( delegate{ buildButtonScript.TryBuild(); } ); 
 
@@ -38,28 +38,28 @@ public class PopUpBuildingTooltip : PopUpMenu, IPointerEnterHandler, IPointerExi
                     GetComponent<Image>(), cost.type);
                 _resourceObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().
                     text = cost.amount.ToString();
-                Debug.Log($"PopUpGenericTooltip.InitAdvanced() set {cost.type} and {cost.amount}");
+                //Debug.Log($"PopUpGenericTooltip.InitAdvanced() set {cost.type} and {cost.amount}");
             }
             else
             {
-                GameObject _newResourceObject = Instantiate(_resourceObject, this.gameObject.transform);
+                GameObject _newResourceObject = Instantiate(_resourceObject, this._resourcePanel.transform);
                 SetImage(_newResourceObject.transform.GetChild(0).gameObject.
                     GetComponent<Image>(), cost.type);
                 _newResourceObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().
                     text = cost.amount.ToString();
-                Debug.Log($"PopUpGenericTooltip.InitAdvanced() set {cost.type} and {cost.amount}");
+                //Debug.Log($"PopUpGenericTooltip.InitAdvanced() set {cost.type} and {cost.amount}");
             }
         }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("PopUpGenericTooltip.OnPointerEnter()");
+        //Debug.Log("PopUpGenericTooltip.OnPointerEnter()");
         _hoverScript.SetTooltipHoverState(true);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("PopUpGenericTooltip.OnPointerExit()");
+        //Debug.Log("PopUpGenericTooltip.OnPointerExit()");
         _hoverScript.SetTooltipHoverState(false);
     }
 }

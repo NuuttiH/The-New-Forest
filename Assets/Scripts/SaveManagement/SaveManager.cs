@@ -23,7 +23,7 @@ public class SaveManager : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
 
-        Debug.Log("SaveManager, data location: '" + Application.persistentDataPath + "'");
+        //Debug.Log("SaveManager, data location: '" + Application.persistentDataPath + "'");
         _saveData = new GameState();
     }
 
@@ -54,7 +54,7 @@ public class SaveManager : MonoBehaviour
     public static void LoadData(SaveIdentifier saveIdentifier)
     {
         // Load data from XML file
-        Debug.Log($"SaveManager, LoadData(): loading save data '{_instance.GetSavePath(saveIdentifier)}'...");
+        //Debug.Log($"SaveManager, LoadData(): loading save data '{_instance.GetSavePath(saveIdentifier)}'...");
         XmlSerializer serializer = new XmlSerializer(typeof(GameState));
         
         FileStream stream = new FileStream( _instance.GetSavePath(saveIdentifier), 
@@ -79,7 +79,7 @@ public class SaveManager : MonoBehaviour
 
         foreach(BuildingSaveData data in _instance._saveData.buildingSaveData)
         {
-            Debug.Log("loading... " + data.prefabName);
+            //Debug.Log("loading... " + data.prefabName);
             GameObject building = Instantiate(Resources.Load(
                     "Prefabs/Buildings/" + data.prefabName), 
                     data.location, 
@@ -98,7 +98,7 @@ public class SaveManager : MonoBehaviour
                                     _instance._saveData.fullGrassTiles);
                                     
 
-        Debug.Log("SaveManager, LoadData(): Save loaded!");
+        //Debug.Log("SaveManager, LoadData(): Save loaded!");
     }
 
     public static void SaveData(SaveIdentifier saveIdentifier)
@@ -154,7 +154,7 @@ public class SaveManager : MonoBehaviour
         _instance._saveData.isSave = true;
 
         // Write save data to XML file
-        Debug.Log($"SaveManager, SaveData(): Writing save '{_instance.GetSavePath(saveIdentifier)}'...");
+        //Debug.Log($"SaveManager, SaveData(): Writing save '{_instance.GetSavePath(saveIdentifier)}'...");
         XmlSerializer serializer = new XmlSerializer(typeof(GameState));
         
         FileStream stream = new FileStream( _instance.GetSavePath(saveIdentifier), 
@@ -162,7 +162,7 @@ public class SaveManager : MonoBehaviour
         serializer.Serialize(stream, _instance._saveData);
 
         stream.Close();
-        Debug.Log("SaveManager, SaveData(): Save written!");
+        //Debug.Log("SaveManager, SaveData(): Save written!");
     }
 
     public string GetSavePath(SaveIdentifier saveIdentifier)

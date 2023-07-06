@@ -32,7 +32,7 @@ public class PopUpGenericTooltip : PopUpMenu, IPointerEnterHandler, IPointerExit
             }
             else
             {
-                GameObject _newResourceObject = Instantiate(_resourceObject, this.gameObject.transform);
+                GameObject _newResourceObject = Instantiate(_resourceObject, this._resourcePanel.transform);
                 SetImage(_newResourceObject.transform.GetChild(0).gameObject.
                     GetComponent<Image>(), cost.type);
                 _newResourceObject.transform.GetChild(1).gameObject.GetComponent<TextMeshProUGUI>().
@@ -43,12 +43,12 @@ public class PopUpGenericTooltip : PopUpMenu, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("PopUpGenericTooltip.OnPointerEnter()");
+        //Debug.Log("PopUpGenericTooltip.OnPointerEnter()");
         _hoverScript.SetTooltipHoverState(true);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("PopUpGenericTooltip.OnPointerExit()");
+        //Debug.Log("PopUpGenericTooltip.OnPointerExit()");
         _hoverScript.SetTooltipHoverState(false);
     }
 }

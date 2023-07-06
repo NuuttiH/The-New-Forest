@@ -12,7 +12,7 @@ public class Clickable : MonoBehaviour
 
     void OnMouseDown()
     {
-        Debug.Log("it works");
+        //Debug.Log("it works");
         Vector3 pos = transform.position + new Vector3(0, 7, 0);
         GameObject obj = Instantiate(messagePrefab, pos, Quaternion.identity, transform);
         obj.GetComponent<TextMeshPro>().text = message;

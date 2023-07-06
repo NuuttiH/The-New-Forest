@@ -24,12 +24,12 @@ public class PopUpSmallTooltip : PopUpMenu, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("PopUpGenericTooltip.OnPointerEnter()");
+        //Debug.Log("PopUpGenericTooltip.OnPointerEnter()");
         _hoverScript.SetTooltipHoverState(true);
     }
     public void OnPointerExit(PointerEventData eventData)
     {
-        Debug.Log("PopUpGenericTooltip.OnPointerExit()");
+        //Debug.Log("PopUpGenericTooltip.OnPointerExit()");
         _hoverScript.SetTooltipHoverState(false);
     }
 }

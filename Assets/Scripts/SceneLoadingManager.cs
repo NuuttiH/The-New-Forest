@@ -47,7 +47,7 @@ public class SceneLoadingManager : MonoBehaviour
 
 	public static void TryToExit()
 	{
-		Debug.Log("TryToExit: Application.Quit()");
+		//Debug.Log("TryToExit: Application.Quit()");
 		Application.Quit();
 	}
 }

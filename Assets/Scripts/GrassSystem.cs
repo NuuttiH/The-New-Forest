@@ -63,7 +63,7 @@ public class GrassSystem : MonoBehaviour
         if(!_initialized) 
         {
             _initialized = true;
-            Debug.Log($"GrassSystem: default initialization, tilemap.CellBounds: {_instance._mainTilemap.cellBounds}");
+            //Debug.Log($"GrassSystem: default initialization, tilemap.CellBounds: {_instance._mainTilemap.cellBounds}");
 
             // Read existing grass data from level tilemap
             foreach(var pos in _instance._mainTilemap.cellBounds.allPositionsWithin)
@@ -106,7 +106,7 @@ public class GrassSystem : MonoBehaviour
                                         HashSet<Vector2Int> grassTiles)
     {
         _instance._initialized = true;
-        Debug.Log($"GrassSystem: Initialization from save data of {potentialGrassTiles.Count} potential and {grassTiles.Count} grown grass tiles");
+        //Debug.Log($"GrassSystem: Initialization from save data of {potentialGrassTiles.Count} potential and {grassTiles.Count} grown grass tiles");
         
         _instance._potentialGrassTilesList = potentialGrassTiles;
         foreach(Vector2Int pos2D in potentialGrassTiles)
@@ -135,7 +135,7 @@ public class GrassSystem : MonoBehaviour
 
     public static void RecordNewGrassTile(Vector2Int grass2D)
     {
-        Debug.Log("GrassSystem: Recording tile: " + grass2D.x + ", " + grass2D.y);
+        //Debug.Log("GrassSystem: Recording tile: " + grass2D.x + ", " + grass2D.y);
 
         _instance._grassTilesSet.Add(grass2D);
         _instance._potentialGrassTilesSet.Remove(grass2D);
@@ -182,12 +182,12 @@ public class GrassSystem : MonoBehaviour
         {
             // Wait for a time depending on growth speed
             float waitTime = _instance._baseGrassGrowthWaitTime * GameManager.GetGrowthMultiplier();
-            if(_instance._reducedWait || waitTime < 0.5f)
+            if(_instance._reducedWait || waitTime < 0.3f)
             {
-                waitTime = 0.5f;
+                waitTime = 0.3f;
                 _instance._reducedWait = false;
             }
-            Debug.Log($"GrassSystem: Trying to grow grass...(waiTime: {waitTime})");
+            //Debug.Log($"GrassSystem: Trying to grow grass...(waiTime: {waitTime})");
 
             yield return new WaitForSeconds(waitTime);
 
@@ -205,14 +205,14 @@ public class GrassSystem : MonoBehaviour
                 _instance._potentialGrassTilesList.Remove(grass2D);
                 _instance._potentialGrassTilesSet.Remove(grass2D);
                 _reducedWait = true;
-                Debug.Log($"GrassSystem: Chosen tile ({grass2D}) fully grown!");
+                //Debug.Log($"GrassSystem: Chosen tile ({grass2D}) fully grown!");
             }
         }
     }
     
     public static void TakeArea(Vector3Int start, Vector3Int size)
     {
-        Debug.Log("GrassSystem: TakeArea(" + start + ", " + size);
+        //Debug.Log("GrassSystem: TakeArea(" + start + ", " + size);
         
         for(int x = start.x; x < (start.x + size.x); x++)
         {
@@ -232,7 +232,7 @@ public class GrassSystem : MonoBehaviour
 
         if(_instance._extraGrassGrowthCores.Contains(core))
         {
-            Debug.Log($"GrassSystem: AddExtraGrassSpawnArea({start}, {size}), error, core location ({core}) is already in use");
+            //Debug.Log($"GrassSystem: AddExtraGrassSpawnArea({start}, {size}), error, core location ({core}) is already in use");
             return;
         }
 
@@ -254,7 +254,7 @@ public class GrassSystem : MonoBehaviour
         }
         _instance._extraGrassGrowthCores.Add(core);
         _instance.StartCoroutine(_instance.ExtraGrowGrass(newSpawn, script));
-        Debug.Log($"GrassSystem: AddExtraGrassSpawnArea({start}, {size}), core location: {core}, other locations {s}");
+        //Debug.Log($"GrassSystem: AddExtraGrassSpawnArea({start}, {size}), core location: {core}, other locations {s}");
     }
     public static void RemoveExtraGrassSpawnArea(Vector3Int start, Vector3Int size)
     {
@@ -267,7 +267,8 @@ public class GrassSystem : MonoBehaviour
     }
     IEnumerator ExtraGrowGrass(ExtraGrassSpawn spawn, PlaceableObject script)
     {
-        Debug.Log($"GrassSystem.ExtraGrowGrass in {spawn.location} started...)");
+        //Debug.Log($"GrassSystem.ExtraGrowGrass in {spawn.location} started...)");
+
         // Wait for a time depending on random modifier, slightly slower than unmodified base speed
         float waitTime = _instance._baseGrassGrowthWaitTime * Random.Range(0.75f, 2f);
         yield return new WaitForSeconds(waitTime);
@@ -285,14 +286,14 @@ public class GrassSystem : MonoBehaviour
                         * GameManager.GetGrowthMultiplier()
                         * Random.Range(0.5f, 1.5f);
             if(waitTime < 3f) waitTime = 3f;
-            Debug.Log($"GrassSystem: Trying to grow grass...(waiTime: {waitTime})(extra in {spawn.location})");
+            //Debug.Log($"GrassSystem: Trying to grow grass...(waiTime: {waitTime})(extra in {spawn.location})");
 
             yield return new WaitForSeconds(waitTime);
 
             // End coroutine if spawn was removed
             if(!_instance._extraGrassGrowthCores.Contains(spawn.location))
             {
-                Debug.Log($"GrassSystem: ExtraGrassSpawnArea ({spawn.location}) was removed, ending coroutine!");
+                //Debug.Log($"GrassSystem: ExtraGrassSpawnArea ({spawn.location}) was removed, ending coroutine!");
                 
                 if(script != null)
                 {
@@ -305,7 +306,7 @@ public class GrassSystem : MonoBehaviour
             // End coroutine if no spawn locations left
             if(spawn.extraSpawnLocations.Count == 0)
             {
-                Debug.Log($"GrassSystem: ExtraGrassSpawnArea ({spawn.location}) is fully grown!");
+                //Debug.Log($"GrassSystem: ExtraGrassSpawnArea ({spawn.location}) is fully grown!");
                 _instance._extraGrassGrowthCores.Remove(spawn.location);
 
                 
